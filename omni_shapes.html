@@ -1,0 +1,1414 @@
+<!DOCTYPE HTML>
+<html id='html'>
+<style>
+html{
+background-color: black;
+color: silver;
+overflow-x: none;
+overflow-y: auto;
+}
+
+button{
+ color: silver;
+ background-color: rgb(0,0,0,0);
+ border-color: silver;
+ border-width: 0.28vw;
+ border-radius: 48%;
+ padding:0.89vw;
+ margin:0.31vw;
+}
+
+
+</style>
+
+<body style='align:center;text-align:center;'>
+<div style='align:center;width:85vw;padding-left:2.5vw;padding-right:2.5vw;margin-left:5vw;margin-right:5vw;'>
+ <span id='counting' style="display:none" title="Don't mind me, I'm counting">0</span>
+ <h1>Finding OMNI Patterns</h1>
+ <span id='dufftext' style='display:none;'></span>
+  </br></br>
+ <span id='display'></span>
+  </br></br>
+ <div id='output' style='align:center;' ></div>
+  </br></br>
+ <span id='duff'></span>
+  </br></br>
+ <span id='notes'></span>
+  </br></br>
+<span id='history' style='display:none'>0</span>
+<span id='rc'  style='display:none'>0</span>
+<span id='sc'  style='display:none'>0</span>
+<span id='reflections'  style='display:none'></span>
+</body>
+<script>
+var countme = 0;
+ 
+  //other orange output color:rgb(255,127,0,1)
+
+var cc = document.getElementById('counting').innerHTML;
+var rows = ["Pick a number AT or ABOVE:![ <span id='bank' title='Your Current Pick Number Limitor'>0</span> ]!!"];
+var huh = 0;
+
+ if(countme === 0){
+ 
+ document.getElementById('output').innerHTML = '';
+ document.getElementById('history').innerHTML = 0;
+ document.getElementById('counting').innerHTML = 0;
+ 
+ 
+ 
+ cc = document.getElementById('counting').innerHTML;
+ 
+ 
+  var tc = 9;
+   var uff = '', uffda = '', uff1 = '', uffda1 = '', uff2 = '', uffda2 = '', uff3 = '', uffda3 = '', uff4 = '', uffda4 = '', uff5 = '', uffda5 = '', uff6 = '', uffda6 = '', uff7 = '', uffda7 = '', uff8 = '', uffda8 = '';
+   
+   document.getElementById('history').innerHTML = tc;
+   
+	
+   for(var i = 1; i <= Number(tc); i++){
+    for(var e = 1; e <= Number(tc); e++){
+	 uff = uffda;
+	 uffda = uff + "" + "<span id='o"+i+"o"+e+"' onclick='colorme(this.id);' style='color:silver;' title=' "+i+":"+e+" '>0</span>, ";
+	}
+	
+	rows.push(uffda + "!");
+	uff = '';
+	uffda = '';
+	
+ }
+ 
+ rows.push("<sup>Interactive Proof Builder</sup>!!");
+ 
+ for(var i = 1; i <= Number(tc); i++){
+    for(var e = 1; e <= Number(tc); e++){
+	 uff1 = uffda1;
+	 uffda1 = uff1 + "" + "<span id='b"+i+"b"+e+"' onclick='colorme(this.id);' style='color:grey;' title=' "+i+":"+e+" '>&#9632</span>, ";
+	}
+	
+	rows.push(uffda1 + " &nbsp;&nbsp;&nbsp;");
+	uff1 = '';
+	uffda1 = '';
+	
+    for(var e = 1; e <= Number(tc); e++){
+	 uff2 = uffda2;
+	 uffda2 = uff2 + "" + "<span id='d"+i+"d"+e+"' onclick='colorme(this.id);' style='color:grey;' title=' "+i+":"+e+" '>&#9632</span>, ";
+	}
+	
+	rows.push(uffda2 + " &nbsp;&nbsp;&nbsp;");
+	uff2 = '';
+	uffda2 = '';
+	
+    for(var e = 1; e <= Number(tc); e++){
+	 uff3 = uffda3;
+	 uffda3 = uff3 + "" + "<span id='q"+i+"q"+e+"' onclick='colorme(this.id);' style='color:grey;' title=' "+i+":"+e+" '>&#9632</span>, ";
+	}
+	
+	rows.push(uffda3 + " &nbsp;&nbsp;&nbsp;");
+	uff3 = '';
+	uffda3 = '';
+   
+    for(var e = 1; e <= Number(tc); e++){
+	 uff6 = uffda6;
+	 uffda6 = uff6 + "" + "<span id='r"+i+"r"+e+"' onclick='colorme(this.id);' style='color:grey;' title=' "+i+":"+e+" '>&#9632</span>, ";
+	}
+	
+	rows.push(uffda6 + "!");
+	uff6 = '';
+	uffda6 = '';
+ 
+ }
+ 
+ rows.push("<span style='width:100%;text-align:justify;'><sup style='padding-right:1.5vw;padding-left:0.5vw;'>90Rotate Right</sup>&nbsp;<sup style='padding-right:1.5vw;padding-left:1.5vw;'>90Rotate Right & X-Mirror</sup>&nbsp;<sup style='padding-right:1.5vw;padding-left:1.5vw;'>([max]Y-Y)+1</sup><sup style='padding-left:1.5vw;padding-right:0.5vw;'>180deg Rotate Left</sup>!<sup style='padding-right:0.5vw;padding-left:4.5vw;'>Y-Mirror XY-Swap</sup>&nbsp;<sup style='padding-left:4.5vw;padding-right:4.5vw;'>XY-Swap</sup>&nbsp;<sup style='padding-right:3.5vw;padding-left:3.5vw;'>Y-Mirrored</sup><sup style='padding-left:4.5vw;padding-right:4.5vw;'>XY-Mirrored</sup></span>!!");
+ 
+ for(var i = 1; i <= Number(tc); i++){
+    for(var e = 1; e <= Number(tc); e++){
+	 uff5 = uffda5;
+	 uffda5 = uff5 + "" + "<span id='a"+i+"a"+e+"' onclick='colorme(this.id);' style='color:grey;' title=' "+i+":"+e+" '>&#9632</span>, ";
+	}
+	
+	rows.push(uffda5 + " &nbsp;&nbsp;&nbsp;");
+	uff5 = '';
+	uffda5 = '';
+
+    for(var e = 1; e <= Number(tc); e++){
+	 uff4 = uffda4;
+	 uffda4 = uff4 + "" + "<span id='c"+i+"c"+e+"' onclick='colorme(this.id);' style='color:grey;' title=' "+i+":"+e+" '>&#9632</span>, ";
+	}
+	
+	rows.push(uffda4 + " &nbsp;&nbsp;&nbsp;");
+	uff4 = '';
+	uffda4 = '';
+ 
+    for(var e = 1; e <= Number(tc); e++){
+	 uff7 = uffda7;
+	 uffda7 = uff7 + "" + "<span id='f"+i+"f"+e+"' onclick='colorme(this.id);' style='color:grey;' title=' "+i+":"+e+" '>&#9632</span>, ";
+	}
+	
+	rows.push(uffda7 + " &nbsp;&nbsp;&nbsp;");
+	uff7 = '';
+	uffda7 = '';
+ 
+ 
+    for(var e = 1; e <= Number(tc); e++){
+	 uff8 = uffda8
+	 uffda8 = uff8 + "" + "<span id='p"+i+"p"+e+"' onclick='colorme(this.id);' style='color:grey;' title=' "+i+":"+e+" '>&#9632</span>, ";
+	}
+	
+	rows.push(uffda8 + "!");
+	uff8 = '';
+	uffda8 = '';
+ 
+ 
+ }
+ 
+ rows.push("<span style='width:100%;text-align:justify;'><sup style='padding-right:2.5vw;padding-left:0.5vw;'>90Rotate Right & Y-Mirror</sup>&nbsp;<sup style='padding-right:3.5vw;padding-left:1.5vw;'>90 deg Rotate Left</sup>&nbsp;<sup style='padding-left:1.5vw;padding-right:3.5vw;'>Proof Map</sup>&nbsp;<sup style='padding-right:1.5vw;padding-left:3.5vw;'>([max]X-X)+1</sup>!<sup style='padding-right:3.5vw;padding-left:0.5vw;'>XY-Mirror XY-Swap</sup>&nbsp;<sup style='padding-right:3.5vw;padding-left:2.5'>X-Mirrored XY-Swap</sup>&nbsp;<sup style='padding-left:2.5vw;padding-right:2.5vw;'>XY-Unchanged</sup>&nbsp;<sup style='padding-right:0.5vw;padding-left:2.5vw;'>X-Mirrored</sup></span>!!"); 
+ 
+ 
+   rows.push("<span id='nulli' style='display:none'></span>!<span id='nulle' style='display:none'></span>!<span style='align:left;text-align:left;'>XY-Unchanged (iPB)</span>!Rol: <span id='newi'></span><span id='isep'></span><span id='endi'></span>!Col: <span id='newe'></span><span id='esep'></span><span id='ende'></span>!");
+   
+   rows.push("<span id='nulli1' style='display:none'></span>!<span id='nulle1' style='display:none'></span>!<span style='align:left;text-align:left;'>X-Mirrored (Xm)</span>!Rol: <span id='newi1'></span><span id='isep1'></span><span id='endi1'></span>!Col: <span id='newe1'></span><span id='esep1'></span><span id='ende1'></span>!");
+   
+   rows.push("<span id='nulli2' style='display:none'></span>!<span id='nulle2' style='display:none'></span>!<span style='align:left;text-align:left;'>Y-Mirrored (Ym)</span>!Rol: <span id='newi2'></span><span id='isep2'></span><span id='endi2'></span>!Col: <span id='newe2'></span><span id='esep2'></span><span id='ende2'></span>!");
+   
+   rows.push("<span id='nulli3' style='display:none'></span>!<span id='nulle3' style='display:none'></span>!<span style='align:left;text-align:left;'>XY-Mirrored (Xm Ym)</span>!Rol: <span id='newi3'></span><span id='isep3'></span><span id='endi3'></span>!Col: <span id='newe3'></span><span id='esep3'></span><span id='ende3'></span>!");
+   
+   rows.push("<span id='nulli4' style='display:none'></span>!<span id='nulle4' style='display:none'></span>!<span style='align:left;text-align:left;'>XY-Mirrored XY-Swap (Xm Ym X>Y>X)</span>!Rol: <span id='newi4'></span><span id='isep4'></span><span id='endi4'></span>!Col: <span id='newe4'></span><span id='esep4'></span><span id='ende4'></span>!");
+   
+   rows.push("<span id='nulli5' style='display:none'></span>!<span id='nulle5' style='display:none'></span>!<span style='align:left;text-align:left;'>Y-Mirrored XY-Swap (Ym X>Y>X)</span>!Rol: <span id='newi5'></span><span id='isep5'></span><span id='endi5'></span>!Col: <span id='newe5'></span><span id='esep5'></span><span id='ende5'></span>!");
+   
+   rows.push("<span id='nulli6' style='display:none'></span>!<span id='nulle6' style='display:none'></span>!<span style='align:left;text-align:left;'>X-Mirrored XY-Swap (Xm X>Y>X)</span>!Rol: <span id='newi6'></span><span id='isep6'></span><span id='endi6'></span>!Col: <span id='newe6'></span><span id='esep6'></span><span id='ende6'></span>!");
+   
+   rows.push("<span id='nulli7' style='display:none'></span>!<span id='nulle7' style='display:none'></span>!<span style='align:left;text-align:left;'>XY-Swap (X>Y>X)</span>!Rol: <span id='newi7'></span><span id='isep7'></span><span id='endi7'></span>!Col: <span id='newe7'></span><span id='esep7'></span><span id='ende7'></span>!");
+   
+  rows.push("!< <span id='pointer' style='color:silver;' title='Full Open-Face Counter'>"+countme+"</span> >&nbsp;&nbsp;( <span id='lengthis' title='Current Length'>0</span> )!");
+ }
+
+
+
+document.getElementById('output').innerHTML = "<div id='graphs'>"+rows.toString().replace(/,/gm, " ").replace(/!/gm, "</br>")+"</div>";
+document.getElementById('pointer').innerHTML = countme;
+
+
+
+
+function colorme(id){ //i'm here
+var uf = document.getElementById('lengthis').innerHTML;
+uf = Number(uf) + 1;
+document.getElementById('lengthis').innerHTML = uf;
+
+var rl = Number(document.getElementById('output').innerHTML.toString().split(/\<br\>/gm).length - 70); 
+var cc = Number(document.getElementById('counting').innerHTML);
+var toggle = Number(document.getElementById('pointer').innerHTML);
+var that = document.getElementById(id).innerHTML;
+var at = document.getElementById(id).style.color;
+var opensides = 3;   <!-- change opensides as sides close -->
+var col = parseInt(id.slice('o')[1]);
+var row = parseInt(id.slice('o')[3]);
+var cup = Number(col) - 1;    //above clicked
+var cdown = Number(col) + 1;  //below clicked
+var cleft = Number(row) + 1;  //left of clicked
+var cright = Number(row) - 1; //right of clicked
+var cu = '', cd = '', cl = '', cr = '', cus = '', cds = '', cls = '', crs = '', tempcount = 1;
+var bank = Number(document.getElementById('bank').innerHTML);
+var hist = document.getElementById('history').innerHTML;
+var preendi = 0, preende = 0, preendi1 = 0, preende1 = 0, preendi2 = 0, preende2 = 0, preendi3 = 0, preende3 = 0, preendi4 = 0, preende4 = 0, preendi5 = 0, preende5 = 0, preendi6 = 0, preende6 = 0, preendi7 = 0, preende7 = 0;
+
+
+ do{
+  if(cup <= 0){
+    cup = Math.abs(Number(cup) + 9);
+  }
+  if(cup >= 10){
+    cup = Math.abs(Number(cup) - 9);
+  }
+ }while(cup > 9 || cup < 1); 
+  
+ do{
+  if(cdown <= 0){
+    cdown = Math.abs(Number(cdown) + 9);
+  }
+  if(cdown >= 10){
+    cdown = Math.abs(Number(cdown) - 9);
+  }
+ }while(cdown > 9 || cdown < 1); 
+  
+ do{
+  if(cleft <= 0){
+    cleft = Math.abs(Number(cleft) + 9);
+  }
+  if(cleft >= 10){
+    cleft = Math.abs(Number(cleft) - 9);
+  }
+ }while(cleft > 9 || cleft < 1); 
+  
+ do{
+  if(cright <= 0){
+    cright = Math.abs(Number(cright) + 9);
+  }
+  if(cright >= 10){
+    cright = Math.abs(Number(cright) - 9);
+  }
+ }while(cright > 9 || cright < 1); 
+  
+
+
+if(cup > 0 && cup < rl){
+   cu = document.getElementById("o"+cup+"o"+row).innerHTML;
+  cus = document.getElementById("o"+cup+"o"+row).style.color;
+  
+}
+else {
+ cu === 2;
+}
+
+if(cdown > 0 && cdown < rl){
+   cd = document.getElementById("o"+cdown+"o"+row).innerHTML;
+  cds = document.getElementById("o"+cdown+"o"+row).style.color;
+}
+else {
+ cd === 2;
+}
+
+if(cleft > 0 && cleft < rl){
+   cl = document.getElementById("o"+col+"o"+cleft).innerHTML;
+  cls = document.getElementById("o"+col+"o"+cleft).style.color;
+}
+else {
+ cl === 2;
+}
+
+if(cright > 0 && cright < rl){
+   cr = document.getElementById("o"+col+"o"+cright).innerHTML;
+  crs = document.getElementById("o"+col+"o"+cright).style.color;
+}
+else {
+ cr === 2;
+}
+
+if(countme === 0){ <!-- inital click -->
+ document.getElementById(id).style = "color:green";
+ document.getElementById(id).innerHTML = "&#9633";
+ 
+ document.getElementById('counting').innerHTML = Number(cc) + 1;
+ document.getElementById('bank').innerHTML = Number(document.getElementById('bank').innerHTML) + 1;
+
+if(cu === "0" && cus === "silver"){
+ document.getElementById("o"+cup+"o"+row).style = "color:blue";
+ document.getElementById("o"+cup+"o"+row).innerHTML = tempcount;
+ tempcount = Number(tempcount) + 1;
+}
+if(cl === "0" && cls === "silver"){
+ document.getElementById("o"+col+"o"+cleft).style = "color:blue";
+ document.getElementById("o"+col+"o"+cleft).innerHTML = tempcount;
+ tempcount = Number(tempcount) + 1;
+}
+if(cd === "0" && cds === "silver"){
+ document.getElementById("o"+cdown+"o"+row).style = "color:blue";
+ document.getElementById("o"+cdown+"o"+row).innerHTML = tempcount;
+ tempcount = Number(tempcount) + 1;
+}
+if(cr === "0" && crs === "silver"){
+ document.getElementById("o"+col+"o"+cright).style = "color:blue";
+ document.getElementById("o"+col+"o"+cright).innerHTML = tempcount;
+ tempcount = Number(tempcount) + 1;
+}
+
+
+opensides = Number(tempcount);
+countme = Number(toggle) + Number(opensides);
+document.getElementById('pointer').innerHTML = countme;
+
+document.getElementById('nulle').innerHTML = id.split(/o/gm)[2] + ",";
+document.getElementById('nulli').innerHTML = id.split(/o/gm)[1] + ",";
+
+document.getElementById('nulle1').innerHTML = Number(Number(9-Number(id.split(/o/gm)[2]))+1) + ",";
+document.getElementById('nulli1').innerHTML = id.split(/o/gm)[1] + ",";
+
+document.getElementById('nulle2').innerHTML = id.split(/o/gm)[2] + ",";
+document.getElementById('nulli2').innerHTML = Number(Number(9-Number(id.split(/o/gm)[1]))+1) + ",";
+
+document.getElementById('nulle3').innerHTML = Number(Number(9-Number(id.split(/o/gm)[2]))+1) + ",";
+document.getElementById('nulli3').innerHTML = Number(Number(9-Number(id.split(/o/gm)[1]))+1) + ",";
+
+document.getElementById('nulle4').innerHTML = Number(Number(9-Number(id.split(/o/gm)[1]))+1) + ","; //adj row adj col
+document.getElementById('nulli4').innerHTML = Number(Number(9-Number(id.split(/o/gm)[2]))+1) + ","; 
+
+document.getElementById('nulle5').innerHTML = Number(Number(9-Number(id.split(/o/gm)[2]))+1) + ","; //nom row adj col
+document.getElementById('nulli5').innerHTML = id.split(/o/gm)[1] + ",";
+
+document.getElementById('nulle6').innerHTML = id.split(/o/gm)[2] + ","; //adj row nom col
+document.getElementById('nulli6').innerHTML = Number(Number(9-Number(id.split(/o/gm)[1]))+1) + ","; 
+
+document.getElementById('nulle7').innerHTML = id.split(/o/gm)[1] + ","; //flipped row/col from og setup
+document.getElementById('nulli7').innerHTML = id.split(/o/gm)[2] + ","; 
+
+
+document.getElementById('newe').innerHTML = id.split(/o/gm)[2] + "[";
+document.getElementById('newi').innerHTML = id.split(/o/gm)[1] + "[";
+
+document.getElementById('newe1').innerHTML = Number(Number(9-Number(id.split(/o/gm)[2]))+1) + "[";
+document.getElementById('newi1').innerHTML = id.split(/o/gm)[1] + "[";
+
+document.getElementById('newe2').innerHTML = id.split(/o/gm)[2] + "[";
+document.getElementById('newi2').innerHTML = Number(Number(9-Number(id.split(/o/gm)[1]))+1) + "[";
+
+document.getElementById('newe3').innerHTML = Number(Number(9-Number(id.split(/o/gm)[2]))+1) + "[";
+document.getElementById('newi3').innerHTML = Number(Number(9-Number(id.split(/o/gm)[1]))+1) + "[";
+
+document.getElementById('newe4').innerHTML = Number(Number(9-Number(id.split(/o/gm)[1]))+1) + "["; //adj row adj col
+document.getElementById('newi4').innerHTML = Number(Number(9-Number(id.split(/o/gm)[2]))+1) + "["; 
+
+document.getElementById('newe5').innerHTML = Number(Number(9-Number(id.split(/o/gm)[2]))+1) + "["; //nom row adj col
+document.getElementById('newi5').innerHTML = id.split(/o/gm)[1] + "["; 
+
+document.getElementById('newe6').innerHTML = id.split(/o/gm)[2] + "["; //adj row nom col
+document.getElementById('newi6').innerHTML = Number(Number(9-Number(id.split(/o/gm)[1]))+1) + "["; 
+
+document.getElementById('newe7').innerHTML = id.split(/o/gm)[1] + "["; //flipped from og setup 
+document.getElementById('newi7').innerHTML = id.split(/o/gm)[2] + "["; 
+
+
+for(teeth = 0; teeth <= 7; teeth++){ <!-- caps visual bracket (used in filtering) -->
+ if(teeth === 0){
+  document.getElementById('esep').innerHTML = "]";
+  document.getElementById('isep').innerHTML = "]";
+ }
+ else{
+  document.getElementById('esep'+teeth).innerHTML = "]";
+  document.getElementById('isep'+teeth).innerHTML = "]";
+}
+
+
+}
+document.getElementById('endi').innerHTML = Number(id.split(/o/gm)[1]);
+document.getElementById('ende').innerHTML = Number(id.split(/o/gm)[2]);
+
+document.getElementById('ende1').innerHTML = Number(Number(9-Number(id.split(/o/gm)[2]))+1);
+document.getElementById('endi1').innerHTML = Number(id.split(/o/gm)[1]);
+
+document.getElementById('ende2').innerHTML = Number(id.split(/o/gm)[2]);
+document.getElementById('endi2').innerHTML = Number(Number(9-Number(id.split(/o/gm)[1]))+1);
+
+document.getElementById('endi3').innerHTML = Number(Number(9-Number(id.split(/o/gm)[1]))+1);
+document.getElementById('ende3').innerHTML = Number(Number(9-Number(id.split(/o/gm)[2]))+1);
+
+document.getElementById('endi4').innerHTML = Number(Number(9-Number(id.split(/o/gm)[2]))+1); //adj row adj col
+document.getElementById('ende4').innerHTML = Number(Number(9-Number(id.split(/o/gm)[1]))+1); 
+
+document.getElementById('endi5').innerHTML = Number(id.split(/o/gm)[1]); //nom row adj col
+document.getElementById('ende5').innerHTML = Number(Number(9-Number(id.split(/o/gm)[2]))+1); 
+
+document.getElementById('endi6').innerHTML = Number(Number(9-Number(id.split(/o/gm)[1]))+1); //adj row nom col
+document.getElementById('ende6').innerHTML = Number(id.split(/o/gm)[2]); 
+
+document.getElementById('endi7').innerHTML = Number(id.split(/o/gm)[2]); //row/col flipped form og setup 
+document.getElementById('ende7').innerHTML = Number(id.split(/o/gm)[1]);
+
+document.getElementById('lengthis').innerHTML = 1;
+
+finder(id.split(/o/gm)[2],id.split(/o/gm)[1]);
+}
+else{
+
+if(Number(that) <= toggle && at !== "green" && Number(that) >= Number(cc)){ // && bank < hist){  <!-- add in for fence limitor to limit length of object -->
+ document.getElementById(id).style = "color:green";
+ document.getElementById('counting').innerHTML = Number(that);
+ document.getElementById(id).innerHTML = "&#9633";
+ document.getElementById('bank').innerHTML = Number(that); 
+
+if(cu === "0" && cus === "silver" ){
+ document.getElementById("o"+cup+"o"+row).style = "color:blue";
+ document.getElementById("o"+cup+"o"+row).innerHTML = tempcount + Number(toggle - 1);
+ tempcount = Number(tempcount) + 1;
+}
+if(cl === "0" && cls === "silver"){
+ document.getElementById("o"+col+"o"+cleft).style = "color:blue";
+ document.getElementById("o"+col+"o"+cleft).innerHTML = tempcount + Number(toggle - 1);
+ tempcount = Number(tempcount) + 1;
+}
+if(cd === "0" && cds === "silver"){
+ document.getElementById("o"+cdown+"o"+row).style = "color:blue";
+ document.getElementById("o"+cdown+"o"+row).innerHTML = tempcount + Number(toggle - 1);
+ tempcount = Number(tempcount) + 1;
+}
+if(cr === "0" && crs === "silver"){
+ document.getElementById("o"+col+"o"+cright).style = "color:blue";
+ document.getElementById("o"+col+"o"+cright).innerHTML = tempcount + Number(toggle - 1);
+
+}
+
+
+
+opensides = Number(tempcount);
+countme = Number(toggle) + Number(opensides);
+document.getElementById('pointer').innerHTML = countme;
+
+
+var pree = document.getElementById('nulle').innerHTML;
+var prei = document.getElementById('nulli').innerHTML;
+  preendi = document.getElementById('endi').innerHTML;
+  preende = document.getElementById('ende').innerHTML;
+
+var pree1 = document.getElementById('nulle1').innerHTML;
+var prei1 = document.getElementById('nulli1').innerHTML;
+  preendi1 = document.getElementById('endi1').innerHTML;
+  preende1 = document.getElementById('ende1').innerHTML;
+
+var pree2 = document.getElementById('nulle2').innerHTML;
+var prei2 = document.getElementById('nulli2').innerHTML;
+  preendi2 = document.getElementById('endi2').innerHTML;
+  preende2 = document.getElementById('ende2').innerHTML;
+
+var pree3 = document.getElementById('nulle3').innerHTML;
+var prei3 = document.getElementById('nulli3').innerHTML;
+  preendi3 = document.getElementById('endi3').innerHTML;
+  preende3 = document.getElementById('ende3').innerHTML;
+
+var pree4 = document.getElementById('nulle4').innerHTML;
+var prei4 = document.getElementById('nulli4').innerHTML;
+  preendi4 = document.getElementById('endi4').innerHTML;
+  preende4 = document.getElementById('ende4').innerHTML;
+
+var pree5 = document.getElementById('nulle5').innerHTML;
+var prei5 = document.getElementById('nulli5').innerHTML;
+  preendi5 = document.getElementById('endi5').innerHTML;
+  preende5 = document.getElementById('ende5').innerHTML;
+
+var pree6 = document.getElementById('nulle6').innerHTML;
+var prei6 = document.getElementById('nulli6').innerHTML;
+  preendi6 = document.getElementById('endi6').innerHTML;
+  preende6 = document.getElementById('ende6').innerHTML;
+
+var pree7 = document.getElementById('nulle7').innerHTML;
+var prei7 = document.getElementById('nulli7').innerHTML;
+  preendi7 = document.getElementById('endi7').innerHTML;
+  preende7 = document.getElementById('ende7').innerHTML;
+
+
+document.getElementById('nulle').innerHTML += id.split(/o/gm)[2] + ",";
+document.getElementById('nulli').innerHTML += id.split(/o/gm)[1] + ",";
+
+document.getElementById('nulle1').innerHTML += Number(Number(9-Number(id.split(/o/gm)[2]))+1) + ",";
+document.getElementById('nulli1').innerHTML += id.split(/o/gm)[1] + ",";
+
+document.getElementById('nulle2').innerHTML += id.split(/o/gm)[2] + ",";
+document.getElementById('nulli2').innerHTML += Number(Number(9-Number(id.split(/o/gm)[1]))+1) + ",";
+
+document.getElementById('nulle3').innerHTML += Number(Number(9-Number(id.split(/o/gm)[2]))+1) + ",";
+document.getElementById('nulli3').innerHTML += Number(Number(9-Number(id.split(/o/gm)[1]))+1) + ",";
+
+document.getElementById('nulle4').innerHTML += Number(Number(9-Number(id.split(/o/gm)[1]))+1) + ","; //adj row adj col
+document.getElementById('nulli4').innerHTML += Number(Number(9-Number(id.split(/o/gm)[2]))+1) + ","; 
+
+document.getElementById('nulle5').innerHTML += Number(Number(9-Number(id.split(/o/gm)[2]))+1) + ","; //nom row adj col
+document.getElementById('nulli5').innerHTML += id.split(/o/gm)[1] + ","; 
+
+document.getElementById('nulle6').innerHTML += id.split(/o/gm)[2] + ","; //adj row nom col
+document.getElementById('nulli6').innerHTML += Number(Number(9-Number(id.split(/o/gm)[1]))+1) + ",";
+
+document.getElementById('nulle7').innerHTML += id.split(/o/gm)[1] + ","; + ","; //row/col flipped from og setup 
+document.getElementById('nulli7').innerHTML += id.split(/o/gm)[2] + ","; 
+
+
+document.getElementById('newi').innerHTML += Number(Number(id.split(/o/gm)[1]) - Number(prei.split(/\,/gm)[huh])) + ",";
+document.getElementById('newe').innerHTML += Number(Number(id.split(/o/gm)[2]) - Number(pree.split(/\,/gm)[huh])) + ",";
+
+document.getElementById('newi1').innerHTML += Number(Number(id.split(/o/gm)[1]) - Number(prei1.split(/\,/gm)[huh])) + ",";
+document.getElementById('newe1').innerHTML += Number(Number(Number(9-Number(id.split(/o/gm)[2]))+1) - Number(pree1.split(/\,/gm)[huh])) + ",";
+
+document.getElementById('newi2').innerHTML += Number(Number(Number(9-Number(id.split(/o/gm)[1]))+1) - Number(prei2.split(/\,/gm)[huh])) + ",";
+document.getElementById('newe2').innerHTML += Number(Number(id.split(/o/gm)[2]) - Number(pree2.split(/\,/gm)[huh])) + ",";
+
+document.getElementById('newi3').innerHTML += Number(Number(Number(9-Number(id.split(/o/gm)[1]))+1) - Number(prei3.split(/\,/gm)[huh])) + ",";
+document.getElementById('newe3').innerHTML += Number(Number(Number(9-Number(id.split(/o/gm)[2]))+1) - Number(pree3.split(/\,/gm)[huh])) + ",";
+
+document.getElementById('newi4').innerHTML += Number(Number(Number(9-Number(id.split(/o/gm)[2]))+1) - Number(prei4.split(/\,/gm)[huh])) + ",";    //adj row adj col
+document.getElementById('newe4').innerHTML += Number(Number(Number(9-Number(id.split(/o/gm)[1]))+1) - Number(pree4.split(/\,/gm)[huh])) + ",";    
+
+document.getElementById('newi5').innerHTML += Number(Number(id.split(/o/gm)[1]) - Number(prei5.split(/\,/gm)[huh])) + ",";     //nom row adj col
+document.getElementById('newe5').innerHTML += Number(Number(Number(9-Number(id.split(/o/gm)[2]))+1) - Number(pree5.split(/\,/gm)[huh])) + ",";    
+
+document.getElementById('newi6').innerHTML += Number(Number(Number(9-Number(id.split(/o/gm)[1]))+1) - Number(prei6.split(/\,/gm)[huh])) + ",";    //adjust row norm col
+document.getElementById('newe6').innerHTML += Number(Number(id.split(/o/gm)[2]) - Number(pree6.split(/\,/gm)[huh])) + ",";    
+
+document.getElementById('newi7').innerHTML += Number(Number(id.split(/o/gm)[2]) - Number(prei7.split(/\,/gm)[huh])) + ",";                    //flipped og setup
+document.getElementById('newe7').innerHTML += Number(Number(id.split(/o/gm)[1]) - Number(pree7.split(/\,/gm)[huh])) + ",";    
+
+
+
+document.getElementById('endi').innerHTML = Number(Number(preendi) + Number(Number(id.split(/o/gm)[1]) - Number(prei.split(/\,/gm)[huh])));
+document.getElementById('ende').innerHTML = Number(Number(preende) + Number(Number(id.split(/o/gm)[2]) - Number(pree.split(/\,/gm)[huh])));
+
+document.getElementById('endi1').innerHTML = Number(Number(preende1) + Number(id.split(/o/gm)[1]) - Number(pree1.split(/\,/gm)[huh]));
+document.getElementById('ende1').innerHTML = Number(Number(preendi1) + Number(Number(9-Number(id.split(/o/gm)[2]))+1) - Number(prei1.split(/\,/gm)[huh]));
+
+document.getElementById('ende2').innerHTML = Number(Number(preendi2) + Number(id.split(/o/gm)[2]) - Number(prei2.split(/\,/gm)[huh]));
+document.getElementById('endi2').innerHTML = Number(Number(preende2) + Number(Number(9-Number(id.split(/o/gm)[1]))+1) - Number(pree2.split(/\,/gm)[huh]));
+
+document.getElementById('ende3').innerHTML = Number(Number(preende3) + Number(Number(9-Number(id.split(/o/gm)[2]))+1) - Number(pree3.split(/\,/gm)[huh]));
+document.getElementById('endi3').innerHTML = Number(Number(preendi3) + Number(Number(9-Number(id.split(/o/gm)[1]))+1) - Number(prei3.split(/\,/gm)[huh]));
+
+document.getElementById('ende4').innerHTML = Number(Number(preende4) + Number(Number(9-Number(id.split(/o/gm)[1]))+1) - Number(pree4.split(/\,/gm)[huh]));                         //adj row adj col
+document.getElementById('endi4').innerHTML = Number(Number(preendi4) + Number(Number(9-Number(id.split(/o/gm)[2]))+1) - Number(prei4.split(/\,/gm)[huh]));                       
+
+document.getElementById('ende5').innerHTML = Number(Number(preende5) + Number(Number(9-Number(id.split(/o/gm)[2]))+1) - Number(pree5.split(/\,/gm)[huh]));                         //nom row adj col
+document.getElementById('endi5').innerHTML = Number(preendi5) + Number(Number(id.split(/o/gm)[1]) - Number(prei5.split(/\,/gm)[huh]));                       
+
+document.getElementById('ende6').innerHTML = Number(Number(preende6) + Number(id.split(/o/gm)[2]) - Number(pree6.split(/\,/gm)[huh]));                         //adjusted row norm col
+document.getElementById('endi6').innerHTML = Number(Number(preendi6) + Number(Number(9-Number(id.split(/o/gm)[1]))+1) - Number(prei6.split(/\,/gm)[huh]));                       
+
+document.getElementById('ende7').innerHTML = Number(Number(preende7) + Number(id.split(/o/gm)[1]) - Number(pree7.split(/\,/gm)[huh]));                         //flipped from og setup
+document.getElementById('endi7').innerHTML = Number(Number(preendi7) + Number(id.split(/o/gm)[2]) - Number(prei7.split(/\,/gm)[huh]));                       
+
+ huh = Number(huh)+1;
+ 
+document.getElementById('lengthis').innerHTML = document.getElementById('newe').innerHTML.toString().split(/\,/gm).length;
+
+
+finder(id.split(/o/gm)[2],id.split(/o/gm)[1]);
+} 
+
+}
+
+if(document.getElementById(id).style.color === "green"){<!-- reflections clicks here -->
+var pid = "p"+Number(col)+"p"+Number(Number(9-row)+1), qid = "q"+Number(Number(9-col)+1)+"q"+row, rid = "r"+Number(Number(9-col)+1)+"r"+Number(Number(9-row)+1), aid = "a"+Number(Number(9-row)+1)+"a"+Number(Number(9-col)+1), bid = "b"+row+"b"+Number(Number(9-col)+1), cid = "c"+Number(Number(9-row)+1)+"c"+Number(col), did = "d"+Number(row)+"d"+Number(col), fid = "f"+Number(col)+"f"+Number(row);
+//did === 7
+
+//3 should be adj col adj row (in that order)!  rid
+
+ document.getElementById(pid).style = "color:green";
+ document.getElementById(pid).innerHTML = "&#9633";
+ document.getElementById(qid).style = "color:green";
+ document.getElementById(qid).innerHTML = "&#9633";
+ document.getElementById(rid).style = "color:green";
+ document.getElementById(rid).innerHTML = "&#9633";
+ document.getElementById(aid).style = "color:green";
+ document.getElementById(aid).innerHTML = "&#9633";
+ document.getElementById(bid).style = "color:green";
+ document.getElementById(bid).innerHTML = "&#9633";
+ document.getElementById(cid).style = "color:green";
+ document.getElementById(cid).innerHTML = "&#9633";
+ document.getElementById(did).style = "color:green";
+ document.getElementById(did).innerHTML = "&#9633";
+ document.getElementById(fid).style = "color:green";
+ document.getElementById(fid).innerHTML = "&#9633";
+}
+//setup output to showcase the MFT output to see if works with this idea & setup grid maths for verify
+
+
+<!-- cleargraph has issues after clearing because the history isn't lost -->
+
+//if(document.getElementById('notes').innerHTML.search('cleargraphs') === Number(-1)){
+// document.getElementById('notes').innerHTML += "<button id='cleargraphs' onclick='cleargraph();this.remove();'>Clear&nbsp;Graphs</button>";
+//}
+
+
+}
+
+
+
+function finder(id0,id1){
+var l2r = document.getElementById('nulle').innerHTML.toString().split(/\,/gm);
+var u2d = document.getElementById('nulli').innerHTML.toString().split(/\,/gm);
+var groupings = [];
+var refcheck = document.getElementById('reflections').innerHTML;
+
+   //nulli is left-2-right === id0
+    //nulle is up-2-down === id1
+
+if(l2r[0] === id0 && u2d[0] === id1 && refcheck.toString().search(/\!/gm) === Number(-1)){<!-- 1st move detected -->
+ document.getElementById('duff').innerHTML += "&nbsp;<span onclick='checker(1)'><span id='l1' onclick='checker(1)' title='Click to View Found Length-1 OMNI' >L1</span><span id='hl1' style='display:none' >"+id0+"[,]"+id0+"!"+id1+"[,]"+id1+"</span>&nbsp;(<span id='l1v' title='All L1 OMNI Found' style='color:gold' >1</span>)</span>&nbsp;";
+}
+else{ <!--all other moves-->
+var len = document.getElementById('lengthis').innerHTML;
+
+
+for(griff = 0; griff <= 7; griff++){
+var temped = '', tamped = '', rubbish = '';
+
+if(griff === 0){  //initial move placement
+ temped = document.getElementById('newi').innerHTML.split(/\[/)[1].replace(/\,{2}/gm, '') + "!" + document.getElementById('newe').innerHTML.split(/\[/)[1].replace(/\,{2}/gm, '');
+ 
+ tamped = document.getElementById('newi').innerHTML.split(/\[/)[1].replace(/\-1/gm, 1).replace(/\-2/gm, 2).replace(/\-3/gm, 3).replace(/\-4/gm, 4).replace(/\-5/gm, 5).replace(/\-6/gm, 6).replace(/\-7/gm, 7).replace(/\-8/gm, 8).replace(/\-9/gm, 9).replace(/\,{2}/gm, '') + "!" + document.getElementById('newe').innerHTML.split(/\[/)[1].replace(/\-1/gm, 1).replace(/\-2/gm, 2).replace(/\-3/gm, 3).replace(/\-4/gm, 4).replace(/\-5/gm, 5).replace(/\-6/gm, 6).replace(/\-7/gm, 7).replace(/\-8/gm, 8).replace(/\-9/gm, 9).replace(/\,{2}/gm, '');
+}
+else{ //all others
+ temped = document.getElementById('newi'+griff).innerHTML.split(/\[/)[1].replace(/\,{2}/gm, '') + "!" +  document.getElementById('newe'+griff).innerHTML.split(/\[/)[1].replace(/\,{2}/gm, '');
+ 
+ tamped = document.getElementById('newi'+griff).innerHTML.split(/\[/)[1].replace(/\-1/gm, 1).replace(/\-2/gm, 2).replace(/\-3/gm, 3).replace(/\-4/gm, 4).replace(/\-5/gm, 5).replace(/\-6/gm, 6).replace(/\-7/gm, 7).replace(/\-8/gm, 8).replace(/\-9/gm, 9).replace(/\,{2}/gm, '') + "!" + document.getElementById('newe'+griff).innerHTML.split(/\[/)[1].replace(/\-1/gm, 1).replace(/\-2/gm, 2).replace(/\-3/gm, 3).replace(/\-4/gm, 4).replace(/\-5/gm, 5).replace(/\-6/gm, 6).replace(/\-7/gm, 7).replace(/\-8/gm, 8).replace(/\-9/gm, 9).replace(/\,{2}/gm, '');
+ 
+
+}
+
+<!-- next adds to reflections list -->
+if(document.getElementById('reflections').innerHTML.toString().search(temped) === Number(-1)){
+ if(document.getElementById('reflections').innerHTML.toString().search(tamped) === Number(-1)){
+
+  if(griff === 0){
+   rubbish = document.getElementById('newi').innerHTML.toString() + "]" + document.getElementById('endi').innerHTML + "!" + document.getElementById('newe').innerHTML.toString() + "]" + document.getElementById('ende').innerHTML;
+  }
+  else{
+   rubbish = "!!" + document.getElementById('newi'+griff).innerHTML.toString() + "]" + document.getElementById('endi'+griff).innerHTML + "!" + document.getElementById('newe'+griff).innerHTML.toString() + "]" +  document.getElementById('ende'+griff).innerHTML;
+  }
+
+  groupings.push(rubbish);
+ 
+  document.getElementById('reflections').innerHTML += ", " + temped + ", " + tamped;
+ }
+
+}
+
+}
+
+if(document.getElementById('duff').innerHTML.search('L'+len) === Number(-1)){ //must not be present already
+ document.getElementById('duff').innerHTML += "&nbsp;<span onclick='checker("+len+")'><span id='l"+len+"' title='Click to View Found Length-"+len+" OMNI' >L"+len+"</span><span id='hl"+len+"' style='display:none' >"+groupings+"</span>&nbsp;(<span id='l"+len+"v' title='Number of L"+len+" OMNI Found' style='color:white'>"+groupings.length+"</span>)</span>&nbsp;";
+
+
+ if(Number(document.getElementById('lengthis').innerHTML % 5) === 0){  <!-- only allows up to 5 Length Notifiers per line at bottom of page -->
+  document.getElementById('duff').innerHTML += "</br></br>";
+ }
+}
+else{ //if the size exist, just add it in!
+ document.getElementById('hl'+len).innerHTML += "!!" + groupings;
+ wasnum = document.getElementById('l'+len+'v').innerHTML;
+ document.getElementById('l'+len+'v').innerHTML = Number(wasnum) + 1;
+ wasnum = 0;
+}
+
+}
+
+if(document.getElementById('duff').innerHTML.split(/\W\Wnbsp\W/gm).length > 3){  //looks for L2+ threshold
+
+ if(document.getElementById('hl2').innerHTML.split(/\!{2}/gm).length >= 2){ <!-- specifically finds if all dominoies were found -->
+  document.getElementById('l2v').style.color = 'gold';
+  document.getElementById('l2v').title = 'All L2 OMNI Found';
+ } 
+
+ 
+ 
+if(document.getElementById('duff').innerHTML.split(/\W\Wnbsp\W/gm).length > 5){  //looks for L3+ threshold
+
+//prepares to push 
+ var temprep = ""+id0+"!"+id1+"";
+ push(temprep); <!-- pushes -->
+//push end
+ 
+ 
+ 
+ <!--below this is looking for all of a Length-->
+ 
+ 
+ if(document.getElementById('hl3').innerHTML.split(/\!{2}/gm).length >= 3){ <!-- specifically finds if all triominoes were found -->
+  document.getElementById('l3v').style.color = 'gold';
+  document.getElementById('l3v').title = 'All L3 OMNI Found';
+ }
+ 
+ //add in lext Length check for all there should be a mathematical way to determine if full
+ 
+ //upgrade here UPGRADE HERE 
+ //not done //i'm here I'm here Im here im here I"M HERE Im HERE IM HERE
+ 
+ 
+} //end of L3+ look
+
+} //end of L2+ look
+
+} //end of finder funciton
+
+
+function checker(len){ <!-- views stored OMNIs -->
+
+<!-- automated push below -->
+document.getElementById('display').innerHTML = "<h3><hr style='width:25vw'>L"+len+" OMNI:</h3></br>"+document.getElementById('hl'+len).innerHTML.toString().replace(/\[/gm, '[<span id='+len+' title=MOVE_MADE >').replace(/\,/gm, '</span>,<span id='+len+'  title=MOVE_MADE >').replace(/\]/gm, '</span>]').replace(/\!/gm, "</br>")+"<hr style='width:25vw'><button onclick='document.getElementById(&#034;display&#034;).innerHTML=&#034;&#034;;'>close</button></br>";
+
+
+
+<!-- user push below -->
+//document.getElementById('display').innerHTML = "<h3><hr style='width:25vw'>L"+len+" OMNI:</h3></br>"+document.getElementById('hl'+len).innerHTML.toString().replace(/\[/gm, '[<span id='+len+' onclick=push(this.innerHTML) title=CLICK_2_PUSH >').replace(/\,/gm, '</span>,<span id='+len+' onclick=push(this.innerHTML)  title=CLICK_2_PUSH >').replace(/\]/gm, '</span>]').replace(/\!/gm, "</br>")+"<hr style='width:25vw'><button onclick='document.getElementById(&#034;display&#034;).innerHTML=&#034;&#034;;'>close</button></br>";
+
+//stroed OMNI id === L# Grouping that move was from!
+
+
+}
+
+
+
+
+function push(insides){  //insides === X ! Y
+var roundcheck = document.getElementById('rc').innerHTML;
+var alpha = 1;
+var x = insides.split(/\!/g)[0];
+var y = insides.split(/\!/g)[1];
+var xpush0 = 0, ypush0 = 0, xpush1 = -1, ypush1 = -1, xpush2 = 1, ypush2 = 1;
+var check1 = 0, check2 = 0, check3 = 0, check4 = 0, check5 = 0, check6 = 0, check7 = 0, check8 = 0, wasnum = '';
+
+check1 = Math.abs(Number(check1) + Number(x) + Number(xpush1));
+check2 = Math.abs(Number(check2) + Number(y) + Number(ypush1));
+<!-- the above checks top left -->
+
+var qcheck1a = Math.abs(Number(check1)+1);
+var qcheck2a = Math.abs(Number(check2)+1);
+var qcheck1b = Math.abs(Number(check1)-1);
+var qcheck2b = Math.abs(Number(check2)-1);
+
+check3 = Math.abs(Number(check3) + Number(x) + Number(xpush2));
+check4 = Math.abs(Number(check4) + Number(y) + Number(ypush2));
+<!-- the above checks top right -->
+
+var qcheck3a = Math.abs(Number(check3)+1);
+var qcheck4a = Math.abs(Number(check4)+1);
+var qcheck3b = Math.abs(Number(check3)-1);
+var qcheck4b = Math.abs(Number(check4)-1);
+
+check5 = Math.abs(Number(check5) + Number(x) + Number(xpush1));
+check6 = Math.abs(Number(check6) + Number(y) + Number(ypush2));
+<!-- the above checks bottom left -->
+
+var qcheck5a = Math.abs(Number(check5)+1);
+var qcheck6a = Math.abs(Number(check6)+1);
+var qcheck5b = Math.abs(Number(check5)-1);
+var qcheck6b = Math.abs(Number(check6)-1);
+
+check7 = Math.abs(Number(check7) + Number(x) + Number(xpush2));
+check8 = Math.abs(Number(check8) + Number(y) + Number(ypush1));
+<!-- the above checks bottom right -->
+
+var qcheck7a = Math.abs(Number(check7)+1);
+var qcheck8a = Math.abs(Number(check8)+1);
+var qcheck7b = Math.abs(Number(check7)-1);
+var qcheck8b = Math.abs(Number(check8)-1);
+
+
+  var herebe = document.getElementById('lengthis').innerHTML;
+  var wherebe = 'hl'+herebe, wasbe = '', waslen = '', tolen = '', haslen = '', washas = '', growto = 'l'+herebe+'v';
+  
+ do{
+  if(check1 <= 0){
+    check1 = Math.abs(Number(check1) + 9);
+  }
+  if(check1 >= 10){
+    check1 = Math.abs(Number(check1) - 9);
+  }
+ }while(check1 > 9 || check1 < 1);
+  
+  
+ do{
+  if(check2 <= 0){
+    check2 = Math.abs(Number(check2) + 9);
+  }
+  if(check2 >= 10){
+    check2 = Math.abs(Number(check2) - 9);
+  }
+ }while(check2 > 9 || check2 < 1);
+  
+  
+  
+ do{
+  if(qcheck1a <= 0){
+    qcheck1a = Math.abs(Number(qcheck1a) + 9);
+  }
+  if(qcheck1a >= 10){
+    qcheck1a = Math.abs(Number(qcheck1a) - 9);
+  }
+ }while(qcheck1a > 9 || qcheck1a < 1);
+  
+  
+ do{
+  if(qcheck2a <= 0){
+    qcheck2a = Math.abs(Number(qcheck2a) + 9);
+  }
+  if(qcheck2a >= 10){
+    qcheck2a = Math.abs(Number(qcheck2a) - 9);
+  }
+ }while(qcheck2a > 9 || qcheck2a < 1); 
+  
+  
+ do{
+  if(qcheck1b <= 0){
+    qcheck1b = Math.abs(Number(qcheck1b) + 9);
+  }
+  if(qcheck1b >= 10){
+    qcheck1b = Math.abs(Number(qcheck1b) - 9);
+  }
+ }while(qcheck1b > 9 || qcheck1b < 1);
+  
+  
+ do{
+  if(qcheck2b <= 0){
+    qcheck2b = Math.abs(Number(qcheck2b) + 9);
+  }
+  if(qcheck2b >= 10){
+    qcheck2b = Math.abs(Number(qcheck2b) - 9);
+  }
+ }while(qcheck2b > 9 || qcheck2b < 1);
+  
+  
+ do{
+  if(check3 <= 0){
+    check3 = Math.abs(Number(check3) + 9);
+  }
+  if(check3 >= 10){
+    check3 = Math.abs(Number(check3) - 9);
+  }
+ }while(check3 > 9 || check3 < 1);
+  
+  
+ do{
+  if(check4 <= 0){
+    check4 = Math.abs(Number(check4) + 9);
+  }
+  if(check4 >= 10){
+    check4 = Math.abs(Number(check4) - 9);
+  }
+ }while(check4 > 9 || check4 < 1);
+  
+  
+  
+ do{
+  if(qcheck3a <= 0){
+    qcheck3a = Math.abs(Number(qcheck3a) + 9);
+  }
+  if(qcheck3a >= 10){
+    qcheck3a = Math.abs(Number(qcheck3a) - 9);
+  }
+ }while(qcheck3a > 9 || qcheck3a < 1);
+  
+  
+ do{
+  if(qcheck4a <= 0){
+    qcheck4a = Math.abs(Number(qcheck4a) + 9);
+  }
+  if(qcheck4a >= 10){
+    qcheck4a = Math.abs(Number(qcheck4a) - 9);
+  }
+ }while(qcheck4a > 9 || qcheck4a < 1); 
+  
+  
+ do{
+  if(qcheck3b <= 0){
+    qcheck3b = Math.abs(Number(qcheck3b) + 9);
+  }
+  if(qcheck3b >= 10){
+    qcheck3b = Math.abs(Number(qcheck3b) - 9);
+  }
+ }while(qcheck3b > 9 || qcheck3b < 1);
+  
+  
+ do{
+  if(qcheck4b <= 0){
+    qcheck4b = Math.abs(Number(qcheck4b) + 9);
+  }
+  if(qcheck4b >= 10){
+    qcheck4b = Math.abs(Number(qcheck4b) - 9);
+  }
+ }while(qcheck4b > 9 || qcheck4b < 1);
+  
+  
+ do{
+  if(check5 <= 0){
+    check5 = Math.abs(Number(check5) + 9);
+  }
+  if(check5 >= 10){
+    check5 = Math.abs(Number(check5) - 9);
+  }
+ }while(check5 > 9 || check5 < 1);
+  
+  
+ do{
+  if(check6 <= 0){
+    check6 = Math.abs(Number(check6) + 9);
+  }
+  if(check6 >= 10){
+    check6 = Math.abs(Number(check6) - 9);
+  }
+ }while(check6 > 9 || check6 < 1);
+  
+  
+  
+ do{
+  if(qcheck5a <= 0){
+    qcheck5a = Math.abs(Number(qcheck5a) + 9);
+  }
+  if(qcheck5a >= 10){
+    qcheck5a = Math.abs(Number(qcheck5a) - 9);
+  }
+ }while(qcheck5a > 9 || qcheck5a < 1);
+  
+  
+ do{
+  if(qcheck6a <= 0){
+    qcheck6a = Math.abs(Number(qcheck6a) + 9);
+  }
+  if(qcheck6a >= 10){
+    qcheck6a = Math.abs(Number(qcheck6a) - 9);
+  }
+ }while(qcheck6a > 9 || qcheck6a < 1); 
+  
+  
+ do{
+  if(qcheck5b <= 0){
+    qcheck5b = Math.abs(Number(qcheck5b) + 9);
+  }
+  if(qcheck5b >= 10){
+    qcheck5b = Math.abs(Number(qcheck5b) - 9);
+  }
+ }while(qcheck5b > 9 || qcheck5b < 1);
+  
+  
+ do{
+  if(qcheck6b <= 0){
+    qcheck6b = Math.abs(Number(qcheck6b) + 9);
+  }
+  if(qcheck6b >= 10){
+    qcheck6b = Math.abs(Number(qcheck6b) - 9);
+  }
+ }while(qcheck6b > 9 || qcheck6b < 1);
+  
+  
+ do{
+  if(check7 <= 0){
+    check7 = Math.abs(Number(check7) + 9);
+  }
+  if(check7 >= 10){
+    check7 = Math.abs(Number(check7) - 9);
+  }
+ }while(check7 > 9 || check7 < 1);
+  
+  
+ do{
+  if(check8 <= 0){
+    check8 = Math.abs(Number(check8) + 9);
+  }
+  if(check8 >= 10){
+    check8 = Math.abs(Number(check8) - 9);
+  }
+ }while(check8 > 9 || check8 < 1);
+  
+  
+  
+ do{
+  if(qcheck7a <= 0){
+    qcheck7a = Math.abs(Number(qcheck7a) + 9);
+  }
+  if(qcheck7a >= 10){
+    qcheck7a = Math.abs(Number(qcheck7a) - 9);
+  }
+ }while(qcheck7a > 9 || qcheck7a < 1);
+  
+  
+ do{
+  if(qcheck8a <= 0){
+    qcheck8a = Math.abs(Number(qcheck8a) + 9);
+  }
+  if(qcheck8a >= 10){
+    qcheck8a = Math.abs(Number(qcheck8a) - 9);
+  }
+ }while(qcheck8a > 9 || qcheck8a < 1); 
+  
+  
+ do{
+  if(qcheck7b <= 0){
+    qcheck7b = Math.abs(Number(qcheck7b) + 9);
+  }
+  if(qcheck7b >= 10){
+    qcheck7b = Math.abs(Number(qcheck7b) - 9);
+  }
+ }while(qcheck7b > 9 || qcheck7b < 1);
+  
+  
+ do{
+  if(qcheck8b <= 0){
+    qcheck8b = Math.abs(Number(qcheck8b) + 9);
+  }
+  if(qcheck8b >= 10){
+    qcheck8b = Math.abs(Number(qcheck8b) - 9);
+  }
+ }while(qcheck8b > 9 || qcheck8b < 1);
+  
+  
+  
+  var cname = "o"+check2+"o"+check1;
+  
+  var qname1a = "o"+qcheck2a+"o"+check1;
+  var qname2a = "o"+check2+"o"+qcheck1a;
+  
+  var qname1b = "o"+qcheck2b+"o"+check1;
+  var qname2b = "o"+check2+"o"+qcheck1b;
+  
+  
+  var cname2 = "o"+check4+"o"+check3;
+  
+  var qname3a = "o"+qcheck4a+"o"+check3;
+  var qname4a = "o"+check4+"o"+qcheck3a;
+  
+  var qname3b = "o"+qcheck4b+"o"+check3;
+  var qname4b = "o"+check4+"o"+qcheck3b;
+  
+  
+  var cname3 = "o"+check6+"o"+check5;
+  
+  var qname5a = "o"+qcheck6a+"o"+check5;
+  var qname6a = "o"+check6+"o"+qcheck5a;
+  
+  var qname5b = "o"+qcheck6b+"o"+check5;
+  var qname6b = "o"+check6+"o"+qcheck5b;
+  
+  
+  var cname4 = "o"+check8+"o"+check7;
+  
+  var qname7a = "o"+qcheck8a+"o"+check7;
+  var qname8a = "o"+check8+"o"+qcheck7a;
+  
+  var qname7b = "o"+qcheck8b+"o"+check7;
+  var qname8b = "o"+check8+"o"+qcheck7b;
+  
+  wasbe = document.getElementById(wherebe).innerHTML;
+  
+  waslen = wasbe.split(/\!{2}/).length;
+  tolen = Number(waslen) - 1;
+   
+   if(tolen.toString().search(/\-/) >= 0){
+    tolen = tolen.toString().replace(/\-/, '');
+   }
+
+  wasbe = wasbe.split(/\!{2}/)[0];
+  
+  haslen = Math.abs(Number(wasbe.split(/\]/)[0].split(/\,/gm).length));   //haslen is real length
+  
+  washas = Math.abs(Number(haslen) - 2); //2 less than real length
+  var quiqin = '', kuikin = '';
+  
+ // document.getElementById('notes').innerHTML = wasbe.split(/\]/)[0].split(/\[/)[1].split(/\,/g)[washas]; //debugger
+  
+  for(sif = 0; sif<washas;sif++){
+   quiqin += wasbe.split(/\!/)[0].split(/\]/)[0].split(/\[/)[1].split(/\,/g)[sif] + ",";  //re-writes insides except last bit 
+  }
+  
+  for(qif = 0; qif<washas;qif++){
+   kuikin += wasbe.split(/\!/)[1].split(/\]/)[0].split(/\[/)[1].split(/\,/g)[qif] + ",";  //re-writes insides except last bit 
+  }
+  
+
+  
+if(document.getElementById(cname).innerHTML.toString().search(/\d/) >= 0 && Number(document.getElementById(growto).innerHTML) <= Number(herebe) && Number(document.getElementById('rc').innerHTML) <= 1){
+
+ if(document.getElementById(qname1a).innerHTML === "□" || document.getElementById(qname2a).innerHTML === "□" || document.getElementById(qname1b).innerHTML === "□" || document.getElementById(qname2b).innerHTML === "□"){   //only one of these needs to be true!
+  
+  
+   var nohere = "" + quiqin + "" + xpush1 + "!" + kuikin + "" + ypush0 + ",";
+   var anihere = "" + quiqin + "" + (0-xpush1) + "!" + kuikin + "" + (0-ypush0) + ",";
+   
+  if(document.getElementById('reflections').innerHTML.toString().search(nohere) < 0){
+  
+  document.getElementById(wherebe).innerHTML += "!!" + wasbe.split(/\!/)[0].split(/\[/)[0] + "[" + quiqin + "" + "<span style='color:orange' title='PUSHED_MOVE'>" + xpush1 + "</span>,]" + check2 + "!" + wasbe.split(/\!/)[1].split(/\[/)[0] + "[" + kuikin + "" + "<span style='color:orange' title='PUSHED_MOVE'>" + ypush0 + "</span>,]" + check1;
+  
+   document.getElementById('reflections').innerHTML += ", " + nohere;
+   document.getElementById('reflections').innerHTML += ", " + anihere;
+  
+  }
+  
+  wasnum = document.getElementById(growto).innerHTML;
+  document.getElementById(growto).innerHTML = Math.abs(Number(wasnum) + 1);
+  wasnum = '';
+  
+  
+  var xer = check2;
+  var yer = check1;
+  
+  var changeit = "o"+xer+"o"+yer;
+  
+  if(document.getElementById(changeit).innerHTML !== "□"){
+   document.getElementById(changeit).style.color="rgb(255,127,0,1)";
+ 
+ reflections(xer,yer,alpha);
+  
+ document.getElementById('rc').innerHTML = Number(roundcheck + 2);
+ roundcheck = Number(roundcheck + 2);
+  }
+  
+ }
+}
+
+
+
+if(document.getElementById(cname2).innerHTML.toString().search(/\d/) >= 0 && Number(document.getElementById(growto).innerHTML) <= Number(herebe) && Number(document.getElementById('rc').innerHTML) < herebe){
+
+  if(document.getElementById(qname3a).innerHTML === "□" || document.getElementById(qname4a).innerHTML === "□" || document.getElementById(qname3b).innerHTML === "□" || document.getElementById(qname4b).innerHTML === "□"){
+  
+  
+   var nohere = "" + quiqin + "" + xpush0 + "!" + kuikin + "" + ypush2 + ",";
+   var anihere = "" + quiqin + "" + (0-xpush0) + "!" + kuikin + "" + (0-ypush2) + ",";
+  
+  if(document.getElementById('reflections').innerHTML.toString().search(nohere) < 0){
+  
+  document.getElementById(wherebe).innerHTML += "!!" + wasbe.split(/\!/)[0].split(/\[/)[0] + "[" + quiqin + "" + "<span style='color:orange' title='PUSHED_MOVE'>" + xpush0 + "</span>,]" + check4 + "!" + wasbe.split(/\!/)[1].split(/\[/)[0] + "[" + kuikin + "" + "<span style='color:orange' title='PUSHED_MOVE'>" + ypush2 + "</span>,]" + check3;
+  
+   document.getElementById('reflections').innerHTML += ", " + nohere;
+   document.getElementById('reflections').innerHTML += ", " + anihere;
+  
+  }
+  
+  wasnum = document.getElementById(growto).innerHTML;
+  document.getElementById(growto).innerHTML = Math.abs(Number(wasnum) + 1);
+  wasnum = '';
+  
+  var yer = check4; 
+  var xer = check3; 
+  
+  
+  var changeit = "o"+yer+"o"+xer;
+  
+  if(document.getElementById(changeit).innerHTML !== "□"){
+   document.getElementById(changeit).style.color="rgb(255,127,0,1)";
+  
+  reflections(yer,xer,alpha);
+  
+ 
+ document.getElementById('rc').innerHTML = Number(roundcheck + 2);
+ roundcheck = Number(roundcheck + 2);
+ }
+  
+ }
+}
+
+
+
+if(document.getElementById(cname3).innerHTML.toString().search(/\d/) >= 0 && Number(document.getElementById(growto).innerHTML) <= Number(herebe) && Number(document.getElementById('rc').innerHTML) < herebe){
+  
+ if(document.getElementById(qname5a).innerHTML === "□" || document.getElementById(qname6a).innerHTML === "□" || document.getElementById(qname5b).innerHTML === "□" || document.getElementById(qname6b).innerHTML === "□"){
+ 
+ 
+   var nohere = "" + quiqin + "" + xpush0 + "!" + kuikin + "" + ypush2 + ",";
+   var anihere = "" + quiqin + "" + (0-xpush0) + "!" + kuikin + "" + (0-ypush2) + ",";
+  
+  if(document.getElementById('reflections').innerHTML.toString().search(nohere) < 0){
+  
+   document.getElementById(wherebe).innerHTML += "!!" + wasbe.split(/\!/)[0].split(/\[/)[0] + "[" + quiqin + "" + "<span style='color:orange' title='PUSHED_MOVE'>" + xpush0 + "</span>,]" + check6 + "!" + wasbe.split(/\!/)[1].split(/\[/)[0] + "[" + kuikin + "" + "<span style='color:orange' title='PUSHED_MOVE'>" + ypush2 + "</span>,]" + check5;
+  
+  
+   document.getElementById('reflections').innerHTML += ", " + nohere;
+   document.getElementById('reflections').innerHTML += ", " + anihere;
+  
+  }
+  
+  wasnum = document.getElementById(growto).innerHTML;
+  document.getElementById(growto).innerHTML = Math.abs(Number(wasnum) + 1);
+  wasnum = '';
+  
+  var yer = check5; 
+  var xer = check6; 
+  
+  
+ // var changeit = "o"+yer+"o"+xer;
+    var changeit = "o"+xer+"o"+yer;
+  
+  if(document.getElementById(changeit).innerHTML !== "□"){
+   document.getElementById(changeit).style.color="rgb(255,127,0,1)";
+ 
+ reflections(xer,yer,alpha);
+  
+ 
+ 
+ document.getElementById('rc').innerHTML = Number(roundcheck + 2);
+ roundcheck = Number(roundcheck + 2);
+  }
+  
+ }
+}
+
+
+
+
+
+if(document.getElementById(cname4).innerHTML.toString().search(/\d/) >= 0 && Number(document.getElementById(growto).innerHTML) <= Number(herebe) && Number(document.getElementById('rc').innerHTML) < herebe){
+
+   if(document.getElementById(qname7a).innerHTML === "□" || document.getElementById(qname8a).innerHTML === "□" || document.getElementById(qname7b).innerHTML === "□" || document.getElementById(qname8b).innerHTML === "□"){
+   
+   
+   var nohere = "" + quiqin + "" + xpush0 + "!" + kuikin + "" + ypush2 + ",";
+   var anihere = "" + quiqin + "" + (0-xpush0) + "!" + kuikin + "" + (0-ypush2) + ",";
+  
+  if(document.getElementById('reflections').innerHTML.toString().search(nohere) < 0){
+  
+   document.getElementById(wherebe).innerHTML += "!!" + wasbe.split(/\!/)[0].split(/\[/)[0] + "[" + quiqin + "" + "<span style='color:orange' title='PUSHED_MOVE'>" + xpush0 + "</span>,]" + check8 + "!" + wasbe.split(/\!/)[1].split(/\[/)[0] + "[" + kuikin + "" + "<span style='color:orange' title='PUSHED_MOVE'>" + ypush2 + "</span>,]" + check7;
+  
+  
+   document.getElementById('reflections').innerHTML += ", " + nohere;
+   document.getElementById('reflections').innerHTML += ", " + anihere;
+  
+  }
+  
+  wasnum = document.getElementById(growto).innerHTML;
+  document.getElementById(growto).innerHTML = Math.abs(Number(wasnum) + 1);
+  wasnum = '';
+  
+  var yer = check8; 
+  var xer = check7; 
+  
+  
+  var changeit = "o"+yer+"o"+xer;
+  
+  if(document.getElementById(changeit).innerHTML !== "□"){
+   document.getElementById(changeit).style.color="rgb(255,127,0,1)";
+  
+  reflections(yer,xer,alpha);
+  
+ 
+ document.getElementById('rc').innerHTML = Number(roundcheck + 2);
+ roundcheck = Number(roundcheck + 2);
+ }
+ 
+ }
+}
+
+document.getElementById('rc').innerHTML = 0;
+
+
+
+//  document.getElementById('notes').innerHTML = cname + " -- " + wasbe.split(/\!/)[1].split(/\]/)[1].split(/\,/)[0] + " * " + Number(wasbe.split(/\!/)[1].split(/\]/)[0].split(/\,/g)[twaslen]);
+    //debugger
+//  document.getElementById('notes').innerHTML = cname + " -- " + qname1a + " * " + qname2a + " || " + qname1b + " / " + qname2b;
+}
+
+
+function reflections(xer,yer,alpha){
+var subcount = document.getElementById('sc').innerHTML;
+
+var pid = "p"+Number(xer)+"p"+Number(Number(9-yer)+1), qid = "q"+Number(Number(9-xer)+1)+"q"+yer, rid = "r"+Number(Number(9-xer)+1)+"r"+Number(Number(9-yer)+1), aid = "a"+Number(Number(9-yer)+1)+"a"+Number(Number(9-xer)+1), bid = "b"+yer+"b"+Number(Number(9-xer)+1), cid = "c"+Number(Number(9-yer)+1)+"c"+Number(xer), did = "d"+Number(yer)+"d"+Number(xer), fid = "f"+Number(xer)+"f"+Number(yer);//did === 7
+
+if(subcount > 0){
+ alpha = Number(alpha) - parseInt("0."+subcount);
+}
+if(subcount >= 11){
+ subcount = 1;
+}
+if(alpha <= 0.09){
+ alpha = 0.9;
+}
+
+
+if(document.getElementById(pid).innerHTML !== "□"){
+ document.getElementById(pid).style = "color:rgb(255,127,0,"+alpha+")";
+ document.getElementById(pid).innerHTML = "&#9633";
+}
+if(document.getElementById(qid).innerHTML !== "□"){
+ document.getElementById(qid).style = "color:rgb(255,127,0,"+alpha+")";
+ document.getElementById(qid).innerHTML = "&#9633";
+}
+if(document.getElementById(rid).innerHTML !== "□"){
+ document.getElementById(rid).style = "color:rgb(255,127,0,"+alpha+")";
+ document.getElementById(rid).innerHTML = "&#9633";
+}
+if(document.getElementById(aid).innerHTML !== "□"){
+ document.getElementById(aid).style = "color:rgb(255,127,0,"+alpha+")";
+ document.getElementById(aid).innerHTML = "&#9633";
+}
+if(document.getElementById(bid).innerHTML !== "□"){
+ document.getElementById(bid).style = "color:rgb(255,127,0,"+alpha+")";
+ document.getElementById(bid).innerHTML = "&#9633";
+}
+if(document.getElementById(cid).innerHTML !== "□"){
+ document.getElementById(cid).style = "color:rgb(255,127,0,"+alpha+")";
+ document.getElementById(cid).innerHTML = "&#9633";
+}
+if(document.getElementById(did).innerHTML !== "□"){
+ document.getElementById(did).style = "color:rgb(255,127,0,"+alpha+")";
+ document.getElementById(did).innerHTML = "&#9633";
+}
+if(document.getElementById(fid).innerHTML !== "□"){
+ document.getElementById(fid).style = "color:rgb(255,127,0,"+alpha+")";
+ document.getElementById(fid).innerHTML = "&#9633";
+}
+
+
+
+}
+
+
+function cleargraph(){
+                        //still having issues with keeping track of things after clearing
+
+var skull = 1, bone = 1;
+
+countme = 0;
+
+document.getElementById('newe').innerHTML = "";
+document.getElementById('esep').innerHTML = "";
+document.getElementById('ende').innerHTML = "";
+
+document.getElementById('newi').innerHTML = "";
+document.getElementById('isep').innerHTML = "";
+document.getElementById('endi').innerHTML = "";
+
+document.getElementById('nulle').innerHTML = "";
+document.getElementById('nulli').innerHTML = "";
+
+do{
+//for(grim = 0; grim <= 80; grim++){
+document.getElementById('o'+skull+'o'+bone).innerHTML = "0";
+document.getElementById('o'+skull+'o'+bone).style = "color:silver";
+
+document.getElementById('p'+skull+'p'+bone).innerHTML = "0";
+document.getElementById('p'+skull+'p'+bone).style = "color:silver";
+
+document.getElementById('q'+skull+'q'+bone).innerHTML = "0";
+document.getElementById('q'+skull+'q'+bone).style = "color:silver";
+
+
+document.getElementById('r'+skull+'r'+bone).innerHTML = "0";
+document.getElementById('r'+skull+'r'+bone).style = "color:silver";
+
+
+document.getElementById('a'+skull+'a'+bone).innerHTML = "0";
+document.getElementById('a'+skull+'a'+bone).style = "color:silver";
+
+
+document.getElementById('b'+skull+'b'+bone).innerHTML = "0";
+document.getElementById('b'+skull+'b'+bone).style = "color:silver";
+
+
+document.getElementById('c'+skull+'c'+bone).innerHTML = "0";
+document.getElementById('c'+skull+'c'+bone).style = "color:silver";
+
+
+document.getElementById('d'+skull+'d'+bone).innerHTML = "0";
+document.getElementById('d'+skull+'d'+bone).style = "color:silver";
+
+
+document.getElementById('f'+skull+'f'+bone).innerHTML = "0";
+document.getElementById('f'+skull+'f'+bone).style = "color:silver";
+
+bone = Number(bone)+1;
+
+
+if(skull<8){
+ document.getElementById('newe'+skull).innerHTML = "";
+ document.getElementById('esep'+skull).innerHTML = "";
+ document.getElementById('ende'+skull).innerHTML = "";
+
+ document.getElementById('newi'+skull).innerHTML = "";
+ document.getElementById('isep'+skull).innerHTML = "";
+ document.getElementById('endi'+skull).innerHTML = "";
+
+ document.getElementById('nulle'+skull).innerHTML = "";
+ document.getElementById('nulli'+skull).innerHTML = "";
+}
+
+
+if(bone>9){
+skull = Number(skull) + 1;
+bone = 1;
+
+}
+
+
+}while(skull<10);
+
+
+document.getElementById('pointer').innerHTML = 0;
+document.getElementById('bank').innerHTML = 0;
+document.getElementById('lengthis').innerHTML = 0;
+document.getElementById('rc').innerHTML = 0;
+document.getElementById('counting').innerHTML = 0;
+}
+</script>
