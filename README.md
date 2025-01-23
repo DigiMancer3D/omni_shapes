@@ -1,16 +1,25 @@
 # omni_shapes
-Let's try to find omni shapes or Polyominoes!
+Let's try to find Omni Shapes or Polyominoes!
 ---
+<sub>What started off as a new rule or two that could be used to define how to make Polyominoes, turned into slowly building a websoft to just find Omni Shapes (or Polyominoes) in 
+ a slightly <i>new way</i></sub>
 
-What started off as a new rule or two that could be used to define how to make Polyominoes, turned into slowly building websoft to find more Omni Shapes (or Polyominioes, idk how to spell the word).
+</br></br>
+&nbsp; &nbsp; To start, The major thing Omni Shapes does different then Polyominoes is tracking the shapes by relatable coordinates instead of visual or matrix based methods. Ideally, we would place our first block in the relatable spot on the graph as to the first block we plan on taking (not placing) then we can track each block's position and backtrack to determine the possible numbers "taken" even after a push (to ensure we don't break the take-place rule used to determine finding Polyominoes). For example if we always place the smallest number at the top of 1st placed block & if I know I'm going to pick the right side block of the first, then I'll place the first block at 4,4 (scale out as your dimensions rise ie: 4,4,4 [3D] && 4,4,4,4 [4D]). Now any move we make we can record the difference from the previous position to the current and this will allow us to track each step. When recording, lead by placing the starting postion then within brackets the changes and outside the brackets the tailing end should be the ending location. This should allow anyone to be able to grab a graph and re-create the shape, also this allows us to find Omni Shape reflections or "free" Polyominoes. A simple reflection is just the opposite sign of the change but we could use an algo to find all free shapes or omni reflections.</br></br>&nbsp; &nbsp; Because we are using corridanates we can take each position of the blocks (by starting at the start and working down the changes to the end) and mathematically or deterministically rotate based on the grid (like rotating a block that has a specific shape on it) <code>((max-grid-size MINUS grid-position-per-plane) PLUS one)</code> but also we can just flip the X-Y values to create a mirror and in higher deminsions flipping the alpha & delta with x & y should flip the shape inside-out. Now without folding symatry methods nor heavy matrix maths we can find all the Omni's reflections (or "free Polyominoes").</br>&nbsp; &nbsp; Shapes are their specific pattern in their change arrays. For example: in each change array (x|y|alpha|delta|[...]) we have start[change]end. A real 2D Omni may look like <code>4[-1,-1,0]2;4[0,0,1]5</code>. It's an "L" type shape that moves 2 times in one direction then moves 90deg off one side for one block, making the total length 4 (or L4). Started at 4,4 ended at 2,5. So the pattern <code>(A,A,B):(B,B,A)</code> is a specific shape and we can then use this as a changeable object. As we find more Fixed Polyominoes or Unique-Patterned Omnis we can hot swap sections with these shape patterns while keeping true to the object before it. If need be we can always do test pushes to see if an addtional set of onjects can be placed around the edges of the object (to detect self & patterns looping around to have holes). Just push for as many times your longest length of the shape is or the length of the non-null objects of the change array with the most non-null objects.
+</br></br>&nbsp; &nbsp; At the moment the Omni Shape Finder doesn't do all the extra steps to finding new moves nor does it use the simple method described above. It's easier to start at Null (0) and change by (0) then build patterns then hot swap the patterns with slow rising changing numbers and slowly rising the length as you find all patterns within a length. Instead the Omni Shape Finder uses video game logic to "look" around and find potential moves, records them then tries to send a clone in it's place to take that potential move.
 
 
-We didn't take away any rules for finding Omni Shapes but instead we are including a "push" concept for finding additional shapes outside what the user has found from clicking. So when we have a defined length, we can push the "loose blocks" around. A loose block is a block touching another blocks face and could be pushed to another face side of the same block without interacting with other blocks after the push.
+Example Omni:
+</br>
+X Plane: <code>4[0,0,0,-1,-1,0,0,0,-1,0,0,0,0,0,1,1,1,1,1,1,1,1,0,0,0,0,0,0,-1]8</code></br>
+Y Plane: <code>4[-1,-1,-1,0,0,1,1,1,0,1,1,1,1,1,0,0,0,0,0,0,0,0,-1,-1,-1,-1,-1,-1,0]3</code></br>
+Z Plane (alpha): <code>4[1,1,0,0,0,-1,0,0,0,0,1,0,0,0,0,0,0,-1,-1,-1,-1,-1,0,0,0,1,1,0,0]3</code></br>
 
-The only thing different Omni Shapes do outside of Polyominoes (or Polyominioes) is we track the shapes by relatable coordinates. Ideally, we would place our first block in the relatable spot on the graph as to the first block we plan on taking (not placing) then we can track each block's position and backtrack to possible numbers "taken" even after a push (to ensure we don't break the take-place rule).
-
-So our trackers are X[change from previous X,change from previous X,[...]]final-x-position && Y[change from previous Y,change from previous Y,[...]]final-y-position, this let's us see the moves we can recreate the moves if needed but because we allow both positive and negative numbers in the change from previous position we can technically see "up, down, left, right" depending on the change of the value number based on the previous value recrded.
-
-Next, I want Omni Shapes to find additional pushes avaiable until it's found potientially all shapes per Length as the user is clicking to build their Omni Shape.
-
+3D Omni Shape Mapped: </br>(</code>4[0,0,0,-1,-1,0,0,0,-1,0,0,0,0,0,1,1,1,1,1,1,1,1,0,0,0,0,0,0,-1]8;4[-1,-1,-1,0,0,1,1,1,0,1,1,1,1,1,0,0,0,0,0,0,0,0,-1,-1,-1,-1,-1,-1,0]3;4[1,1,0,0,0,-1,0,0,0,0,1,0,0,0,0,0,0,-1,-1,-1,-1,-1,0,0,0,1,1,0,0]3</code>)</br>
+</br>
+That would be a real 3D Polyomino with 30 blocks (or an L30 Omni)! 
+</br>
+</br></br>
+Next, I want Omni Shapes to find & make additional pushes avaiable (after the inital algo-push/move) until it's found potientially all shapes per length as the user is clicking to build their Omni Shape. Eventually, I'll probably do the simple line algo across multiple planes (x|y|alpha|delta|[...]) to then mix and match shapes after finding the simplist 13 shapes. Most likely I'll use the tricks I used with [SPX](https://github.com/digimancer3d/spx) to help make that happen.  &nbsp;  ;}
+</br></br>
 Try Omni Shapes (websoft) vis-a-vis gisthub preview: [3dd.in/Omni](https://3dd.in/Omni)
