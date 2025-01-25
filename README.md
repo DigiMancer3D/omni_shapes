@@ -23,3 +23,9 @@ That would be a real 3D Polyomino with 30 blocks (or an L30 Omni)!
 Next, I want Omni Shapes to find & make additional pushes avaiable (after the inital algo-push/move) until it's found potientially all shapes per length as the user is clicking to build their Omni Shape. Eventually, I'll probably do the simple line algo across multiple planes (x|y|alpha|delta|[...]) to then mix and match shapes after finding the simplist 13 shapes. Most likely I'll use the tricks I used with [SPX](https://github.com/digimancer3d/spx) to help make that happen.  &nbsp;  ;}
 </br></br>
 Try Omni Shapes (websoft) vis-a-vis gisthub preview: [3dd.in/Omni](https://3dd.in/Omni)
+
+</br></br>
+
+For anyone whom wants to try the simplified array-attack method for finding Omnis, please try the "Simple Omni Game" HTML file.
+
+
