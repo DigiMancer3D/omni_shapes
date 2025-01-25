@@ -1,0 +1,238 @@
+<!DOCTYPE HTML>
+<html id='html'>
+<style>
+html{
+background-color: black;
+color: silver;
+overflow-x: none;
+overflow-y: auto;
+}
+
+button{
+ color: silver;
+ background-color: rgba(0,0,0,0);
+ border-color: silver;
+ border-width: 0.19vw;
+ border-radius: 25%;
+ padding:0.39vw;
+ margin:0.39vw;
+ text-align: center;
+ align: justify;
+}
+
+
+</style>
+
+<body style='align:center;text-align:center;'>
+<div style='align:center;width:85vw;padding-left:2.5vw;padding-right:2.5vw;margin-left:5vw;margin-right:5vw;'>
+ <span id='counting' style="display:none" title="Don't mind me, I'm counting">0</span>
+ <h1>Simple OMNI Game</h1>
+ <span id='dufftext' style='display:none;'></span>
+  </br></br>
+ <span id='display'></span>
+  </br></br>
+ <div id='output' style='align:center;' ></div>
+  </br></br>
+ <span id='duff'></span>
+  </br></br>
+ <span id='notes'></span>
+  </br></br>
+<span id='history' style='display:none' title='I define the grid size'>1</span>
+<span id='rc'  style='display:none' title='I show where in the round-count we are at'>1</span>
+<span id='sc'  style='display:none' title='I show where in a sub-count we are at'>1</span>
+<span id='am'  style='display:none' title='I show algo-moves needing to be done'></span>
+<span id='rh'  style='display:none' title='I show algo-moves that have been done'></span> 
+<span id='reflections'  style='display:none'></span>
+<div id='creatornotes' style='text-align:center;align:center;'><hr id='pagehr' style='width:31%;opacity:0.33;'><sup><a href='https://github.com/DigiMancer3D/omni_shapes' rel='noopener noreferrer' target='_blank' style='color:grey;text-decoration:none;' title='click to visit this Git Repo'><b>Made by 3Douglas <q><i>3D</i></q> Pihl</b></sup></br></br><sub><a href='https://twitter.com/@Z0M8I3D' rel='noopener noreferrer' target='_blank' style='color:green;text-decoration:none;' title='click to visit on xTwitter'><i>@<b>Z0M8I3D</b></i></a></sub></br></br></div>
+</body>
+<script>
+var countme = 0;
+var huh = 0;
+var gen = document.getElementById('counting').innerHTML;
+
+var plane = ["X", "Y", "Z", "D"];
+var local = document.getElementById('sc').innerHTML;
+var worldlen = document.getElementById('history').innerHTML;
+ 
+ 
+if(document.getElementById('notes').innerHTML.toString().search(/start/gm) < 0){
+var checkednotes = 0;
+var here = '';
+  gen = document.getElementById('counting').innerHTML;
+  local = document.getElementById('sc').innerHTML;
+  worldlen = document.getElementById('history').innerHTML;
+  
+ 
+// for(eek = 0; eek<2; eek++){
+  here = plane[checkednotes];
+  
+  beginbrosiv(here,gen,local,0);
+  
+  checkednotes = Number(checkednotes) + 1;
+ //}
+ 
+}
+ 
+function beginbrosiv(where,gen,local,worldlen){ //the number for plane location, the number for placing user choices in, the total worldlength
+
+<!-- no-history & null-history catch -->
+if(document.getElementById('history').innerHTML.search(/\d/g) < 0 || document.getElementById('history').innerHTML <= 0){  
+ 
+  document.getElementById('history').innerHTML = 1;
+
+  document.getElementById('display').innerHTML = "<h3><b>Welcome to <i>the simple</i> OMNI Shape Finder for finding Polyominoes!</br></br>To begin, click on available option below</sub></b><hr style='width:33vw;border-color:rgba(192,192,192,0.4);'></h3>";
+}
+
+ buildme(where,gen,local,worldlen);
+}
+
+function buildme(where,gen,local,worldlen){
+var gfield = document.getElementById('output').innerHTML;
+var thisname = "." + where + "gen";
+
+ var rows = ["<span class='"+where+"gen' id='"+where+"gen"+gen+"' style='display:none'>"+gen+"</span>Plane "+where+":&nbsp;<span id='"+where+""+gen+"' title='Plane "+where+" Starting Location' >0</span>" + " [" + "<span id='"+where+""+local+"' title='Player Choices'></span>" + " <span id='next"+where+""+worldlen+"'><span id='c"+worldlen+"up'><button onclick='cmove(&#039;"+where+"&#039;,"+gen+","+local+","+worldlen+",1)' title='Increase Selector Value' >+</button></span><span title='Click to Select' onclick='document.getElementById(&#034;"+where+""+local+"&#034;).innerHTML+=document.getElementById(&#039;c"+where+""+worldlen+"&#039;).innerHTML+&#039;,&#039;;document.getElementById(&#034;n"+where+""+gen+"&#034;).innerHTML=Number(document.getElementById(&#034;n"+where+""+worldlen+"&#034;).innerHTML)+Number(document.getElementById(&#039;c"+where+""+worldlen+"&#039;).innerHTML);document.getElementById(&#039;c"+where+""+worldlen+"&#039;).innerHTML=&#039;0&#039;;'><span id='c"+where+""+worldlen+"'>0</span></span><span id='c"+worldlen+"down' title='Decrease Selector Value' ><button onclick='cmove(&#039;"+where+"&#039;,"+gen+","+local+","+worldlen+",2)' >-</button></span></span> " + "] " + "<span id='n"+where+""+gen+"' title='Plane "+where+" Landing Location' >0</span>!"];
+
+document.getElementById('output').innerHTML += rows.toString().replace(/\!/gm, "</br></br>");
+ var  thosenotes = document.getElementById('rc').innerHTML;
+ var nothere = plane[thosenotes];
+ var title = 'counting';
+ var ht = 'history';
+  
+  document.getElementById('duff').innerHTML = "<button id='buildmore' onclick='buildme(&#034;"+nothere+"&#034;,"+Number(Number(gen)+1)+","+Number(Number(local)+1)+","+Number(Number(worldlen)+1)+")' title='Click to Add another Line' >&nbsp;Add&nbsp;Plane&nbsp;</button>";
+  
+  document.getElementById('rc').innerHTML = Number(thosenotes) + 1;
+  
+ 
+  if(document.getElementById('rc').innerHTML >= Number(plane.length)){
+    var tempcc = document.getElementById('counting').innerHTML;
+	document.getElementById('counting').innerHTML = Number(tempcc) + 1;
+	document.getElementById('rc').innerHTML = 0;
+	gen = document.getElementById('counting').innerHTML;
+  }
+  
+  document.getElementById('history').innerHTML = Number(worldlen) + 1;
+  worldlen = document.getElementById('history').innerHTML;
+  
+}
+
+
+function cmove(where,gen,droppoint,wlen,dir){ 
+var tempbuilder = document.getElementById(where+''+droppoint).innerHTML;
+
+var selectorvalue = document.getElementById('c'+where+''+wlen).innerHTML;
+var limitA = Math.abs(1 - Number(tempbuilder.split(/\,/gm).length));
+var found = tempbuilder.toString().search(/\d/gm); 
+var sumof = 0, sumofsign = 0, sumofvalue = 0, sumofzero = 0;
+ var teamA = Number(tempbuilder.split(/\,/gm).length) - 2;
+ var teamB = Number(tempbuilder.split(/\,/gm).length) - 2;
+ var teamC = Number(tempbuilder.split(/\,/gm).length) - 2;
+ var qsl = Math.abs(tempbuilder.split(/\,/gm).length - 2);
+ var qs = tempbuilder.split(/\,/gm)[qsl];
+
+ var planesname = "n"+where+""+gen+"";
+ var planesum = document.getElementById(planesname).innerHTML;
+
+ for(var i = Number(limitA-1); i>0;i--){
+
+   if(Number(sumof) === 0 && Number(i) === 0 && Number(found) === Number(-1)){ //no options
+    i = Number(limitA)+1; //way of ending 
+	
+   }
+   else{
+    sumof = Number(sumof) + Number(tempbuilder.split(/\,/gm)[i]);  //adds normally
+	
+	if(tempbuilder.split(/\,/gm)[i].toString().search(/\-/g) >= 0 && Number(teamB) >= 0){   //trailing sign rule
+                         	//only if between null & player next choice 
+  	 if(Number(tempbuilder.split(/\,/gm)[teamB]) < 0 && Math.sign(Number(tempbuilder.split(/\,/gm)[teamB])) < 0){  
+	  sumofsign = Math.abs(0 - Number(tempbuilder.split(/\,/gm)[i])) + Number(sumofsign); //adds only negative
+	  teamB = Math.abs(Number(teamB) - 1);
+	 }
+	 
+	 if(Math.sign(tempbuilder.split(/\,/gm)[i]) >= 0 && qs.toString().search(/0/g) < 0){  //needs to end count 
+	  teamB = Number(-1); //prevents next rounds from adding more
+	 }
+	 else{
+	  teamB = Math.abs(Number(teamB) - 1);
+	 }
+	}
+	
+    if(Number(tempbuilder.split(/\,/gm)[teamA]).toString().search(/\d/gm) >= 0 && Number(teamA) >= 0){   //trailing value rule
+                         	//only if between null & player next choice 
+  	 if(Number(tempbuilder.split(/\,/gm)[teamA]) > 0 && Math.sign(Number(tempbuilder.split(/\,/gm)[teamA])) === 1){ 
+	   sumofvalue = Number(sumofvalue) + Number(tempbuilder.split(/\,/gm)[teamA]);
+	   teamA = Math.abs(Number(teamA) - 1);
+	 }
+	 
+	  if(Math.sign(tempbuilder.split(/\,/gm)[i]) <= 0 && qs.toString().search(/0/g) < 0){
+	    teamA = Number(-1); //prevents next rounds from adding more 
+	  }
+	  else{
+	   teamA = Math.abs(Number(teamA) - 1);
+	  }
+	
+	}
+	
+    if(Number(tempbuilder.split(/\,/gm)[teamC]).toString().search(/\d/gm) >= 0 && Number(teamC) >= 0){   //trailing zero rule
+                         	//only if between null & player next choice 
+  	 if(Number(tempbuilder.split(/\,/gm)[teamC]) === 0){ 
+	   sumofzero = Number(sumofzero) + 1;
+	   teamC = Math.abs(Number(teamC) - 1);
+	 }
+	 
+	  if(tempbuilder.split(/\,/gm)[i].toString().search(/[^0]/) <= 0 && qs.toString().search(/[^0]/) >= 0){
+	    teamC = Number(-1); //prevents next rounds from adding more 
+	  }
+	  else{
+	   teamC = Math.abs(Number(teamC) - 1);
+	  }
+	
+	}
+   }
+	
+ }
+
+if(Math.abs(0 - Number(sumof)) <= Math.abs(0 - Number(limitA))){
+
+ var preview = Number(Number(sumof) - Math.abs(2 + Number(sumof)));
+ var unpreview = Number(sumof);
+ var notsburg = Math.abs(0 - selectorvalue);
+ var newsum = Math.abs(Math.abs(0 - Number(sumof)) + 1);
+ 
+ 
+ if(unpreview >= 3){
+  unpreview = Math.abs(Number(sumof) - 3);
+ }
+ 
+ if(isNaN(qs) === true){
+  qs = '';
+ }
+ 
+ if(preview < 0){
+  preview = 0;
+ }
+ 
+ if(notsburg < 0){
+  notsburg = notsburg.toString().replace(/\-/, '');
+ }
+ 
+ //im here I'm here Im here
+ 
+ //get the planes to work together when there is more than one on screen
+ 
+ //get grid mapping to show the shape as it's being made
+ 
+  //couldn't get trailing zeros rule to work
+  if(Number(dir) === 1 && Number(selectorvalue) <= preview || Number(dir) === 1 && Number(selectorvalue) < Number(sumofsign) || Number(dir) === 1 && Number(newsum) <= 0){  
+   document.getElementById('c'+where+''+wlen).innerHTML = Number(Number(selectorvalue) + 1);  //go up
+  }
+  else if(Number(dir) === 2 && notsburg <= preview && unpreview > 0 && qs.toString().search(/0/) < 0 || Number(dir) === 2 && selectorvalue > preview && unpreview >= 0 && qs.toString().search(/0/) < 0 || Number(dir) === 2 && notsburg <= Number(sumofvalue) && unpreview > 0 && qs.toString().search(/0/) < 0){ 
+   document.getElementById('c'+where+''+wlen).innerHTML = Number(Number(selectorvalue) - 1); //go down
+  }
+  else{
+   document.getElementById('c'+where+''+wlen).innerHTML = Number(selectorvalue);  //do nothing
+  }
+ 
+}
+
+}
+</script>
