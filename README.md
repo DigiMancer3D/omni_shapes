@@ -30,7 +30,7 @@ For anyone whom wants to try the simplified array-attack method for finding Omni
 </br>
 </br></br><hr>
 
-&nbsp; <i>3D's Note:</br>&nbsp; &nbsp; <b>The Simple Omni Game method has many bugs so the most recent version has not been updated. I am making explination images to help reconfigure the maths and checks to get the array pairing working up to 3 dimensions. I was wanting to go beyond 3 dimensions and found a syncing bug that happens in some higher dimension formats because of the current paring bug. Next will be images and hopefully eventually a rule set to help others find more Omni Shapes which are just a different way to look at Polyominoes! (The name Omni comes from me unable to say "Polyomino" so when I attempt to say the same word it comes out, "Poly-Omni-O", but I continued to call them Omni Shapes as I discovered these "Between Complexity Topologies" (my perspective on what are Polyominoes) can create almost any shape. Now that I've made the frist few images, I have discovered why the syncing happens. Arrays within arrays may sync if the external array has only one sign or flips-flops signs in a consistent pattern. This does mean that an internal dimension like the 4th, 5th & 6th dimensions are going to have to track something other than object placement. For example, using the delta or alpha-plane (which is the distance from you) tracks the amount of light difference upon a location as well as if it is null or not. Another example is the 4th dimension tracks the number of touching boxes including if it is null or not. These have to be done in a single digit or decimaled-digit but I believe there should be a single digit solution to the dualities of differences (what we are tracking in the array-based method).</b></i>
+&nbsp; <i>3D's Note:</br>&nbsp; &nbsp; <b>The Simple Omni Game method has many bugs so the most recent version has not been updated. I am making explination images to help reconfigure the maths and checks to get the array pairing working up to 3 dimensions. I was wanting to go beyond 3 dimensions and found a syncing bug that happens in some higher dimension formats because of the current paring bug. Next will be images and hopefully eventually a rule set to help others find more Omni Shapes which are just a different way to look at Polyominoes! (The name Omni comes from me unable to say "Polyomino" so when I attempt to say the same word it comes out, "Poly-Omni-O", but I continued to call them Omni Shapes as I discovered these "Between Complexity Topologies" (my perspective on what are Polyominoes) can create almost any shape.</b></i>
 </br><hr></br></br>
 
 # Omni Shape Rules & Explinations
@@ -59,6 +59,24 @@ For anyone whom wants to try the simplified array-attack method for finding Omni
 ### Tri-Paired Array Explination (img):
 
 ![Tri-Paired Array Explination](https://raw.githubusercontent.com/DigiMancer3D/omni_shapes/refs/heads/main/Visuals/Tri-Paired%20Array%20Movement%20Explination.png)
+
+</br></br>
+
+### Array Consistency & Movement Rules <sup><sub>(outside of Polyomino Rules, for keeping consistency across multiple dimensions)</sub></sup> (img):
+
+![Array Consistency & Movement Rules](https://raw.githubusercontent.com/DigiMancer3D/omni_shapes/refs/heads/main/Visuals/Array%20Movement%20%26%20Consistancy%20Rules.png)
+
+</br></br>
+
+### General Abusable Actions <sup><sub>(showcases actions some may call improper but does follow the Polyomino Rules & Multi-Dimensional Conesistency Rules)</sub></sup> (img):
+
+![General Abusable Actions](https://raw.githubusercontent.com/DigiMancer3D/omni_shapes/refs/heads/main/Visuals/General%20Abusable%20Actions.png)
+
+</br></br>
+<hr>
+</br></br>
+
+
 
 
 
