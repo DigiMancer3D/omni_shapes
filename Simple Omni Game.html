@@ -1,0 +1,1417 @@
+<!DOCTYPE HTML>
+<html id='html'>
+<style>
+html{
+background-color: black;
+color: silver;
+overflow-x: none;
+overflow-y: auto;
+}
+
+button{
+ color: silver;
+ background-color: rgba(0,0,0,0);
+ border-color: silver;
+ border-width: 0.19vw;
+ border-radius: 25%;
+ padding:0.39vw;
+ margin:0.39vw;
+ text-align: center;
+ align: justify;
+}
+
+
+</style>
+
+<body style='align:center;text-align:center;'>
+<div style='align:center;width:85vw;padding-left:2.5vw;padding-right:2.5vw;margin-left:5vw;margin-right:5vw;'>
+ <span id='counting' style="display:none" title="Don't mind me, I'm counting">0</span>
+ <h1>Simple OMNI Game</h1>
+ <span id='dufftext' style='display:none;'></span>
+  </br></br>
+ <span id='display'></span>
+  </br></br>
+ <div id='output' style='align:center;' ></div>
+  </br></br>
+ <span id='duff'></span>
+  </br></br>
+ <span id='notes'></span>
+  </br></br>
+<span id='history' style='display:none' title='I define the grid size'>1</span>
+<span id='rc'  style='display:none' title='I show where in the round-count we are at'>1</span>
+<span id='sc'  style='display:none' title='I show where in a sub-count we are at'>1</span>
+<span id='am'  style='display:none' title='I show algo-moves needing to be done'></span>
+<span id='rh'  style='display:none' title='I show algo-moves that have been done'></span> 
+<span id='reflections'  style='display:none'></span>
+  <div id='rulebox'>
+   <h3 style='display:block' id='words1' onclick='document.getElementById("rulecont").innerHTML=document.getElementById(&#039;rules&#039;).innerHTML;this.style.display="none";document.getElementById("words2").style.display="block";' title='I show rules when clicked'>See Rules</h3>
+   
+   <h3 id='words2' style='display:none' onclick='document.getElementById("rulecont").innerHTML="";this.style.display="none";document.getElementById("words1").style.display="block";'  title='I hide rules when clicked'>Hide Rules</h3>
+  
+   <span id='rulecont' ></span>
+   
+  <span id='rules' style='display:none' title='You should not be able to see me'><hr id='pagehr2' style='width:31%;opacity:0.33;'><div style='align:center;text-align:left;margin-left:13vw;margin-right:8vw;padding:0.25vw;'>The 1st appearing set of arrays will lock to one another. If an array is already on screen and it's pair is placed down, the system will catch that array up to the length of its pair based on it's pair. It takes 2 to tango, in life & with Polyominoes. Rather single array, paired, tri-paired or greater may change how the rules apply.</br></br><b>&nbsp; &nbsp; &nbsp; &nbsp; (1)</b>&nbsp; &nbsp;<u>Single Array Rules</u>:</br><b>&nbsp; &nbsp; &nbsp; &nbsp;&nbsp; &nbsp; &nbsp; &nbsp;  &nbsp; &nbsp; +</b>&nbsp; The Starting Position cannot be negative (less than null) nor null ["0"]</br><b>&nbsp; &nbsp; &nbsp; &nbsp;&nbsp; &nbsp; &nbsp; &nbsp;  &nbsp; &nbsp; +</b>&nbsp; 1st move cannot be less-than null (negative)</br><b>&nbsp; &nbsp; &nbsp; &nbsp;&nbsp; &nbsp; &nbsp; &nbsp;  &nbsp; &nbsp; +</b>&nbsp; New moves cannot cause a negative endpoint</br><b>&nbsp; &nbsp; &nbsp; &nbsp;&nbsp; &nbsp; &nbsp; &nbsp;  &nbsp; &nbsp; +</b>&nbsp; New moves cannot backtrack</br><b>&nbsp; &nbsp; &nbsp; &nbsp;&nbsp; &nbsp; &nbsp; &nbsp;  &nbsp; &nbsp; +</b>&nbsp; New moves cannot extend past one</br><b>&nbsp; &nbsp; &nbsp; &nbsp;&nbsp; &nbsp; &nbsp; &nbsp;  &nbsp; &nbsp; +</b>&nbsp; Ending Position cannot be less than null nor null</br></br><b>&nbsp; &nbsp; &nbsp; &nbsp; (2)</b>&nbsp; &nbsp;<u>Paired Array Rules</u>:</br><b>&nbsp; &nbsp; &nbsp; &nbsp;&nbsp; &nbsp; &nbsp; &nbsp;  &nbsp; &nbsp; +</b>&nbsp; Starting Position cannot be less-than null nor null</br><b>&nbsp; &nbsp; &nbsp; &nbsp;&nbsp; &nbsp; &nbsp; &nbsp;  &nbsp; &nbsp; +</b>&nbsp; 1st move cannot be less-than null</br><b>&nbsp; &nbsp; &nbsp; &nbsp;&nbsp; &nbsp; &nbsp; &nbsp;  &nbsp; &nbsp; +</b>&nbsp; New moves cannot cause a negative endpoint</br><b>&nbsp; &nbsp; &nbsp; &nbsp;&nbsp; &nbsp; &nbsp; &nbsp;  &nbsp; &nbsp; +</b>&nbsp; New moves can backtrack by one if the endpoints are positive</br><b>&nbsp; &nbsp; &nbsp; &nbsp;&nbsp; &nbsp; &nbsp; &nbsp;  &nbsp; &nbsp; +</b>&nbsp; Can backtrack ONLY by ONE ["-1"]</br><b>&nbsp; &nbsp; &nbsp; &nbsp;&nbsp; &nbsp; &nbsp; &nbsp;  &nbsp; &nbsp; +</b>&nbsp; Can extend past one ONLY IF NOT AT an end or edge</br><b>&nbsp; &nbsp; &nbsp; &nbsp;&nbsp; &nbsp; &nbsp; &nbsp;  &nbsp; &nbsp; +</b>&nbsp; Endpoints cannot be less-than null</br></br><b>&nbsp; &nbsp; &nbsp; &nbsp; (3)</b>&nbsp; &nbsp;<u>Tri-Paired Array Rules</u>:</br><b>&nbsp; &nbsp; &nbsp; &nbsp;&nbsp; &nbsp; &nbsp; &nbsp;  &nbsp; &nbsp; +</b>&nbsp; Starting Position cannot be less-than null nor null</br><b>&nbsp; &nbsp; &nbsp; &nbsp;&nbsp; &nbsp; &nbsp; &nbsp;  &nbsp; &nbsp; +</b>&nbsp; 1st move cannot be less-than null</br><b>&nbsp; &nbsp; &nbsp; &nbsp;&nbsp; &nbsp; &nbsp; &nbsp;  &nbsp; &nbsp; +</b>&nbsp; New moves can cause one of the three endpoints to become negative for as long as the other two endpoints are positive</br><b>&nbsp; &nbsp; &nbsp; &nbsp;&nbsp; &nbsp; &nbsp; &nbsp;  &nbsp; &nbsp; +</b>&nbsp; New moves can backtrack by one if all other endpoints are positive, even if it causes this endpoint to be negative</br><b>&nbsp; &nbsp; &nbsp; &nbsp;&nbsp; &nbsp; &nbsp; &nbsp;  &nbsp; &nbsp; +</b>&nbsp; Can backtrack per the length of a trailing value minus one if all other endpoints are positive, even if it causes this endpoint to be negative</br><b>&nbsp; &nbsp; &nbsp; &nbsp;&nbsp; &nbsp; &nbsp; &nbsp;  &nbsp; &nbsp; +</b>&nbsp; Can retrack back to positive for as long as no endpoint is null & at least 2 other endpoints are positive</br><b>&nbsp; &nbsp; &nbsp; &nbsp;&nbsp; &nbsp; &nbsp; &nbsp;  &nbsp; &nbsp; +</b>&nbsp; Can extend past one ONLY IF NOT AT an end or edge</br><b>&nbsp; &nbsp; &nbsp; &nbsp;&nbsp; &nbsp; &nbsp; &nbsp;  &nbsp; &nbsp; +</b>&nbsp; This endpoint can only be negative if at least 2 of the other endpoints must be positive at all times & no nulls are allowed</br></br><b>&nbsp; &nbsp; &nbsp; &nbsp; (4)</b>&nbsp; &nbsp;<u>Quad-Paired & Higher Array Rules</u>:</br><b>&nbsp; &nbsp; &nbsp; &nbsp;&nbsp; &nbsp; &nbsp; &nbsp;  &nbsp; &nbsp; +</b>&nbsp; Starting Position cannot be less-than null nor null</br><b>&nbsp; &nbsp; &nbsp; &nbsp;&nbsp; &nbsp; &nbsp; &nbsp;  &nbsp; &nbsp; +</b>&nbsp; Negative moves are allowed if this endpoint PLUS _Z endpoint is Null or greater</br><b>&nbsp; &nbsp; &nbsp; &nbsp;&nbsp; &nbsp; &nbsp; &nbsp;  &nbsp; &nbsp; +</b>&nbsp; New moves can backtrack per the length of a trailing value minus one if all other endpoints are positive, even if it causes this endpoint to be negative</br><b>&nbsp; &nbsp; &nbsp; &nbsp;&nbsp; &nbsp; &nbsp; &nbsp;  &nbsp; &nbsp; +</b>&nbsp; Can extend past one ONLY IF NOT AT an end or edge</br><b>&nbsp; &nbsp; &nbsp; &nbsp;&nbsp; &nbsp; &nbsp; &nbsp;  &nbsp; &nbsp; +</b>&nbsp; This endpoint can only be negative if at least 2 of the other endpoints are positive</br></br><div style='padding-left:3.5vw;padding-right:7.5vw;padding-bottom:0.15vw;padding-top:0.75vw;align:center;text-align:left;'><hr id='pagehr3' style='width:27%;opacity:0.33;'></br><b><i>&nbsp; &nbsp; Key Terms:</i></b></br><b>&nbsp; &nbsp; &nbsp; &nbsp; -&nbsp; <i>Trailing Null | Trailing Zero</i>:</b>&nbsp; A string of only nulls ("0")</br><b>&nbsp; &nbsp; &nbsp; &nbsp; -&nbsp; <i>Trailing Value</i>:</b>&nbsp; A string of only positive valued digits</br><b>&nbsp; &nbsp; &nbsp; &nbsp; -&nbsp; <i>Trailing Sign</i>:</b>&nbsp; A string of only negative signed digits</div></div></br></br>
+   <h3 id='close' onclick='document.getElementById("rulecont").innerHTML="";document.getElementById("words2").style.display="none";document.getElementById("words1").style.display="block";'  title='I hide rules when clicked'><sup>[close]</sup></h3></br></span>
+  </div>
+<div id='creatornotes' style='text-align:center;align:center;'><hr id='pagehr' style='width:31%;opacity:0.33;'><sup><a href='https://github.com/DigiMancer3D/omni_shapes' rel='noopener noreferrer' target='_blank' style='color:grey;text-decoration:none;' title='click to visit this Git Repo'><b>Made by 3Douglas <q><i>3D</i></q> Pihl</b></sup></br></br><sub><a href='https://twitter.com/@Z0M8I3D' rel='noopener noreferrer' target='_blank' style='color:green;text-decoration:none;' title='click to visit on xTwitter'><i>@<b>Z0M8I3D</b></i></a></sub></br></br></div>
+</body>
+<script>
+var countme = 0;
+var huh = 0;
+var gen = document.getElementById('counting').innerHTML;
+
+var plane = ["X", "Y", "Z", "D"];  
+var local = document.getElementById('sc').innerHTML;
+var worldlen = document.getElementById('history').innerHTML;
+ 
+ 
+if(document.getElementById('notes').innerHTML.toString().search(/start/gm) < 0){
+var checkednotes = 0;
+var here = '';
+  gen = document.getElementById('counting').innerHTML;
+  local = document.getElementById('sc').innerHTML;
+  worldlen = document.getElementById('history').innerHTML;
+ 
+  here = plane[checkednotes];
+  
+  beginbrosiv(here,gen,local,0);
+  
+  checkednotes = Number(checkednotes) + 1;
+ 
+}
+ 
+function beginbrosiv(where,gen,local,worldlen){ //the number for plane location, the number for placing user choices in, the total worldlength
+
+<!-- no-history & null-history catch -->
+if(document.getElementById('history').innerHTML.search(/\d/g) < 0 || document.getElementById('history').innerHTML <= 1){  
+ 
+  document.getElementById('history').innerHTML = 1;
+
+  document.getElementById('display').innerHTML = "<h3 id='wm' ><b>Welcome to <i>the simple</i> OMNI Shape Finder for finding Polyominoes!</br></br></br>To begin, click on available option below or grow your pairs of planes.</br></br>Rules for movement is always at the bottom of the page.</br></sub></br></b><hr style='width:33vw;border-color:rgba(192,192,192,0.4);'></h3>";
+}
+
+ buildme(where,gen,local,worldlen); <!-- builds arrays -->
+}
+
+function buildme(where,gen,local,worldlen){
+var gfield = document.getElementById('output').innerHTML;
+//var thisname = "." + where + "gen";
+var compound1 = ""+where+""+local+"", compound2 = "", compound3 = "", compound4 = "";
+var where2 = '', where3 = '', where4 = ''; 
+var gen2 = Math.abs(Number(gen) - 1), local2 = Math.abs(Number(local) - 1), wlen2 = Math.abs(Number(worldlen) - 1);
+var banked = '', banked2 = '', step1 = '', step2 = '', step3 = '', stepA = '', stepB = '', stepC = '';
+
+ var rows = ["<div id='"+where+"div"+gen+"'><span class='"+where+"gen' id='"+where+"gen"+gen+"' style='display:none'>"+gen+"</span>Plane "+where+":&nbsp;<span id='"+where+""+gen+"' title='Plane "+where+" Starting Location' >1</span>" + " [" + "<span id='"+where+""+local+"' title='Player Choices'></span>" + " <span id='next"+where+""+worldlen+"'><span id='c"+worldlen+"up'><button onclick='cmove(&#039;"+where+"&#039;,"+gen+","+local+","+worldlen+",1)' title='Increase Selector Value' >+</button></span><span title='Click to Select' onclick='document.getElementById(&#034;"+where+""+local+"&#034;).innerHTML+=document.getElementById(&#039;c"+where+""+worldlen+"&#039;).innerHTML+&#039;,&#039;;document.getElementById(&#034;n"+where+""+gen+"&#034;).innerHTML=Number(document.getElementById(&#034;n"+where+""+worldlen+"&#034;).innerHTML)+Number(document.getElementById(&#039;c"+where+""+worldlen+"&#039;).innerHTML);document.getElementById(&#039;c"+where+""+worldlen+"&#039;).innerHTML=&#039;0&#039;;drawgraph(&#039;"+where+"&#039;,"+gen+","+local+","+worldlen+");carryon(&#039;"+where+"&#039;,"+worldlen+","+gen+");'><span id='c"+where+""+worldlen+"'>0</span></span><span id='c"+worldlen+"down' title='Decrease Selector Value' ><button onclick='cmove(&#039;"+where+"&#039;,"+gen+","+local+","+worldlen+",2)' >-</button></span></span> " + "] " + "<span id='n"+where+""+gen+"' title='Plane "+where+" Landing Location' >1</span></div>!"];
+
+document.getElementById('output').innerHTML += rows.toString().replace(/\!/gm, "</br></br>");
+ var  thosenotes = document.getElementById('rc').innerHTML;
+ var nothere = plane[thosenotes];
+ var title = 'counting';
+ var ht = 'history';
+ var endpoint = document.getElementById('n'+where+''+gen).innerHTML;
+  
+  document.getElementById('duff').innerHTML = "<button id='buildmore' onclick='buildme(&#034;"+nothere+"&#034;,"+Number(Number(gen)+1)+","+Number(Number(local)+1)+","+Number(Number(worldlen)+1)+")' title='Click to Add another Line' >&nbsp;Add&nbsp;Plane&nbsp;</button>";
+  
+  document.getElementById('rc').innerHTML = Number(thosenotes) + 1;
+  
+ 
+  if(document.getElementById('rc').innerHTML >= Number(plane.length)){
+    var tempcc = document.getElementById('counting').innerHTML;
+	document.getElementById('counting').innerHTML = Number(tempcc) + 1;
+	document.getElementById('rc').innerHTML = 0;
+	gen = document.getElementById('counting').innerHTML;
+  }
+  
+  document.getElementById('history').innerHTML = Number(worldlen) + 1;
+  worldlen = document.getElementById('history').innerHTML;
+  
+  
+  // add lane builder if a pair plane is added and there's is history in the other pair, the null-actions should be auto added to keep both about same or one less than each other, so each action should effect the pair plane 
+
+  
+  
+  if(where === "Y" || where === "Z" || where === "D"){ //these are the pairs of ones that should already be out
+
+
+   if(where === "D"){ //double check for exactly which one 
+    where2 = "Z";
+	compound2 = ""+where2+""+local2+""; //the [dual] pair
+	
+    where3 = "Y";
+	compound3 = ""+where3+""+Number(Number(local2) - 1)+""; //the triple pair
+	
+    where4 = "X";
+	compound4 = ""+where4+""+Number(Number(local2) - 2)+""; //the quad pair
+	
+	stepA = "X";
+	stepB = "Y";
+	stepC = "Z";
+	
+   }
+   else if(where === "Z"){ //double check for exactly which one 
+    where2 = "Y";
+	compound2 = ""+where2+""+local2+""; //the [dual] pair
+	
+    where3 = "X";
+	compound3 = ""+where3+""+Number(Number(local2) - 1)+""; //the triple pair
+	
+	stepA = "X";
+	stepB = "Y";
+	stepC = "Z";
+   }
+   else{  //where === Y
+    where2 = "X";
+	compound2 = ""+where2+""+local2+""; //the [dual] pair
+	
+	stepA = "X";
+	stepB = "Y";
+	
+   }
+   
+  var noti = Math.abs(Number(document.getElementById(compound2).innerHTML.toString().split(/\,/g).length) - 1); 
+   
+   
+   if(document.getElementById(compound2).innerHTML.search(/\d/gm) >= 0 && noti >= 1){   //only if there's history in the pair at time of build
+    for(g = 0; g<noti ;g++){
+	
+	
+   if(where === "D"){
+     step1 = document.getElementById(compound4).innerHTML.toString().split(/\,/g)[g]; //is X
+	 step2 = document.getElementById(compound3).innerHTML.toString().split(/\,/g)[g]; //is Y
+	 step3 = document.getElementById(compound2).innerHTML.toString().split(/\,/g)[g]; //is Z
+   }
+   if(where === "Z"){
+   step1 = document.getElementById(compound3).innerHTML.toString().split(/\,/g)[g]; //is X
+   step2 = document.getElementById(compound2).innerHTML.toString().split(/\,/g)[g]; //is Y 
+	
+   }
+   if(where === "Y"){
+   step1 = document.getElementById(compound2).innerHTML.toString().split(/\,/g)[g]; //is X
+	
+   }
+	
+	
+   if(step1 === '' ||isNaN(step1) === true){ //not present
+    step1 = Number(-2);
+    stepA = Number(-2);
+   }
+   if(step2 === '' ||isNaN(step2) === true){ //not present
+    step2 = Number(-2);
+    stepB = Number(-2);
+   }
+   if(step3 === '' ||isNaN(step3) === true){ //not present
+    step3 = Number(-2);
+    stepC = Number(-2);
+   }
+   
+   <!-- below are steps to catch an array up to speed -->
+
+//bank may need to be changed based on compond#   
+	 if(document.getElementById(compound2).innerHTML.toString().split(/\,/g)[g].toString().search(/\d/gm) >= 0 && document.getElementById(compound2).innerHTML.toString().split(/\,/g)[g].toString().search(/[^0]/) >= 0){ //no null seen
+		
+		 if(where === "X" || where === "Y"){
+		  document.getElementById('n'+where+''+gen).innerHTML = Number(Number(endpoint) + 0);
+			endpoint = document.getElementById('n'+where+''+gen).innerHTML;
+		  
+	      document.getElementById(compound1).innerHTML += ""+0+",";
+	      banked = document.getElementById(compound2).innerHTML.toString().split(/\,/g)[g]; //saves JIC
+		 }
+		 
+	 }
+     else if(document.getElementById(compound2).innerHTML.toString().split(/\,/g)[g].toString().search(/\d/gm) >= 0 && Number(document.getElementById(compound2).innerHTML.toString().split(/\,/g)[g]) === Number(0)){ //null seen
+	
+	  if(banked.toString().search(/\d/g) >= 0){ //check bank 
+	  
+		 if(where === "X" || where === "Y"){
+		  document.getElementById('n'+where+''+gen).innerHTML = Number(Number(endpoint) + Number(banked)); 
+			endpoint = document.getElementById('n'+where+''+gen).innerHTML;
+		  document.getElementById(compound1).innerHTML += ""+banked+","; //use banked 
+	       banked2 = banked;
+	       banked = ''; //resets banked JIC 
+		
+		 }
+		 
+      }
+	  else{ //nothing in bank 
+	   var g2 = Number(Number(g) + 1); //look ahead 
+	
+	   if(document.getElementById(compound2).innerHTML.toString().split(/\,/g)[g2].toString().search(/\d/g) >= 0 && document.getElementById(compound2).innerHTML.toString().split(/\,/g)[g2].toString().search(/[^0]/g) >= 0){ //if not null is ahead
+	    
+		 if(where === "X" || where === "Y"){
+		  document.getElementById('n'+where+''+gen).innerHTML = Number(Number(endpoint) + Number(document.getElementById(compound2).innerHTML.toString().split(/\,/g)[g2]));
+			endpoint = document.getElementById('n'+where+''+gen).innerHTML;
+		   document.getElementById(compound1).innerHTML += ""+document.getElementById(compound2).innerHTML.toString().split(/\,/g)[g2]+",";
+	    
+		 }
+		 
+       }
+	   else{
+	    if(banked2.toString().search(/\d/g) >= 0){ //check bank2
+	     
+		 if(where === "X" || where === "Y"){
+		  document.getElementById('n'+where+''+gen).innerHTML = Number(Number(endpoint) + Number(banked2));
+			endpoint = document.getElementById('n'+where+''+gen).innerHTML;
+	     document.getElementById(compound1).innerHTML += ""+banked2+","; //use banked2
+	     banked2 = ''; //resets banked JIC 
+		 }
+		 
+		}
+		else{
+   	      
+		 if(where === "X" || where === "Y"){
+		  document.getElementById('n'+where+''+gen).innerHTML = Number(Number(endpoint) + Number(1));
+			endpoint = document.getElementById('n'+where+''+gen).innerHTML;
+	     document.getElementById(compound1).innerHTML += "1,"; 
+		 }
+		 
+	    }
+	   }
+	
+	  } //end of nothing in bank
+	
+	
+	 } //end of null seen 
+	 
+		 var banking1 = '', banking2 = ''; 
+	                                  	 
+		 if(banked.toString().search(/\d/g) >= 0 && banked.toString().search(/[^0]/gm) >= 0){ //is a digit & not 0
+		   banking1 = banked;
+		   banked = '';
+		 
+		 }
+		 
+		 if(banked2.toString().search(/\d/g) >= 0 && banked2.toString().search(/[^0]/gm) >= 0){ //is a digit & not 0
+		   banking2 = banked2;
+		   banked2 = '';
+		 
+		 }
+		 
+		 
+		 if(where === "Z"){ 
+		 
+		  if(step1.toString().search(/\-/gm) >= 0 && step2.toString().search(/\-/gm) < 0 && step2.toString().search("0") >= 0){
+		   
+		   if(banking1.toString().search(/\d/g) >= 0 && Number(banking1) < Number(0)){
+		    document.getElementById('n'+where+''+Number(Number(gen) + 1)).innerHTML = Number(Number(endpoint) + Number(banking1));
+			endpoint = document.getElementById('n'+where+''+Number(Number(gen) + 1)).innerHTML;
+		    document.getElementById(compound1).innerHTML += ""+Number(banking1)+",";
+			banking1 = banking2;
+			banking2 = '';
+		   }
+		   else{
+		   if(Number(Number(gen) + 1) === Number(Number(document.getElementById('history').innerHTML)-1)){
+		    document.getElementById('n'+where+''+Number(Number(gen) + 1)).innerHTML = Number(Number(endpoint) + Number(-1));
+			endpoint = document.getElementById('n'+where+''+Number(Number(gen) + 1)).innerHTML;
+		    document.getElementById(compound1).innerHTML += ""+Number(-1)+",";
+		   } 
+		   else{
+		    document.getElementById('n'+where+''+Number(Number(document.getElementById('history').innerHTML)-1)).innerHTML = Number(Number(endpoint) + Number(-1));
+			endpoint = document.getElementById('n'+where+''+Number(Number(gen) + 1)).innerHTML;
+		    document.getElementById(compound1).innerHTML += ""+Number(-1)+",";
+		   }
+		   }
+		   
+		   
+		  }
+		  if(step1.toString().search(/\-/gm) >= 0 && step2.toString().search(/\-/gm) < 0 && step2.toString().search("0") < 0){
+		  
+		   document.getElementById('n'+where+''+Number(Number(gen) + 1)).innerHTML = Number(Number(endpoint) + Number(0));
+			endpoint = document.getElementById('n'+where+''+Number(Number(gen) + 1)).innerHTML;
+		   document.getElementById(compound1).innerHTML += ""+Number(0)+",";
+		  
+		  }
+		  if(step1.toString().search(/\-/gm) < 0 && step2.toString().search(/\-/gm) >= 0 && step2.toString().search("0") >= 0){
+		   
+		   if(banking1.toString().search(/\d/g) >= 0 && Number(banking1) > Number(0)){
+		    document.getElementById('n'+where+''+Number(Number(gen) + 1)).innerHTML = Number(Number(endpoint) + Number(banking1));
+			endpoint = document.getElementById('n'+where+''+Number(Number(gen) + 1)).innerHTML;
+		    document.getElementById(compound1).innerHTML += ""+Number(banking1)+",";
+			banking1 = banking2;
+			banking2 = '';
+		   }
+		   else{
+		   if(Number(Number(gen) + 1) === Number(Number(document.getElementById('history').innerHTML)-1)){
+		    document.getElementById('n'+where+''+Number(Number(gen) + 1)).innerHTML = Number(Number(endpoint) + Number(1));
+			endpoint = document.getElementById('n'+where+''+Number(Number(gen) + 1)).innerHTML;
+		    document.getElementById(compound1).innerHTML += ""+Number(1)+",";
+		   } 
+		   else{
+		    document.getElementById('n'+where+''+Number(Number(document.getElementById('history').innerHTML)-1)).innerHTML = Number(Number(endpoint) + Number(1));
+			endpoint = document.getElementById('n'+where+''+Number(Number(gen) + 1)).innerHTML;
+		    document.getElementById(compound1).innerHTML += ""+Number(1)+",";
+		   }
+		   }
+		   
+		  }
+		  if(step1.toString().search(/\-/gm) < 0 && step2.toString().search(/\-/gm) >= 0 && step2.toString().search("0") < 0){
+		  
+		   document.getElementById('n'+where+''+Number(Number(gen) + 1)).innerHTML = Number(Number(endpoint) + Number(0));
+			endpoint = document.getElementById('n'+where+''+Number(Number(gen) + 1)).innerHTML;
+		   document.getElementById(compound1).innerHTML += ""+Number(0)+",";
+		   
+		  }
+		  if(step1.toString().search(/\-/gm) < 0 && step2.toString().search(/\-/gm) < 0 && step2.toString().search("0") >= 0){
+		  
+		   if(banking1.toString().search(/\d/g) >= 0 && Number(banking1) > Number(0)){
+		    document.getElementById('n'+where+''+Number(Number(gen) + 1)).innerHTML = Number(Number(endpoint) + Number(banking1));
+			endpoint = document.getElementById('n'+where+''+Number(Number(gen) + 1)).innerHTML;
+		    document.getElementById(compound1).innerHTML += ""+Number(banking1)+",";
+			banking1 = banking2;
+			banking2 = '';
+		   }
+		   else{
+		    if(Number(Number(gen) + 1) === Number(Number(document.getElementById('history').innerHTML)-1)){
+		     document.getElementById('n'+where+''+Number(Number(gen) + 1)).innerHTML = Number(Number(endpoint) + Number(1));
+			endpoint = document.getElementById('n'+where+''+Number(Number(gen) + 1)).innerHTML;
+		     document.getElementById(compound1).innerHTML += ""+Number(1)+",";
+		    }
+		    else{
+		     document.getElementById('n'+where+''+Number(Number(document.getElementById('history').innerHTML)-1)).innerHTML = Number(Number(endpoint) + Number(1));
+			endpoint = document.getElementById('n'+where+''+Number(Number(gen) + 1)).innerHTML;
+		     document.getElementById(compound1).innerHTML += ""+Number(1)+",";
+		    }
+		   }
+		   
+		  }
+		  if(step1.toString().search(/\-/gm) < 0 && step2.toString().search(/\-/gm) < 0 && step2.toString().search("0") < 0){
+		   if(Number(Number(gen) + 1) === Number(Number(document.getElementById('history').innerHTML)-1)){
+ 		    document.getElementById('n'+where+''+Number(Number(gen) + 1)).innerHTML = Number(Number(endpoint) + Number(0));
+			endpoint = document.getElementById('n'+where+''+Number(Number(gen) + 1)).innerHTML;
+		    document.getElementById(compound1).innerHTML += ""+Number(0)+",";
+		   } 
+		   else{
+		    document.getElementById('n'+where+''+Number(Number(document.getElementById('history').innerHTML)-1)).innerHTML = Number(Number(endpoint) + Number(0));
+			endpoint = document.getElementById('n'+where+''+Number(Number(gen) + 1)).innerHTML;
+		    document.getElementById(compound1).innerHTML += ""+Number(0)+",";
+		   }
+		  }
+		  if(step1.toString().search(/\-/gm) >= 0 && step2.toString().search(/\-/gm) >= 0 && step2.toString().search("0") >= 0){
+		  
+		   if(banking1.toString().search(/\d/g) >= 0 && Number(banking1) < Number(0)){
+		    document.getElementById('n'+where+''+Number(Number(gen) + 1)).innerHTML = Number(Number(endpoint) + Number(banking1));
+			endpoint = document.getElementById('n'+where+''+Number(Number(gen) + 1)).innerHTML;
+		    document.getElementById(compound1).innerHTML += ""+Number(banking1)+",";
+			banking1 = banking2;
+			banking2 = '';
+		   }
+		   else{
+		   if(Number(Number(gen) + 1) === Number(Number(document.getElementById('history').innerHTML)-1)){
+		    document.getElementById('n'+where+''+Number(Number(gen) + 1)).innerHTML = Number(Number(endpoint) + Number(-1));
+			endpoint = document.getElementById('n'+where+''+Number(Number(gen) + 1)).innerHTML;
+		    document.getElementById(compound1).innerHTML += ""+Number(-1)+",";
+		   } 
+		   else{
+		    document.getElementById('n'+where+''+Number(Number(document.getElementById('history').innerHTML)-1)).innerHTML = Number(Number(endpoint) + Number(-1));
+			endpoint = document.getElementById('n'+where+''+Number(Number(gen) + 1)).innerHTML;
+		    document.getElementById(compound1).innerHTML += ""+Number(-1)+",";
+		   }
+		   }
+		   
+		  }
+		  if(step1.toString().search(/\-/gm) >= 0 && step2.toString().search(/\-/gm) >= 0 && step2.toString().search("0") < 0){
+		  
+		   document.getElementById('n'+where+''+Number(Number(gen) + 1)).innerHTML = Number(Number(endpoint) + Number(0));
+			endpoint = document.getElementById('n'+where+''+Number(Number(gen) + 1)).innerHTML;
+		   document.getElementById(compound1).innerHTML += ""+Number(0)+",";
+		   
+		  }
+		  
+		 }
+		 
+	 
+		 if(where === "D"){ //we are getting duplicate string output (ish) bug report upgrade fix here i'm here I'm here Im here im here
+		   
+          if(step1.toString().search(/\-/gm) >= 0 && step2.toString().search(/\-/gm) >= 0 && step3.toString().search(/\-/gm) < 0 && step3.toString().search("0") >= 0){//-X -Y Z0
+		   
+		   if(banking1 === '' && isNaN(banking1) === true  && Number(step1) > Number(1)){
+ 		    document.getElementById('n'+where+''+Number(gen)).innerHTML = Number(Number(endpoint) + Number(step1)); 
+			endpoint = document.getElementById('n'+where+''+gen).innerHTML;
+		    document.getElementById(compound1).innerHTML += ""+Number(step1)+",";
+           }		   
+		   else if(banking1.toString().search(/\d/g) >= 0 && Number(banking1) > Number(0)){
+		    document.getElementById('n'+where+''+Number(gen)).innerHTML = Number(Number(endpoint) + Number(banking1));
+			endpoint = document.getElementById('n'+where+''+gen).innerHTML;
+		    document.getElementById(compound1).innerHTML += ""+Number(banking1)+",";
+			banking1 = banking2;
+			banking2 = '';
+		  }
+		   else{
+ 		    document.getElementById('n'+where+''+Number(gen)).innerHTML = Number(Number(endpoint) + Number(1)); 
+			endpoint = document.getElementById('n'+where+''+gen).innerHTML;
+		    document.getElementById(compound1).innerHTML += ""+Number(1)+",";
+		   }
+		  
+		  
+		 }//END - - 0
+		 
+		 
+		 else if(step1.toString().search(/\-/gm) < 0 && step2.toString().search(/\-/gm) < 0 && step3.toString().search("0") >= 0){//+X -Y Z0 
+		  
+		   if(banking1 === '' && isNaN(banking1) === true  && Number(step1) < Number(-1)){
+ 		    document.getElementById('n'+where+''+Number(gen)).innerHTML = Number(Number(endpoint) + Number(step1)); 
+			endpoint = document.getElementById('n'+where+''+gen).innerHTML;
+		    document.getElementById(compound1).innerHTML += ""+Number(step1)+",";
+           }		   
+		   else if(banking1.toString().search(/\d/g) >= 0 && Number(banking1) < Number(0)){
+		    document.getElementById('n'+where+''+Number(gen)).innerHTML = Number(Number(endpoint) + Number(banking1));
+			endpoint = document.getElementById('n'+where+''+gen).innerHTML;
+		    document.getElementById(compound1).innerHTML += ""+Number(banking1)+",";
+			banking1 = banking2;
+			banking2 = '';
+		   }
+		   else{
+		    document.getElementById('n'+where+''+Number(gen)).innerHTML = Number(Number(endpoint) + Number(-1));
+			endpoint = document.getElementById('n'+where+''+gen).innerHTML;
+		    document.getElementById(compound1).innerHTML += ""+Number(-1)+",";
+		   }
+		   
+		  
+		 }//END + - 0
+		
+		 
+		 else if(step1.toString().search(/\-/gm) < 0 && step2.toString().search(/\-/gm) < 0 && step3.toString().search(/\-/gm) < 0 && step3.toString().search("0") >= 0){ //+X +Y 0
+		  
+		   if(banking1 === '' && isNaN(banking1) === true  && Number(step1) > Number(1)){
+ 		    document.getElementById('n'+where+''+Number(gen)).innerHTML = Number(Number(endpoint) + Number(step1)); 
+			endpoint = document.getElementById('n'+where+''+gen).innerHTML;
+		    document.getElementById(compound1).innerHTML += ""+Number(step1)+",";
+           }		   
+		   else if(banking1 === '' && isNaN(banking1) === true  && Number(step1) > Number(1)){
+ 		    document.getElementById('n'+where+''+Number(gen)).innerHTML = Number(Number(endpoint) + Number(step1)); 
+			endpoint = document.getElementById('n'+where+''+gen).innerHTML;
+		    document.getElementById(compound1).innerHTML += ""+Number(step1)+",";
+           }		   
+		   else if(banking1.toString().search(/\d/g) >= 0 && Number(banking1) > Number(0)){
+		    document.getElementById('n'+where+''+Number(Number(gen) + 1)).innerHTML = Number(Number(endpoint) + Number(banking1));
+			endpoint = document.getElementById('n'+where+''+gen).innerHTML;
+		    document.getElementById(compound1).innerHTML += ""+Number(banking1)+",";
+			banking1 = banking2;
+			banking2 = '';
+		   }
+		   else{
+		    document.getElementById('n'+where+''+Number(gen)).innerHTML = Number(Number(endpoint) + Number(1));
+			endpoint = document.getElementById('n'+where+''+gen).innerHTML;
+		    document.getElementById(compound1).innerHTML += ""+Number(1)+",";
+		   }
+		   
+		 }//END + + 0
+		 else {
+		   document.getElementById(compound1).innerHTML += ""+Number(0)+",";
+		   
+		 }
+		  
+	    }	 
+	
+	
+    } //end for loop with noti
+   
+  } //end of back history in pair 
+  
+	
+    } //end for loop with noti3
+	
+ //the rules for catching up an array is not correct or up to date //upagrade //fix up-to-speed rules for user simulation determination
+	//Im here I'm here im here i'm here 
+   
+  } //end of history in pair 
+  
+  
+
+
+function cmove(where,gen,droppoint,wlen,dir){ //character moves
+var tempbuilder = document.getElementById(where+''+droppoint).innerHTML;
+var tempbuilder2 = '', tempbuilder3 = '', tempbuilder4 = '';
+var ofthis = document.getElementById('output');
+
+var where2 = '', wlen2 = '';                  //one off 
+var where3 = '', wlen3 = '';                  //two off
+var where4 = '', wlen4 = '';                  //three off
+
+<!-- next is plane pairing checks, if there is no equal pair: the check should be -2;  -->
+                              <!-- if there is a check with empty data: the check should be -1 or ""  -->
+
+ var planesname = "n"+where+""+gen+"";
+ var planesum = document.getElementById(planesname).innerHTML;
+ var planesname2 = '', planesum2 = '';
+ var planesname3 = '', planesum3 = '';
+ var planesname4 = '', planesum4 = '';
+ var selectorvalue = '', selectorvalue2 = '', selectorvalue3 = '', selectorvalue4 = '';
+
+
+if(ofthis.querySelectorAll('div').length >= 2){
+
+ if(where === "X"){
+  if(document.getElementById('output').innerHTML.toString().search("Y"+Number(droppoint+1)) >= 0){
+   tempbuilder2 = document.getElementById("Y"+Number(droppoint+1)).innerHTML;
+   if(tempbuilder2.toString().search(/\,/g) < 0){
+     tempbuilder2 = Number(-2); //this will tell us later that there is one but nothing in it
+   }
+   
+     selectorvalue2 = document.getElementById('cY'+Number(wlen+1)).innerHTML;
+var limitB = Math.abs(1 - Number(tempbuilder2.toString().split(/\,/gm).length));
+var teamdiff = Math.abs(Number(limitA) - Number(limitB));
+var found2 = tempbuilder2.toString().search(/\d/gm); 
+ where2 = 'Y';
+ wlen2 = Math.abs(wlen-1);
+ 
+    planesname2 = "n"+where2+""+Math.abs(gen+1)+"";
+    planesum2 = document.getElementById(planesname2).innerHTML;
+  }
+  
+ } //end of where === X
+
+ else if(where === "Y"){
+  if(document.getElementById('output').innerHTML.toString().search("X"+Math.abs(droppoint-1)) >= 0){
+   tempbuilder2 = document.getElementById("X"+Math.abs(droppoint-1)).innerHTML;
+   if(tempbuilder2.toString().search(/\,/g) < 0){
+     tempbuilder2 = Number(-2); //this will tell us later that there is one but nothing in it
+   }
+   
+     selectorvalue2 = document.getElementById('cX'+Math.abs(wlen-1)).innerHTML;
+var limitB = Math.abs(1 - Number(tempbuilder2.toString().split(/\,/gm).length));
+var teamdiff = Math.abs(Number(limitA) - Number(limitB));
+var found2 = tempbuilder2.toString().search(/\d/gm); 
+ where2 = 'X';
+ wlen2 = Math.abs(wlen-1);
+ 
+    planesname2 = "n"+where2+""+Math.abs(gen-1)+"";
+    planesum2 = document.getElementById(planesname2).innerHTML;
+  }
+
+ } //end of where === Y
+
+}//end search for more 
+
+
+if(ofthis.querySelectorAll('div').length >= 3){
+
+
+ if(where === "X"){
+  
+  if(document.getElementById('output').innerHTML.toString().search("Z"+Number(droppoint+2)) >= 0){
+   tempbuilder3 = document.getElementById("Z"+Number(droppoint+2)).innerHTML;
+   if(tempbuilder3.toString().search(/\,/g) < 0){
+     tempbuilder3 = Number(-2); //this will tell us later that there is one but nothing in it
+   }
+   
+     selectorvalue3 = document.getElementById('cZ'+Number(wlen+2)).innerHTML;
+var limitC = Math.abs(1 - Number(tempbuilder3.toString().split(/\,/gm).length));
+var teamdiff2 = Math.abs(Number(limitA) - Number(limitC));
+var found3 = tempbuilder3.toString().search(/\d/gm); 
+ where3 = 'Z';
+ wlen3 = Math.abs(wlen2-1);
+ 
+    planesname3 = "n"+where3+""+Math.abs(gen-2)+"";
+    planesum3 = document.getElementById(planesname3).innerHTML;
+  }
+  
+ } //end of where === X
+
+ else if(where === "Y"){
+  
+  if(document.getElementById('output').innerHTML.toString().search("Z"+Number(droppoint-1)) >= 0){
+   tempbuilder3 = document.getElementById("Z"+Number(droppoint-1)).innerHTML;
+   if(tempbuilder3.toString().search(/\,/g) < 0){
+     tempbuilder3 = Number(-2); //this will tell us later that there is one but nothing in it
+   }
+   
+     selectorvalue3 = document.getElementById('cZ'+Number(wlen-1)).innerHTML;
+var limitC = Math.abs(1 - Number(tempbuilder3.toString().split(/\,/gm).length));
+var teamdiff2 = Math.abs(Number(limitA) - Number(limitC));
+var found3 = tempbuilder3.toString().search(/\d/gm); 
+ where3 = 'Z';
+ wlen3 = Math.abs(wlen2+1);
+ 
+    planesname3 = "n"+where3+""+Math.abs(gen-1)+"";
+    planesum3 = document.getElementById(planesname3).innerHTML;
+  }
+
+ } //end of where === Y
+
+ else if(where === "Z"){
+  if(document.getElementById('output').innerHTML.toString().search("Y"+Number(droppoint+1)) >= 0){
+   tempbuilder3 = document.getElementById("Y"+Number(droppoint+1)).innerHTML;
+   if(tempbuilder3.toString().search(/\,/g) < 0){
+     tempbuilder3 = Number(-2); //this will tell us later that there is one but nothing in it
+   }
+   
+     selectorvalue3 = document.getElementById('cY'+Number(wlen+1)).innerHTML;
+var limitC = Math.abs(1 - Number(tempbuilder3.toString().split(/\,/gm).length));
+var teamdiff2 = Math.abs(Number(limitA) - Number(limitC));
+var found3 = tempbuilder3.toString().search(/\d/gm); 
+ where3 = 'Y';
+ wlen3 = Math.abs(wlen2-1);
+ 
+    planesname3 = "n"+where3+""+Math.abs(gen+1)+"";
+    planesum3 = document.getElementById(planesname3).innerHTML;
+  }
+ 
+ } //end of where === Z
+
+}//end search for more again 
+
+
+if(ofthis.querySelectorAll('div').length >= 4){
+  
+ if(where === "X"){ 
+  if(document.getElementById('output').innerHTML.toString().search("D"+Number(droppoint+3)) >= 0){
+   tempbuilder4 = document.getElementById("D"+Number(droppoint+3)).innerHTML;
+   if(tempbuilder4.toString().search(/\,/g) < 0){
+     tempbuilder4 = Number(-3); //this will tell us later that there is one but nothing in it
+   }
+   
+     selectorvalue4 = document.getElementById('cD'+Number(wlen+3)).innerHTML;
+var limitD = Math.abs(1 - Number(tempbuilder4.toString().split(/\,/gm).length));
+var teamdiff2 = Math.abs(Number(limitA) - Number(limitD));
+var found4 = tempbuilder4.toString().search(/\d/gm); 
+ where4 = 'D';
+ wlen4 = Math.abs(wlen3-1);
+ 
+    planesname4 = "n"+where4+""+Math.abs(gen+3)+"";
+    planesum4 = document.getElementById(planesname4).innerHTML;
+  }
+
+  else if(document.getElementById('output').innerHTML.toString().search("Z"+Number(droppoint+2)) >= 0){
+   tempbuilder4 = document.getElementById("Z"+Number(droppoint+2)).innerHTML;
+   if(tempbuilder4.toString().search(/\,/g) < 0){
+     tempbuilder4 = Number(-3); //this will tell us later that there is one but nothing in it
+   }
+   
+     selectorvalue4 = document.getElementById('cZ'+Number(wlen+2)).innerHTML;
+var limitD = Math.abs(1 - Number(tempbuilder4.toString().split(/\,/gm).length));
+var teamdiff2 = Math.abs(Number(limitA) - Number(limitD));
+var found4 = tempbuilder4.toString().search(/\d/gm); 
+ where4 = 'Z';
+ wlen4 = Math.abs(wlen3-1);
+
+    planesname4 = "n"+where4+""+Math.abs(gen+2)+"";
+    planesum4 = document.getElementById(planesname4).innerHTML;
+  }
+  
+  else if(document.getElementById('output').innerHTML.toString().search("Y"+Number(droppoint+1)) >= 0){
+   tempbuilder4 = document.getElementById("Y"+Number(droppoint+1)).innerHTML;
+   if(tempbuilder4.toString().search(/\,/g) < 0){
+     tempbuilder4 = Number(-3); //this will tell us later that there is one but nothing in it
+   }
+   
+     selectorvalue4 = document.getElementById('cY'+Number(wlen+1)).innerHTML;
+var limitD = Math.abs(1 - Number(tempbuilder4.toString().split(/\,/gm).length));
+var teamdiff2 = Math.abs(Number(limitA) - Number(limitD));
+var found4 = tempbuilder4.toString().search(/\d/gm); 
+ where4 = 'Y';
+ wlen4 = Math.abs(wlen3-1);
+ 
+    planesname4 = "n"+where4+""+Math.abs(gen+1)+"";
+    planesum4 = document.getElementById(planesname4).innerHTML;
+  }
+
+
+  
+ } //end of where === X
+
+ else if(where === "Y"){
+  
+  if(document.getElementById('output').innerHTML.toString().search("D"+Number(droppoint+2)) >= 0){
+   tempbuilder4 = document.getElementById("D"+Number(droppoint+2)).innerHTML;
+   if(tempbuilder4.toString().search(/\,/g) < 0){
+     tempbuilder4 = Number(-3); //this will tell us later that there is one but nothing in it
+   }
+   
+     selectorvalue4 = document.getElementById('cD'+Number(wlen+2)).innerHTML;
+var limitD = Math.abs(1 - Number(tempbuilder4.toString().split(/\,/gm).length));
+var teamdiff2 = Math.abs(Number(limitA) - Number(limitD));
+var found4 = tempbuilder4.toString().search(/\d/gm); 
+ where4 = 'D';
+ wlen4 = Math.abs(wlen3-1);
+ 
+    planesname4 = "n"+where4+""+Math.abs(gen+2)+"";
+    planesum4 = document.getElementById(planesname4).innerHTML;
+  }
+
+ } //end of where === Y
+
+ else if(where === "Z"){
+  
+  if(document.getElementById('output').innerHTML.toString().search("X"+Number(droppoint-2)) >= 0){
+   tempbuilder4 = document.getElementById("X"+Number(droppoint-2)).innerHTML;
+   if(tempbuilder4.toString().search(/\,/g) < 0){
+     tempbuilder4 = Number(-3); //this will tell us later that there is one but nothing in it
+   }
+   
+     selectorvalue4 = document.getElementById('cX'+Number(wlen-2)).innerHTML;
+var limitD = Math.abs(1 - Number(tempbuilder4.toString().split(/\,/gm).length));
+var teamdiff2 = Math.abs(Number(limitA) - Number(limitD));
+var found4 = tempbuilder4.toString().search(/\d/gm); 
+ where4 = 'X';
+ wlen4 = Math.abs(wlen3+1);
+ 
+    planesname4 = "n"+where4+""+Math.abs(gen-2)+"";
+    planesum4 = document.getElementById(planesname4).innerHTML;
+  }
+ 
+ } //end of where === Z
+
+ else if(where === "D"){
+  
+  if(document.getElementById('output').innerHTML.toString().search("X"+Number(droppoint-3)) >= 0){
+   tempbuilder4 = document.getElementById("X"+Number(droppoint-3)).innerHTML;
+   if(tempbuilder4.toString().search(/\,/g) < 0){
+     tempbuilder4 = Number(-3); //this will tell us later that there is one but nothing in it
+   }
+   
+     selectorvalue4 = document.getElementById('cX'+Number(wlen-3)).innerHTML;
+var limitD = Math.abs(1 - Number(tempbuilder4.toString().split(/\,/gm).length));
+var teamdiff2 = Math.abs(Number(limitA) - Number(limitD));
+var found4 = tempbuilder4.toString().search(/\d/gm); 
+ where4 = 'X';
+ wlen4 = Math.abs(wlen3+1);
+ 
+    planesname4 = "n"+where4+""+Math.abs(gen-3)+"";
+    planesum4 = document.getElementById(planesname4).innerHTML;
+  }
+
+  
+}//end of D 
+
+
+
+
+}//end search for more again ... again
+
+
+else{ //None seen
+   
+var limitB = Number(-2);
+var teamdiff = Number(limitA - 0);
+var found2 = Number(-2); 
+ 
+var limitC = Number(-2);
+var teamdiff2 = Number(limitA - 0);
+var found3 = Number(-2); 
+ 
+var limitD = Number(-2);
+var teamdiff3 = Number(limitA - 0);
+var found4 = Number(-2); 
+ 
+}  //for some reason this is only needed for this ONLY 1 instance: if _X is the only plane!
+
+
+//debugger
+//document.getElementById('notes').innerHTML = "";
+//document.getElementById('notes').innerHTML = "yo! " + tempbuilder2;
+
+
+      selectorvalue = document.getElementById('c'+where+''+wlen).innerHTML;
+ var limitA = Math.abs(1 - Number(tempbuilder.toString().split(/\,/gm).length));
+ var found = tempbuilder.toString().search(/\d/gm); 
+ var sumof = 0, sumofsign = 0, sumofvalue = 0, sumofzero = 0;
+ var teamA = Number(tempbuilder.toString().split(/\,/gm).length) - 2;
+ var teamB = Number(tempbuilder.toString().split(/\,/gm).length) - 2;
+ var teamC = Number(tempbuilder.toString().split(/\,/gm).length) - 2;
+ var qsl = Math.abs(tempbuilder.toString().split(/\,/gm).length - 2);
+ var qs = tempbuilder.toString().split(/\,/gm)[qsl];
+ var psums = Number(-2), psums2 = Number(-2), psums3 = Number(-2), psums4 = Number(-2), psums5 = Number(-2), psums6 = Number(-2);
+
+ 
+ for(var i = Number(limitA-1); i>0;i--){  //runs the entire length of the player choices [backwards, from most recent choice to last recent choice]
+
+
+   if(Number(sumof) === 0 && Number(i) === 0 && Number(found) === Number(-1)){ //no options in main
+     i = Number(limitA)+1;    //way of ending 
+   }
+   
+   else{ //if we are not ending 
+    sumof = Number(sumof) + Number(tempbuilder.split(/\,/gm)[i]);  //adds normally
+	
+	if(tempbuilder.split(/\,/gm)[i].toString().search(/\-/g) >= 0 && Number(teamB) >= 0){   //counts trailing sign
+                         	//only if between null & player next choice 
+  	 if(Number(tempbuilder.split(/\,/gm)[teamB]) < 0 && Math.sign(Number(tempbuilder.split(/\,/gm)[teamB])) < 0){  
+	  sumofsign = Math.abs(0 - Number(tempbuilder.split(/\,/gm)[i])) + Number(sumofsign); //adds only negative
+	  teamB = Math.abs(Number(teamB) - 1);
+	 }
+	 
+	 if(Math.sign(tempbuilder.split(/\,/gm)[i]) >= 0 && qs.toString().search(/0/g) < 0){  //needs to end count 
+	  teamB = Number(-1); //prevents next rounds from adding more
+	 }
+	 else{
+	  teamB = Math.abs(Number(teamB) - 1); //reduce and keep rolling
+	 }
+	}
+	
+	
+    if(Number(tempbuilder.split(/\,/gm)[teamA]).toString().search(/\d/gm) >= 0 && Number(teamA) >= 0){   //counts trailing value
+                         	//only if between null & player next choice 
+  	 if(Number(tempbuilder.split(/\,/gm)[teamA]) > 0 && Math.sign(Number(tempbuilder.split(/\,/gm)[teamA])) === 1){ 
+	   sumofvalue = Number(sumofvalue) + Number(tempbuilder.split(/\,/gm)[teamA]);
+	   teamA = Math.abs(Number(teamA) - 1);
+	 }
+	 
+	  if(Math.sign(tempbuilder.split(/\,/gm)[i]) <= 0 && qs.toString().search(/0/g) < 0){
+	    teamA = Number(-1); //prevents next rounds from adding more 
+	  }
+	  else{
+	   teamA = Math.abs(Number(teamA) - 1); //reduce and keep rolling
+	  }
+	
+	}
+	
+	
+	
+    if(Number(tempbuilder.split(/\,/gm)[teamC]).toString().search(/\d/gm) >= 0 && Number(teamC) >= 0){   //counts trailing zeros
+                         	//only if between null & player next choice 
+  	 if(Number(tempbuilder.split(/\,/gm)[teamC]) === 0){ 
+	   sumofzero = Number(sumofzero) + 1;
+	   teamC = Math.abs(Number(teamC) - 1);
+	 }
+	 
+	  if(tempbuilder.split(/\,/gm)[i].toString().search(/[^0]/) <= 0 && qs.toString().search(/[^0]/) >= 0){
+	    teamC = Number(-1); //prevents next rounds from adding more 
+	  }
+	  else{
+	   teamC = Math.abs(Number(teamC) - 1); //reduce and keep rolling 
+	  }
+	
+	}
+	
+   }
+	
+ }
+
+if(Math.abs(0 - Number(sumof)) <= Math.abs(0 - Number(limitA))){     
+
+ var preview = Number(Number(sumof) - Math.abs(2 + Number(sumof)));
+ var unpreview = Number(sumof);
+ var notsburg = Math.abs(0 - selectorvalue);
+ var newsum = Math.abs(Math.abs(0 - Number(sumof)) + 1);
+ 
+ 
+ if(unpreview >= 3){
+  unpreview = Math.abs(Number(sumof) - 3);
+ }
+ 
+ if(isNaN(qs) === true){
+  qs = '';
+ }
+ 
+ if(preview < 0){
+  preview = 0;
+ }
+ 
+ if(notsburg < 0){
+  notsburg = notsburg.toString().replace(/\-/, '');
+ }
+ 
+ <!-- X|Y planetest -->
+ var planetest = Number(-2);  
+ 
+ if(planesum2.toString().length >= 1){
+  planetest = Math.abs(0 - planesum) - Math.abs(0 - planesum2);
+ }
+ 
+ 
+ if(Math.sign(planetest) === Number(-1)){ //test failed
+  
+  planetest = Math.abs(0 - planesum2) - Math.abs(0 - planesum);
+  
+  if(Math.sign(planetest) === Number(1)){ //double check
+   psums = planetest;
+  }
+ }
+ if(Math.sign(planetest) === Number(1)){//test passed
+ psums = planetest; 
+ }
+ 
+ 
+ <!-- Y|Z planetest -->
+ var planetest2 = Number(-2);
+ 
+ if(planesum3.toString().length >= 1){
+  planetest2 = Math.abs(0 - planesum2) - Math.abs(0 - planesum3);
+ }
+ 
+ 
+ if(Math.sign(planetest2) === Number(-1)){ //test failed
+  
+  planetest2 = Math.abs(0 - planesum3) - Math.abs(0 - planesum2);
+  
+  if(Math.sign(planetest2) === Number(1)){ //double check
+   psums2 = planetest2;
+  }
+ }
+ if(Math.sign(planetest2) === Number(1)){//test passed
+ psums2 = planetest2; 
+ }
+ 
+ 
+ <!-- Z|D planetest -->
+ var planetest3 = Number(-2);
+ 
+ if(planesum4.toString().length >= 1){
+  planetest3 = Math.abs(0 - planesum3) - Math.abs(0 - planesum4);
+ }
+ 
+ 
+ if(Math.sign(planetest3) === Number(-1)){//test failed
+  
+  planetest3 = Math.abs(0 - planesum4) - Math.abs(0 - planesum3);
+  
+  if(Math.sign(planetest3) === Number(1)){ //double check
+   psums3 = planetest3;
+  }
+ }
+ if(Math.sign(planetest3) === Number(1)){//test passed
+ psums3 = planetest3; 
+ }
+ 
+ 
+ 
+ <!-- X|Z planetest -->
+ var planetest4 = Number(-2);  
+ 
+ if(planesum3.toString().length >= 1){
+  planetest4 = Math.abs(0 - planesum) - Math.abs(0 - planesum3);
+ }
+ 
+ 
+ if(Math.sign(planetest4) === Number(-1)){//test failed
+  
+  planetest4 = Math.abs(0 - planesum3) - Math.abs(0 - planesum);
+  
+  if(Math.sign(planetest4) === Number(1)){ //double check
+   psums4 = planetest4;
+  }
+ }
+ if(Math.sign(planetest4) === Number(1)){//test passed
+ psums4 = planetest4; 
+ }
+ 
+ 
+ 
+ <!-- X|D planetest -->
+ var planetest5 = Number(-2);  
+ 
+ if(planesum4.toString().length >= 1){
+  planetest5 = Math.abs(0 - planesum) - Math.abs(0 - planesum4);
+ }
+ 
+ 
+ if(Math.sign(planetest5) === Number(-1)){//test failed
+  
+  planetest5 = Math.abs(0 - planesum4) - Math.abs(0 - planesum);
+  
+  if(Math.sign(planetest5) === Number(1)){ //double check
+   psums5 = planetest5;
+  }
+ }
+ if(Math.sign(planetest5) === Number(1)){//test passed
+ psums5 = planetest5; 
+ }
+ 
+ 
+ <!-- Y|Z planetest -->
+ var planetest6 = Number(-2);
+ 
+ if(planesum4.toString().length >= 1){
+  planetest6 = Math.abs(0 - planesum2) - Math.abs(0 - planesum4);
+ }
+ 
+ 
+ if(Math.sign(planetest6) === Number(-1)){//test failed
+  
+  planetest6 = Math.abs(0 - planesum4) - Math.abs(0 - planesum2);
+  
+  if(Math.sign(planetest6) === Number(1)){ //double check
+   psums6 = planetest6;
+  }
+ }
+ if(Math.sign(planetest6) === Number(1)){//test passed
+ psums6 = planetest6; 
+ }
+ 
+ //additional tests are for stairstep rule!
+ 
+ 
+ 
+ <!-- determinations of allowed moves below this line -->
+  
+  //below are selector rules
+  
+  //still need to be able to abuse the stair step rule! I'm here i'm here Im here im here 
+  
+  //still need to add the multi-paired rules to all
+  
+  //still needs to be able to go up if are not extending past the base in the _Z (stair step abusable rule)
+  if(Number(dir) === 1 && Number(selectorvalue) <= preview && planesum !== 0 || Number(dir) === 1 && Number(selectorvalue) < Number(sumofsign) && Number(sumofsign) >= 1 && planesum !== 0 || Number(dir) === 1 && Number(newsum) <= 0 && Number(selectorvalue) <= preview && planesum !== 0){    //state 1 (dir is 1 && selector value isn't greater than expected) OR state 2 (dir is 1 && selectorvalue is lessthan or equal to sumofsign && sumofsing is 1 or greater in value) OR state 3 (state 1 is true && newsum is 0 or greater)
+  
+ 
+    document.getElementById('c'+where+''+wlen).innerHTML = Number(Number(selectorvalue) + 1);  //go up
+                      //we need to force the line
+  
+  }
+  
+  //multi-array checks  //something isn't working here 
+  else if(Number(dir) === 2 && psums > Number(-2) && Number(Number(planesum) + Number(selectorvalue - 1)) >= 1 || Number(dir) === 2 && tempbuilder2 >= Number(-1) && Number(selectorvalue - 1) >= 0 ||  Number(dir) === 2 && tempbuilder3 >= Number(-1) && Number(selectorvalue2 - 1) >= 0 ){  
+   //state 1 (dir is 2 && there is a pair available && the difference of the 2 endpoints has positive value && the next select-down won't be under 1) OR 
+    
+ 
+  
+   document.getElementById('c'+where+''+wlen).innerHTML = Number(Number(selectorvalue) - 1); //go down
+                      //we need to force the line
+					  
+  }
+  else{
+   document.getElementById('c'+where+''+wlen).innerHTML = Number(selectorvalue);  //do nothing
+  }
+ 
+}
+
+
+
+}
+
+
+
+function carryon(where,wlen,gen){ //stair step abusable rule isn't present here (may need to be a selector rule) I'm here i'm here  im here Im here 
+
+ var whatlen = Number(Number(document.getElementById(where+""+wlen).innerHTML.toString().split(/,/gm).length) - 1);
+ var what = Number(document.getElementById(where+""+wlen).innerHTML.toString().split(/,/gm)[whatlen]);
+ var out1 = '', out2 = '', out3 = '';
+
+ if(where === "X"){
+  var tb1 = "Y"+Number(Number(wlen)+2), tb2 = "Z"+Number(Number(wlen)+3), tb3 = "D"+Number(Number(wlen)+4);
+  var pb1 = "cY"+Number(Number(wlen)+1), pb2 = "cZ"+Number(Number(wlen)+2), pb3 = "cD"+Number(Number(wlen)+3);
+  var ep1 = "nY"+Number(Number(wlen)+1), ep2 = "nZ"+Number(Number(wlen)+2), ep3 = "nD"+Number(Number(wlen)+3);
+  var cv1 = "#Ydiv"+Number(Number(gen)+1), cv2 = "#Zdiv"+Number(Number(gen)+2), cv3 = "#Ddiv"+Number(Number(gen)+3);
+
+   if(document.getElementById('output').querySelectorAll(cv1).length >= 1){
+	 if(Number(Number(document.getElementById("nY"+Number(Number(gen)+1)).innerHTML) +  Number(document.getElementById(pb1).innerHTML)) >= 1){
+	  out1 = Number(document.getElementById(pb1).innerHTML);
+	  document.getElementById(ep1).innerHTML = Number(Number(document.getElementById(ep1).innerHTML) + Number(document.getElementById(pb1).innerHTML));
+	  document.getElementById(pb1).innerHTML = Number(0);
+	 }
+	 else if(Number(Number(document.getElementById("nY"+Number(Number(gen)+1)).innerHTML) +  Number(document.getElementById(pb1).innerHTML)) === 0){
+	  document.getElementById(ep1).innerHTML = Number(Number(document.getElementById(ep1).innerHTML) + Number(1));
+	  out1 = Number(1);
+	 }
+	 else if(Number(Number(document.getElementById("nY"+Number(Number(gen)+1)).innerHTML) +  Number(document.getElementById(pb1).innerHTML)) < 0){
+	  var que = Math.abs(Number(Number(document.getElementById("nY"+Number(Number(gen)+1)).innerHTML) +  Number(document.getElementById(pb1).innerHTML))); //force a positive number 
+	  document.getElementById(ep1).innerHTML = Number(Number(document.getElementById(ep1).innerHTML) + Number(que));
+	  out1 = Number(que);
+	 }
+	 else{
+	  out1 = Number(0);
+	 }
+	 
+   }
+	
+   if(document.getElementById('output').querySelectorAll(cv2).length >= 1){
+   
+	 if(Number(Number(document.getElementById("nZ"+Number(Number(gen)+2)).innerHTML) +  Number(document.getElementById(pb2).innerHTML)) >= 1){
+	  out2 = Number(document.getElementById(pb2).innerHTML);
+	  document.getElementById(ep2).innerHTML = Number(Number(document.getElementById(ep2).innerHTML) + Number(document.getElementById(pb2).innerHTML));
+	  document.getElementById(pb2).innerHTML = Number(0);
+	 }
+	 else if(Number(Number(document.getElementById("nZ"+Number(Number(gen)+2)).innerHTML) +  Number(document.getElementById(pb2).innerHTML)) === 0){
+	  document.getElementById(ep2).innerHTML = Number(Number(document.getElementById(ep2).innerHTML) + Number(1));
+	  out2 = Number(1);
+	 }
+	 else if(Number(Number(document.getElementById("nZ"+Number(Number(gen)+2)).innerHTML) +  Number(document.getElementById(pb2).innerHTML)) < 0){
+	  var que = Math.abs(Number(Number(document.getElementById("nZ"+Number(Number(gen)+2)).innerHTML) +  Number(document.getElementById(pb2).innerHTML))); //force a positive number 
+	  document.getElementById(ep2).innerHTML = Number(Number(document.getElementById(ep2).innerHTML) + Number(que));
+	  out2 = Number(que);
+	 }
+	 else{
+	  out2 = Number(0);
+	 }
+
+   }
+	
+   if(document.getElementById('output').querySelectorAll(cv3).length >= 1){
+   
+	 if(Number(Number(document.getElementById("nD"+Number(Number(gen)+3)).innerHTML) +  Number(document.getElementById(pb3).innerHTML)) >= 1){
+	  out3 = Number(document.getElementById(pb3).innerHTML);
+	  document.getElementById(ep3).innerHTML = Number(Number(document.getElementById(ep3).innerHTML) + Number(document.getElementById(pb3).innerHTML));
+	  document.getElementById(pb3).innerHTML = Number(0);
+	 }
+	 else if(Number(Number(document.getElementById("nD"+Number(Number(gen)+3)).innerHTML) +  Number(document.getElementById(pb3).innerHTML)) === 0){
+	  document.getElementById(ep3).innerHTML = Number(Number(document.getElementById(ep3).innerHTML) + Number(1));
+	  out3 = Number(1);
+	 }
+	 else if(Number(Number(document.getElementById("nD"+Number(Number(gen)+3)).innerHTML) +  Number(document.getElementById(pb3).innerHTML)) < 0){
+	  var que = Math.abs(Number(Number(document.getElementById("nD"+Number(Number(gen)+3)).innerHTML) +  Number(document.getElementById(pb3).innerHTML))); //force a positive number 
+	  document.getElementById(ep3).innerHTML = Number(Number(document.getElementById(ep3).innerHTML) + Number(que));
+	  out3 = Number(que);
+	 }
+	 else{
+	  out3 = Number(0);
+	 }
+	 
+   }
+  
+ }
+ if(where === "Y"){
+  var tb1 = "Z"+Number(Number(wlen)+2), tb2 = "D"+Number(Number(wlen)+3), tb3 = "X"+Number(wlen);
+  var pb1 = "cZ"+Number(Number(wlen)+1), pb2 = "cD"+Number(Number(wlen)+2), pb3 = "cX"+Number(Number(wlen)-1);
+  var ep1 = "nZ"+Number(Number(wlen)+1), ep2 = "nD"+Number(Number(wlen)+2), ep3 = "nX"+Number(Number(wlen)-1);
+  var cv1 = "#Zdiv"+Number(Number(gen)+1), cv2 = "#Ddiv"+Number(Number(gen)+2), cv3 = "#Xdiv"+Number(Number(gen)-1);
+
+   if(document.getElementById('output').querySelectorAll(cv1).length >= 1){
+	 if(Number(Number(document.getElementById("nZ"+Number(Number(gen)+1)).innerHTML) +  Number(document.getElementById(pb1).innerHTML)) >= 1){
+	  out1 = Number(document.getElementById(pb1).innerHTML);
+	  document.getElementById(ep1).innerHTML = Number(Number(document.getElementById(ep1).innerHTML) + Number(document.getElementById(pb1).innerHTML));
+	  document.getElementById(pb1).innerHTML = Number(0);
+	 }
+	 else if(Number(Number(document.getElementById("nZ"+Number(Number(gen)+1)).innerHTML) +  Number(document.getElementById(pb1).innerHTML)) === 0){
+	  document.getElementById(ep1).innerHTML = Number(Number(document.getElementById(ep1).innerHTML) + Number(1));
+	  out1 = Number(1);
+	 }
+	 else if(Number(Number(document.getElementById("nZ"+Number(Number(gen)+1)).innerHTML) +  Number(document.getElementById(pb1).innerHTML)) < 0){
+	  var que = Math.abs(Number(Number(document.getElementById("nZ"+Number(Number(gen)+1)).innerHTML) +  Number(document.getElementById(pb1).innerHTML))); //force a positive number 
+	  document.getElementById(ep1).innerHTML = Number(Number(document.getElementById(ep1).innerHTML) + Number(que));
+	  out1 = Number(que);
+	 }
+	 else{
+	  out1 = Number(0);
+	 }
+	 
+   }
+	
+   if(document.getElementById('output').querySelectorAll(cv2).length >= 1){
+   
+	 if(Number(Number(document.getElementById("nD"+Number(Number(gen)+2)).innerHTML) +  Number(document.getElementById(pb2).innerHTML)) >= 1){
+	  out2 = Number(document.getElementById(pb2).innerHTML);
+	  document.getElementById(ep2).innerHTML = Number(Number(document.getElementById(ep2).innerHTML) + Number(document.getElementById(pb2).innerHTML));
+	  document.getElementById(pb2).innerHTML = Number(0);
+	 }
+	 else if(Number(Number(document.getElementById("nD"+Number(Number(gen)+2)).innerHTML) +  Number(document.getElementById(pb2).innerHTML)) === 0){
+	  document.getElementById(ep2).innerHTML = Number(Number(document.getElementById(ep2).innerHTML) + Number(1));
+	  out2 = Number(1);
+	 }
+	 else if(Number(Number(document.getElementById("nD"+Number(Number(gen)+2)).innerHTML) +  Number(document.getElementById(pb2).innerHTML)) < 0){
+	  var que = Math.abs(Number(Number(document.getElementById("nD"+Number(Number(gen)+2)).innerHTML) +  Number(document.getElementById(pb2).innerHTML))); //force a positive number 
+	  document.getElementById(ep2).innerHTML = Number(Number(document.getElementById(ep2).innerHTML) + Number(que));
+	  out2 = Number(que);
+	 }
+	 else{
+	  out2 = Number(0);
+	 }
+
+   }
+	
+   if(document.getElementById('output').querySelectorAll(cv3).length >= 1){
+   
+	 if(Number(Number(document.getElementById("nX"+Number(Number(gen)-1)).innerHTML) +  Number(document.getElementById(pb3).innerHTML)) >= 1){
+	  out3 = Number(document.getElementById(pb3).innerHTML);
+	  document.getElementById(ep3).innerHTML = Number(Number(document.getElementById(ep3).innerHTML) + Number(document.getElementById(pb3).innerHTML));
+	  document.getElementById(pb3).innerHTML = Number(0);
+	 }
+	 else if(Number(Number(document.getElementById("nX"+Number(Number(gen)-1)).innerHTML) +  Number(document.getElementById(pb3).innerHTML)) === 0){
+	  document.getElementById(ep3).innerHTML = Number(Number(document.getElementById(ep3).innerHTML) + Number(1));
+	  out3 = Number(1);
+	 }
+	 else if(Number(Number(document.getElementById("nX"+Number(Number(gen)-1)).innerHTML) +  Number(document.getElementById(pb3).innerHTML)) < 0){
+	  var que = Math.abs(Number(Number(document.getElementById("nX"+Number(Number(gen)-1)).innerHTML) +  Number(document.getElementById(pb3).innerHTML))); //force a positive number 
+	  document.getElementById(ep3).innerHTML = Number(Number(document.getElementById(ep3).innerHTML) + Number(que));
+	  out3 = Number(que);
+	 }
+	 else{
+	  out3 = Number(0);
+	 }
+	 
+   }
+  
+ }
+ if(where === "Z"){
+  var tb1 = "D"+Number(Number(wlen)+2), tb2 = "X"+Number(Number(wlen)-1), tb3 = "Y"+Number(wlen);
+  var pb1 = "cD"+Number(Number(wlen)+1), pb2 = "cX"+Number(Number(wlen)-2), pb3 = "cY"+Number(Number(wlen)-1);
+  var ep1 = "nD"+Number(Number(wlen)+1), ep2 = "nX"+Number(Number(wlen)-2), ep3 = "nY"+Number(Number(wlen)-1);
+  var cv1 = "#Ddiv"+Number(Number(gen)+1), cv2 = "#Xdiv"+Number(Number(gen)-2), cv3 = "#Ydiv"+Number(Number(gen)-1);
+
+   if(document.getElementById('output').querySelectorAll(cv1).length >= 1){
+	 if(Number(Number(document.getElementById("nD"+Number(Number(gen)+1)).innerHTML) +  Number(document.getElementById(pb1).innerHTML)) >= 1){
+	  out1 = Number(document.getElementById(pb1).innerHTML);
+	  document.getElementById(ep1).innerHTML = Number(Number(document.getElementById(ep1).innerHTML) + Number(document.getElementById(pb1).innerHTML));
+	  document.getElementById(pb1).innerHTML = Number(0);
+	 }
+	 else if(Number(Number(document.getElementById("nD"+Number(Number(gen)+1)).innerHTML) +  Number(document.getElementById(pb1).innerHTML)) === 0){
+	  document.getElementById(ep1).innerHTML = Number(Number(document.getElementById(ep1).innerHTML) + Number(1));
+	  out1 = Number(1);
+	 }
+	 else if(Number(Number(document.getElementById("nD"+Number(Number(gen)+1)).innerHTML) +  Number(document.getElementById(pb1).innerHTML)) < 0){
+	  var que = Math.abs(Number(Number(document.getElementById("nD"+Number(Number(gen)+1)).innerHTML) +  Number(document.getElementById(pb1).innerHTML))); //force a positive number 
+	  document.getElementById(ep1).innerHTML = Number(Number(document.getElementById(ep1).innerHTML) + Number(que));
+	  out1 = Number(que);
+	 }
+	 else{
+	  out1 = Number(0);
+	 }
+	 
+   }
+	
+   if(document.getElementById('output').querySelectorAll(cv2).length >= 1){
+   
+	 if(Number(Number(document.getElementById("nX"+Number(Number(gen)-2)).innerHTML) +  Number(document.getElementById(pb2).innerHTML)) >= 1){
+	  out2 = Number(document.getElementById(pb2).innerHTML);
+	  document.getElementById(ep2).innerHTML = Number(Number(document.getElementById(ep2).innerHTML) + Number(document.getElementById(pb2).innerHTML));
+	  document.getElementById(pb2).innerHTML = Number(0);
+	 }
+	 else if(Number(Number(document.getElementById("nX"+Number(Number(gen)-2)).innerHTML) +  Number(document.getElementById(pb2).innerHTML)) === 0){
+	  document.getElementById(ep2).innerHTML = Number(Number(document.getElementById(ep2).innerHTML) + Number(1));
+	  out2 = Number(1);
+	 }
+	 else if(Number(Number(document.getElementById("nX"+Number(Number(gen)-2)).innerHTML) +  Number(document.getElementById(pb2).innerHTML)) < 0){
+	  var que = Math.abs(Number(Number(document.getElementById("nX"+Number(Number(gen)-2)).innerHTML) +  Number(document.getElementById(pb2).innerHTML))); //force a positive number 
+	  document.getElementById(ep2).innerHTML = Number(Number(document.getElementById(ep2).innerHTML) + Number(que));
+	  out2 = Number(que);
+	 }
+	 else{
+	  out2 = Number(0);
+	 }
+
+   }
+	
+   if(document.getElementById('output').querySelectorAll(cv3).length >= 1){
+   
+	 if(Number(Number(document.getElementById("nY"+Number(Number(gen)-1)).innerHTML) +  Number(document.getElementById(pb3).innerHTML)) >= 1){
+	  out3 = Number(document.getElementById(pb3).innerHTML);
+	  document.getElementById(ep3).innerHTML = Number(Number(document.getElementById(ep3).innerHTML) + Number(document.getElementById(pb3).innerHTML));
+	  document.getElementById(pb3).innerHTML = Number(0);
+	 }
+	 else if(Number(Number(document.getElementById("nY"+Number(Number(gen)-1)).innerHTML) +  Number(document.getElementById(pb3).innerHTML)) === 0){
+	  document.getElementById(ep3).innerHTML = Number(Number(document.getElementById(ep3).innerHTML) + Number(1));
+	  out3 = Number(1);
+	 }
+	 else if(Number(Number(document.getElementById("nY"+Number(Number(gen)-1)).innerHTML) +  Number(document.getElementById(pb3).innerHTML)) < 0){
+	  var que = Math.abs(Number(Number(document.getElementById("nY"+Number(Number(gen)-1)).innerHTML) +  Number(document.getElementById(pb3).innerHTML))); //force a positive number 
+	  document.getElementById(ep3).innerHTML = Number(Number(document.getElementById(ep3).innerHTML) + Number(que));
+	  out3 = Number(que);
+	 }
+	 else{
+	  out3 = Number(0);
+	 }
+	 
+   }
+  
+ }
+ if(where === "D"){
+  var tb1 = "X"+Number(Number(wlen)-2), tb2 = "Y"+Number(Number(wlen)-1), tb3 = "Z"+Number(wlen);
+  var pb1 = "cX"+Number(Number(wlen)-3), pb2 = "cY"+Number(Number(wlen)-2), pb3 = "cZ"+Number(Number(wlen)-1);
+  var ep1 = "nX"+Number(Number(wlen)-3), ep2 = "nY"+Number(Number(wlen)-2), ep3 = "nZ"+Number(Number(wlen)-1);
+  var cv1 = "#Xdiv"+Number(Number(gen)-3), cv2 = "#Ydiv"+Number(Number(gen)-2), cv3 = "#Zdiv"+Number(Number(gen)-1);
+
+   if(document.getElementById('output').querySelectorAll(cv1).length >= 1){
+	 if(Number(Number(document.getElementById("nX"+Number(Number(gen)-3)).innerHTML) +  Number(document.getElementById(pb1).innerHTML)) >= 1){
+	  out1 = Number(document.getElementById(pb1).innerHTML);
+	  document.getElementById(ep1).innerHTML = Number(Number(document.getElementById(ep1).innerHTML) + Number(document.getElementById(pb1).innerHTML));
+	  document.getElementById(pb1).innerHTML = Number(0);
+	 }
+	 else if(Number(Number(document.getElementById("nX"+Number(Number(gen)-3)).innerHTML) +  Number(document.getElementById(pb1).innerHTML)) === 0){
+	  document.getElementById(ep1).innerHTML = Number(Number(document.getElementById(ep1).innerHTML) + Number(1));
+	  out1 = Number(1);
+	 }
+	 else if(Number(Number(document.getElementById("nX"+Number(Number(gen)-3)).innerHTML) +  Number(document.getElementById(pb1).innerHTML)) < 0){
+	  var que = Math.abs(Number(Number(document.getElementById("nX"+Number(Number(gen)-3)).innerHTML) +  Number(document.getElementById(pb1).innerHTML))); //force a positive number 
+	  document.getElementById(ep1).innerHTML = Number(Number(document.getElementById(ep1).innerHTML) + Number(que));
+	  out1 = Number(que);
+	 }
+	 else{
+	  out1 = Number(0);
+	 }
+	 
+   }
+	
+   if(document.getElementById('output').querySelectorAll(cv2).length >= 1){
+   
+	 if(Number(Number(document.getElementById("nY"+Number(Number(gen)-2)).innerHTML) +  Number(document.getElementById(pb2).innerHTML)) >= 1){
+	  out2 = Number(document.getElementById(pb2).innerHTML);
+	  document.getElementById(ep2).innerHTML = Number(Number(document.getElementById(ep2).innerHTML) + Number(document.getElementById(pb2).innerHTML));
+	  document.getElementById(pb2).innerHTML = Number(0);
+	 }
+	 else if(Number(Number(document.getElementById("nY"+Number(Number(gen)-2)).innerHTML) +  Number(document.getElementById(pb2).innerHTML)) === 0){
+	  document.getElementById(ep2).innerHTML = Number(Number(document.getElementById(ep2).innerHTML) + Number(1));
+	  out2 = Number(1);
+	 }
+	 else if(Number(Number(document.getElementById("nY"+Number(Number(gen)-2)).innerHTML) +  Number(document.getElementById(pb2).innerHTML)) < 0){
+	  var que = Math.abs(Number(Number(document.getElementById("nY"+Number(Number(gen)-2)).innerHTML) +  Number(document.getElementById(pb2).innerHTML))); //force a positive number 
+	  document.getElementById(ep2).innerHTML = Number(Number(document.getElementById(ep2).innerHTML) + Number(que));
+	  out2 = Number(que);
+	 }
+	 else{
+	  out2 = Number(0);
+	 }
+
+   }
+	
+   if(document.getElementById('output').querySelectorAll(cv3).length >= 1){
+   
+	 if(Number(Number(document.getElementById("nZ"+Number(Number(gen)-1)).innerHTML) +  Number(document.getElementById(pb3).innerHTML)) >= 1){
+	  out3 = Number(document.getElementById(pb3).innerHTML);
+	  document.getElementById(ep3).innerHTML = Number(Number(document.getElementById(ep3).innerHTML) + Number(document.getElementById(pb3).innerHTML));
+	  document.getElementById(pb3).innerHTML = Number(0);
+	 }
+	 else if(Number(Number(document.getElementById("nZ"+Number(Number(gen)-1)).innerHTML) +  Number(document.getElementById(pb3).innerHTML)) === 0){
+	  document.getElementById(ep3).innerHTML = Number(Number(document.getElementById(ep3).innerHTML) + Number(1));
+	  out3 = Number(1);
+	 }
+	 else if(Number(Number(document.getElementById("nZ"+Number(Number(gen)-1)).innerHTML) +  Number(document.getElementById(pb3).innerHTML)) < 0){
+	  var que = Math.abs(Number(Number(document.getElementById("nZ"+Number(Number(gen)-1)).innerHTML) +  Number(document.getElementById(pb3).innerHTML))); //force a positive number 
+	  document.getElementById(ep3).innerHTML = Number(Number(document.getElementById(ep3).innerHTML) + Number(que));
+	  out3 = Number(que);
+	 }
+	 else{
+	  out3 = Number(0);
+	 }
+	 
+   }
+  
+ }
+ 
+ if(out1 !== "" && isNaN(out1) === false){
+  document.getElementById(tb1).innerHTML += out1 + ",";
+   out1 = '';
+ }
+ if(out2 !== "" && isNaN(out2) === false){
+  document.getElementById(tb2).innerHTML += out2 + ",";
+   out2 = '';
+ }
+ if(out3 !== "" && isNaN(out3) === false){
+  document.getElementById(tb3).innerHTML += out3 + ",";
+   out3 = '';
+ }
+
+} //end of carryon function
+
+
+
+
+ //get grid mapping to show the shape as it's being made
+function drawgraph(where,gen,droppoint,wlen){ 
+
+var wmup = document.getElementById('display').innerHTML;
+
+ if(wmup.toString().length >= 1){          //looks to see if anything in display
+  var iswmup = wmup.match(/id\=\Dwm\D/gm); //looks for "id= wm " where " " are anything other than digits
+
+ if(iswmup.length >= 1){                   //if welcome message is seen 
+  document.getElementById('wm').remove(); //remove welcome message 
+ }
+ 
+ //other options to do if something is in display here....
+}
+
+
+
+
+
+
+
+//the graph is going to be X|Y & Z|D   but on screen will be <x#y#><z#d#>.... in the order of -x +y +z -d 
+
+//example  x-5y5 z5d-5 x-4y5 z5d-4 x3y5 z5d-3 x-2y5 z5d-2 x-1y5 z5d-1 x1y5 z5d1 x2y5 z5d2 x3y5 z5d3 x4y5 z5d4 x5y5 z5d5 !! 
+//example2 x-5yd5z-5  x-4y5d5z-4s
+
+//use example 2 of x|y d|z but keep em seperated and offset so d&z sit inside x&y
+
+
+}
+</script>
