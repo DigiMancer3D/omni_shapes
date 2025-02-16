@@ -101,7 +101,7 @@ var here = '';
 function beginbrosiv(where,gen,local,worldlen){ //the number for plane location, the number for placing user choices in, the total worldlength
 
 <!-- no-history & null-history catch -->
-if(document.getElementById('history').innerHTML.search(/\d/g) < 0 || document.getElementById('history').innerHTML <= 1){  
+if(document.getElementById('history').innerHTML.search(/\d/g) >= 0 || document.getElementById('history').innerHTML <= 1){  
  
   document.getElementById('history').innerHTML = 1;
 
@@ -1435,7 +1435,7 @@ function drawgraph(where,gen,droppoint,wlen){
 var tc = 1;
 var wmup = document.getElementById('display').innerHTML;
 
- if(wmup.toString().length >= 52){          //looks to see if anything in display  //the HR is 51 characters + spaces long
+ if(wmup.toString().length >= 52 && Number(document.getElementById('history').innerHTML) > 1){          //looks to see if anything in display  //the HR is 51 characters + spaces long
   var iswmup = wmup.match(/id\=\Dwm\D/gm); //looks for "id= wm " where " " are anything other than digits
 
  if(iswmup.length >= 1){                   //if welcome message is seen 
@@ -1448,134 +1448,7 @@ var wmup = document.getElementById('display').innerHTML;
 
 
  <!-- build graph -->
- var smooth = Number(gen);
- <!--next section looks for all the planes per genertion per change clicked-->
- 
-//catch og point data in this section I'm here i'm here Im here im here 
- if(where === "X"){
-   if(document.getElementById('output').innerHTML.toString().search('Ydiv'+Number(Number(gen)+1)) >= 0){
-    tc = Number(tc) + 1;
-   }
-   if(document.getElementById('output').innerHTML.toString().search('Zdiv'+Number(Number(gen)+2)) >= 0){
-    tc = Number(tc) + 1;
-   }
-   if(document.getElementById('output').innerHTML.toString().search('Ddiv'+Number(Number(gen)+3)) >= 0){
-    tc = Number(tc) + 1;
-   }
- }
- if(where === "Y"){
- tc = 2;
-  smooth = Number(Number(gen) - 1);
-   if(document.getElementById('output').innerHTML.toString().search('Zdiv'+Number(Number(gen)+1)) >= 0){
-    tc = Number(tc) + 1;
-   }
-   if(document.getElementById('output').innerHTML.toString().search('Ddiv'+Number(Number(gen)+2)) >= 0){
-    tc = Number(tc) + 1;
-   }
- }
- if(where === "Z"){
- tc = 3;
-  smooth = Number(Number(gen) - 2);
-   if(document.getElementById('output').innerHTML.toString().search('Ddiv'+Number(Number(gen)+1)) >= 0){
-    tc = Number(tc) + 1;
-   }
- }
- if(where === "D"){
- tc = 4;
-  smooth = Number(Number(gen) - 3);
- }
- <!-- next builds the graphing disgrams -->
-  var findx = "nX"+Number(smooth);
-  var lc = Number(document.getElementById(findx).innerHTML);
-  var uff = '', uffda = '';
-  var row = [];
-   
-  if(tc >= 1){
-   for(var i = 1; i <= Number(lc); i++){//2Dimension
-    for(var e = 1; e <= Number(lc); e++){//1Dimension
- 	  uff = uffda;
-	  uffda = uff + "" + "<span id='x"+i+"y"+e+"' style='color:black;' title=' X("+i+":"+e+")Y '>&#9633;</span>, ";
-	}
-	
-	row.push(uffda + "!");
-	uff = '';
-	uffda = '';
-	
-  }
-  
-   row.push("<sup>Top View (X|Y)</sup>!!");
-   
-   for(var i = 1; i <= Number(lc); i++){//2Dimension
-    for(var e = 1; e <= Number(lc); e++){//1Dimension
- 	  uff = uffda;
-	  uffda = uff + "" + "<span id='x"+i+"x"+e+"' style='color:black;' title=' X1("+i+":"+e+")X2 '>&#9633;</span>, ";
-	}
-	
-	row.push(uffda + "!");
-	uff = '';
-	uffda = '';
-	
-  }
-  
-   row.push("<sup>_X</sup>!!");
- }
-  
-  if(tc >= 2){
-   for(var i = 1; i <= Number(lc); i++){//2Dimension
-    for(var e = 1; e <= Number(lc); e++){//1Dimension
- 	  uff = uffda;
-	  uffda = uff + "" + "<span id='y"+i+"y"+e+"' style='color:black;' title=' "+i+":"+e+" '>&#9633;</span>, ";
-	}
-	
-	row.push(uffda + "!");
-	uff = '';
-	uffda = '';
-	
-  }
-  
-   row.push("<sup>_Y</sup>!!");
- }
-   
-  if(tc >= 3){
-   for(var i = 1; i <= Number(lc); i++){//2Dimension
-    for(var e = 1; e <= Number(lc); e++){//1Dimension
- 	  uff = uffda;
-	  uffda = uff + "" + "<span id='z"+i+"z"+e+"' style='color:black;' title=' "+i+":"+e+" '>&#9633;</span>, ";
-	}
-	
-	row.push(uffda + "!");
-	uff = '';
-	uffda = '';
-	
-   }
-  
-    row.push("<sup>_Z</sup>!!");
-  }
-   
-   
-  if(tc >= 4){
-   for(var i = 1; i <= Number(lc); i++){//2Dimension
-    for(var e = 1; e <= Number(lc); e++){//1Dimension
- 	  uff = uffda;
-	  uffda = uff + "" + "<span id='d"+i+"d"+e+"' style='color:black;' title=' "+i+":"+e+" '>&#9633;</span>, ";
-	}
-	
-	row.push(uffda + "!");
-	uff = '';
-	uffda = '';
-	
-   }
-  
-    row.push("<sup>_d</sup>!!");
-  }
- 
-document.getElementById('graph').innerHTML = "<div id='graphed'>"+row.toString().replace(/,/gm, " ").replace(/!/gm, "</br>")+"</div>";
+//the graph drawer and plotter didn't work corrrectly, so I removed it because it's not really needed.
 
-
-//need to plot points! I'm here i'm here Im here im here
-
-
-
-
-}//end of draw graph equation
+}//end of draw graph funtion
 </script>
