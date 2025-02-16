@@ -35,13 +35,15 @@ button{
   </br></br>
  <span id='duff'></span>
   </br></br>
+ <span id='graph'></span>
+  </br></br>
  <span id='notes'></span>
   </br></br>
+<span id='gh' style='display:none' title='I am the current grid size'>1</span>
 <span id='history' style='display:none' title='I define the grid size'>1</span>
 <span id='rc'  style='display:none' title='I show where in the round-count we are at'>1</span>
 <span id='sc'  style='display:none' title='I show where in a sub-count we are at'>1</span>
-<span id='am'  style='display:none' title='I show algo-moves needing to be done'></span>
-<span id='rh'  style='display:none' title='I show algo-moves that have been done'></span> 
+<span id='magic'  style='display:none' title='I hold a magic key'>1</span> 
 <span id='reflections'  style='display:none'></span>
   <div id='rulebox'>
    <h3 style='display:block' id='words1' onclick='document.getElementById("rulecont").innerHTML=document.getElementById(&#039;rules&#039;).innerHTML;this.style.display="none";document.getElementById("words2").style.display="block";' title='I show rules when clicked'>See Rules</h3>
@@ -53,15 +55,30 @@ button{
   <span id='rules' style='display:none' title='You should not be able to see me'><hr id='pagehr2' style='width:31%;opacity:0.33;'><div style='align:center;text-align:left;margin-left:13vw;margin-right:8vw;padding:0.25vw;'>The 1st appearing set of arrays will lock to one another. If an array is already on screen and it's pair is placed down, the system will catch that array up to the length of its pair based on it's pair. It takes 2 to tango, in life & with Polyominoes. Rather single array, paired, tri-paired or greater may change how the rules apply.</br></br><b>&nbsp; &nbsp; &nbsp; &nbsp; (1)</b>&nbsp; &nbsp;<u>Single Array Rules</u>:</br><b>&nbsp; &nbsp; &nbsp; &nbsp;&nbsp; &nbsp; &nbsp; &nbsp;  &nbsp; &nbsp; +</b>&nbsp; The Starting Position cannot be negative (less than null) nor null ["0"]</br><b>&nbsp; &nbsp; &nbsp; &nbsp;&nbsp; &nbsp; &nbsp; &nbsp;  &nbsp; &nbsp; +</b>&nbsp; 1st move cannot be less-than null (negative)</br><b>&nbsp; &nbsp; &nbsp; &nbsp;&nbsp; &nbsp; &nbsp; &nbsp;  &nbsp; &nbsp; +</b>&nbsp; New moves cannot cause a negative endpoint</br><b>&nbsp; &nbsp; &nbsp; &nbsp;&nbsp; &nbsp; &nbsp; &nbsp;  &nbsp; &nbsp; +</b>&nbsp; New moves cannot backtrack</br><b>&nbsp; &nbsp; &nbsp; &nbsp;&nbsp; &nbsp; &nbsp; &nbsp;  &nbsp; &nbsp; +</b>&nbsp; New moves cannot extend past one</br><b>&nbsp; &nbsp; &nbsp; &nbsp;&nbsp; &nbsp; &nbsp; &nbsp;  &nbsp; &nbsp; +</b>&nbsp; Ending Position cannot be less than null nor null</br></br><b>&nbsp; &nbsp; &nbsp; &nbsp; (2)</b>&nbsp; &nbsp;<u>Paired Array Rules</u>:</br><b>&nbsp; &nbsp; &nbsp; &nbsp;&nbsp; &nbsp; &nbsp; &nbsp;  &nbsp; &nbsp; +</b>&nbsp; Starting Position cannot be less-than null nor null</br><b>&nbsp; &nbsp; &nbsp; &nbsp;&nbsp; &nbsp; &nbsp; &nbsp;  &nbsp; &nbsp; +</b>&nbsp; 1st move cannot be less-than null</br><b>&nbsp; &nbsp; &nbsp; &nbsp;&nbsp; &nbsp; &nbsp; &nbsp;  &nbsp; &nbsp; +</b>&nbsp; New moves cannot cause a negative endpoint</br><b>&nbsp; &nbsp; &nbsp; &nbsp;&nbsp; &nbsp; &nbsp; &nbsp;  &nbsp; &nbsp; +</b>&nbsp; New moves can backtrack by one if the endpoints are positive</br><b>&nbsp; &nbsp; &nbsp; &nbsp;&nbsp; &nbsp; &nbsp; &nbsp;  &nbsp; &nbsp; +</b>&nbsp; Can backtrack ONLY by ONE ["-1"]</br><b>&nbsp; &nbsp; &nbsp; &nbsp;&nbsp; &nbsp; &nbsp; &nbsp;  &nbsp; &nbsp; +</b>&nbsp; Can extend past one ONLY IF NOT AT an end or edge</br><b>&nbsp; &nbsp; &nbsp; &nbsp;&nbsp; &nbsp; &nbsp; &nbsp;  &nbsp; &nbsp; +</b>&nbsp; Endpoints cannot be less-than null</br></br><b>&nbsp; &nbsp; &nbsp; &nbsp; (3)</b>&nbsp; &nbsp;<u>Tri-Paired Array Rules</u>:</br><b>&nbsp; &nbsp; &nbsp; &nbsp;&nbsp; &nbsp; &nbsp; &nbsp;  &nbsp; &nbsp; +</b>&nbsp; Starting Position cannot be less-than null nor null</br><b>&nbsp; &nbsp; &nbsp; &nbsp;&nbsp; &nbsp; &nbsp; &nbsp;  &nbsp; &nbsp; +</b>&nbsp; 1st move cannot be less-than null</br><b>&nbsp; &nbsp; &nbsp; &nbsp;&nbsp; &nbsp; &nbsp; &nbsp;  &nbsp; &nbsp; +</b>&nbsp; New moves can cause one of the three endpoints to become negative for as long as the other two endpoints are positive</br><b>&nbsp; &nbsp; &nbsp; &nbsp;&nbsp; &nbsp; &nbsp; &nbsp;  &nbsp; &nbsp; +</b>&nbsp; New moves can backtrack by one if all other endpoints are positive, even if it causes this endpoint to be negative</br><b>&nbsp; &nbsp; &nbsp; &nbsp;&nbsp; &nbsp; &nbsp; &nbsp;  &nbsp; &nbsp; +</b>&nbsp; Can backtrack per the length of a trailing value minus one if all other endpoints are positive, even if it causes this endpoint to be negative</br><b>&nbsp; &nbsp; &nbsp; &nbsp;&nbsp; &nbsp; &nbsp; &nbsp;  &nbsp; &nbsp; +</b>&nbsp; Can retrack back to positive for as long as no endpoint is null & at least 2 other endpoints are positive</br><b>&nbsp; &nbsp; &nbsp; &nbsp;&nbsp; &nbsp; &nbsp; &nbsp;  &nbsp; &nbsp; +</b>&nbsp; Can extend past one ONLY IF NOT AT an end or edge</br><b>&nbsp; &nbsp; &nbsp; &nbsp;&nbsp; &nbsp; &nbsp; &nbsp;  &nbsp; &nbsp; +</b>&nbsp; This endpoint can only be negative if at least 2 of the other endpoints must be positive at all times & no nulls are allowed</br></br><b>&nbsp; &nbsp; &nbsp; &nbsp; (4)</b>&nbsp; &nbsp;<u>Quad-Paired & Higher Array Rules</u>:</br><b>&nbsp; &nbsp; &nbsp; &nbsp;&nbsp; &nbsp; &nbsp; &nbsp;  &nbsp; &nbsp; +</b>&nbsp; Starting Position cannot be less-than null nor null</br><b>&nbsp; &nbsp; &nbsp; &nbsp;&nbsp; &nbsp; &nbsp; &nbsp;  &nbsp; &nbsp; +</b>&nbsp; Negative moves are allowed if this endpoint PLUS _Z endpoint is Null or greater</br><b>&nbsp; &nbsp; &nbsp; &nbsp;&nbsp; &nbsp; &nbsp; &nbsp;  &nbsp; &nbsp; +</b>&nbsp; New moves can backtrack per the length of a trailing value minus one if all other endpoints are positive, even if it causes this endpoint to be negative</br><b>&nbsp; &nbsp; &nbsp; &nbsp;&nbsp; &nbsp; &nbsp; &nbsp;  &nbsp; &nbsp; +</b>&nbsp; Can extend past one ONLY IF NOT AT an end or edge</br><b>&nbsp; &nbsp; &nbsp; &nbsp;&nbsp; &nbsp; &nbsp; &nbsp;  &nbsp; &nbsp; +</b>&nbsp; This endpoint can only be negative if at least 2 of the other endpoints are positive</br></br><div style='padding-left:3.5vw;padding-right:7.5vw;padding-bottom:0.15vw;padding-top:0.75vw;align:center;text-align:left;'><hr id='pagehr3' style='width:27%;opacity:0.33;'></br><b><i>&nbsp; &nbsp; Key Terms:</i></b></br><b>&nbsp; &nbsp; &nbsp; &nbsp; -&nbsp; <i>Trailing Null | Trailing Zero</i>:</b>&nbsp; A string of only nulls ("0")</br><b>&nbsp; &nbsp; &nbsp; &nbsp; -&nbsp; <i>Trailing Value</i>:</b>&nbsp; A string of only positive valued digits</br><b>&nbsp; &nbsp; &nbsp; &nbsp; -&nbsp; <i>Trailing Sign</i>:</b>&nbsp; A string of only negative signed digits</div></div></br></br>
    <h3 id='close' onclick='document.getElementById("rulecont").innerHTML="";document.getElementById("words2").style.display="none";document.getElementById("words1").style.display="block";'  title='I hide rules when clicked'><sup>[close]</sup></h3></br></span>
   </div>
-<div id='creatornotes' style='text-align:center;align:center;'><hr id='pagehr' style='width:31%;opacity:0.33;'><sup><a href='https://github.com/DigiMancer3D/omni_shapes' rel='noopener noreferrer' target='_blank' style='color:grey;text-decoration:none;' title='click to visit this Git Repo'><b>Made by 3Douglas <q><i>3D</i></q> Pihl</b></sup></br></br><sub><a href='https://twitter.com/@Z0M8I3D' rel='noopener noreferrer' target='_blank' style='color:green;text-decoration:none;' title='click to visit on xTwitter'><i>@<b>Z0M8I3D</b></i></a></sub></br></br></div>
+<div id='creatornotes' style='text-align:center;align:center;'><hr id='pagehr' style='width:31%;opacity:0.33;'><sup><a href='https://github.com/DigiMancer3D/omni_shapes' rel='noopener noreferrer' target='_blank' style='color:grey;text-decoration:none;' title='click to visit this Git Repo'><b>Made by 3Douglas <q><i>3D</i></q> Pihl</b></sup></br><sub><a href='https://twitter.com/@Z0M8I3D' rel='noopener noreferrer' target='_blank' style='color:green;text-decoration:none;' title='click to visit on xTwitter'><i>@<b>Z0M8I3D</b></i></a></sub></br></br></div>
 </body>
 <script>
 var countme = 0;
 var huh = 0;
 var gen = document.getElementById('counting').innerHTML;
 
-var plane = ["X", "Y", "Z", "D"];  
-var local = document.getElementById('sc').innerHTML;
+  if(document.getElementById('magic').innerHTML >= Number(1)){ //checks for key(1)
+ 
+    var plane = ["X", "Y", "Z"];   //prevents _D from being used
+  
+  }
+  if(document.getElementById('magic').innerHTML === Number(0)){ //checks for key(0)
+ 
+    var plane = ["X", "Y", "Z", "D"];   //allows _D to be used
+  
+  }
+  if(document.getElementById('magic').innerHTML <= Number(-1)){ //checks for key(-1)
+ 
+    var plane = ["X", "Y"];   //prevents _Z & _D from being used
+  
+  }
+ 
+var localed = document.getElementById('sc').innerHTML;
 var worldlen = document.getElementById('history').innerHTML;
  
  
@@ -69,14 +86,15 @@ if(document.getElementById('notes').innerHTML.toString().search(/start/gm) < 0){
 var checkednotes = 0;
 var here = '';
   gen = document.getElementById('counting').innerHTML;
-  local = document.getElementById('sc').innerHTML;
+  localed = document.getElementById('sc').innerHTML;
   worldlen = document.getElementById('history').innerHTML;
  
   here = plane[checkednotes];
   
-  beginbrosiv(here,gen,local,0);
+  beginbrosiv(here,gen,localed,0);
   
   checkednotes = Number(checkednotes) + 1;
+  
  
 }
  
@@ -91,6 +109,7 @@ if(document.getElementById('history').innerHTML.search(/\d/g) < 0 || document.ge
 }
 
  buildme(where,gen,local,worldlen); <!-- builds arrays -->
+ 
 }
 
 function buildme(where,gen,local,worldlen){
@@ -103,18 +122,25 @@ var banked = '', banked2 = '', step1 = '', step2 = '', step3 = '', stepA = '', s
 
  var rows = ["<div id='"+where+"div"+gen+"'><span class='"+where+"gen' id='"+where+"gen"+gen+"' style='display:none'>"+gen+"</span>Plane "+where+":&nbsp;<span id='"+where+""+gen+"' title='Plane "+where+" Starting Location' >1</span>" + " [" + "<span id='"+where+""+local+"' title='Player Choices'></span>" + " <span id='next"+where+""+worldlen+"'><span id='c"+worldlen+"up'><button onclick='cmove(&#039;"+where+"&#039;,"+gen+","+local+","+worldlen+",1)' title='Increase Selector Value' >+</button></span><span title='Click to Select' onclick='document.getElementById(&#034;"+where+""+local+"&#034;).innerHTML+=document.getElementById(&#039;c"+where+""+worldlen+"&#039;).innerHTML+&#039;,&#039;;document.getElementById(&#034;n"+where+""+gen+"&#034;).innerHTML=Number(document.getElementById(&#034;n"+where+""+worldlen+"&#034;).innerHTML)+Number(document.getElementById(&#039;c"+where+""+worldlen+"&#039;).innerHTML);document.getElementById(&#039;c"+where+""+worldlen+"&#039;).innerHTML=&#039;0&#039;;drawgraph(&#039;"+where+"&#039;,"+gen+","+local+","+worldlen+");carryon(&#039;"+where+"&#039;,"+worldlen+","+gen+");'><span id='c"+where+""+worldlen+"'>0</span></span><span id='c"+worldlen+"down' title='Decrease Selector Value' ><button onclick='cmove(&#039;"+where+"&#039;,"+gen+","+local+","+worldlen+",2)' >-</button></span></span> " + "] " + "<span id='n"+where+""+gen+"' title='Plane "+where+" Landing Location' >1</span></div>!"];
 
+  
 document.getElementById('output').innerHTML += rows.toString().replace(/\!/gm, "</br></br>");
+
+  if(Number(document.getElementById('rc').innerHTML) === Number(0)){
+	document.getElementById('output').innerHTML += "<hr class='pagehr' style='width:9%;opacity:0.33;'><b title='Within this section is Group "+document.getElementById('counting').innerHTML+"'>Group "+document.getElementById('counting').innerHTML+"</b><hr class='pagehr' style='width:21%;opacity:0.33;'></br></br>";
+  }	
+  
  var  thosenotes = document.getElementById('rc').innerHTML;
+ 
  var nothere = plane[thosenotes];
  var title = 'counting';
  var ht = 'history';
  var endpoint = document.getElementById('n'+where+''+gen).innerHTML;
   
-  document.getElementById('duff').innerHTML = "<button id='buildmore' onclick='buildme(&#034;"+nothere+"&#034;,"+Number(Number(gen)+1)+","+Number(Number(local)+1)+","+Number(Number(worldlen)+1)+")' title='Click to Add another Line' >&nbsp;Add&nbsp;Plane&nbsp;</button>";
+  document.getElementById('duff').innerHTML = "<button id='buildmore' onclick='buildme(&#034;"+nothere+"&#034;,"+Number(Number(gen)+1)+","+Number(Number(local)+1)+","+Number(Number(worldlen)+1)+");' title='Click to Add another Line' >&nbsp;Add&nbsp;Plane&nbsp;</button>";
   
   document.getElementById('rc').innerHTML = Number(thosenotes) + 1;
+  document.getElementById('sc').innerHTML = Number(local) + 1;
   
- 
   if(document.getElementById('rc').innerHTML >= Number(plane.length)){
     var tempcc = document.getElementById('counting').innerHTML;
 	document.getElementById('counting').innerHTML = Number(tempcc) + 1;
@@ -210,8 +236,8 @@ document.getElementById('output').innerHTML += rows.toString().replace(/\!/gm, "
 	 if(document.getElementById(compound2).innerHTML.toString().split(/\,/g)[g].toString().search(/\d/gm) >= 0 && document.getElementById(compound2).innerHTML.toString().split(/\,/g)[g].toString().search(/[^0]/) >= 0){ //no null seen
 		
 		 if(where === "X" || where === "Y"){
-		  document.getElementById('n'+where+''+gen).innerHTML = Number(Number(endpoint) + 0);
-			endpoint = document.getElementById('n'+where+''+gen).innerHTML;
+		  document.getElementById('n'+where+''+Number(Number(document.getElementById('history').innerHTML) - 1)).innerHTML = Number(Number(endpoint) + 0);
+			endpoint = document.getElementById('n'+where+''+Number(Number(document.getElementById('history').innerHTML) - 1)).innerHTML;
 		  
 	      document.getElementById(compound1).innerHTML += ""+0+",";
 	      banked = document.getElementById(compound2).innerHTML.toString().split(/\,/g)[g]; //saves JIC
@@ -223,12 +249,14 @@ document.getElementById('output').innerHTML += rows.toString().replace(/\!/gm, "
 	  if(banked.toString().search(/\d/g) >= 0){ //check bank 
 	  
 		 if(where === "X" || where === "Y"){
-		  document.getElementById('n'+where+''+gen).innerHTML = Number(Number(endpoint) + Number(banked)); 
-			endpoint = document.getElementById('n'+where+''+gen).innerHTML;
+		  document.getElementById('n'+where+''+Number(Number(document.getElementById('history').innerHTML) - 1)).innerHTML = Number(Number(endpoint) + Number(banked)); 
+			endpoint = document.getElementById('n'+where+''+Number(Number(document.getElementById('history').innerHTML) - 1)).innerHTML;
 		  document.getElementById(compound1).innerHTML += ""+banked+","; //use banked 
+		 
 	       banked2 = banked;
 	       banked = ''; //resets banked JIC 
 		
+		 
 		 }
 		 
       }
@@ -238,8 +266,8 @@ document.getElementById('output').innerHTML += rows.toString().replace(/\!/gm, "
 	   if(document.getElementById(compound2).innerHTML.toString().split(/\,/g)[g2].toString().search(/\d/g) >= 0 && document.getElementById(compound2).innerHTML.toString().split(/\,/g)[g2].toString().search(/[^0]/g) >= 0){ //if not null is ahead
 	    
 		 if(where === "X" || where === "Y"){
-		  document.getElementById('n'+where+''+gen).innerHTML = Number(Number(endpoint) + Number(document.getElementById(compound2).innerHTML.toString().split(/\,/g)[g2]));
-			endpoint = document.getElementById('n'+where+''+gen).innerHTML;
+		  document.getElementById('n'+where+''+Number(Number(document.getElementById('history').innerHTML) - 1)).innerHTML = Number(Number(endpoint) + Number(document.getElementById(compound2).innerHTML.toString().split(/\,/g)[g2]));
+			endpoint = document.getElementById('n'+where+''+Number(Number(document.getElementById('history').innerHTML) - 1)).innerHTML;
 		   document.getElementById(compound1).innerHTML += ""+document.getElementById(compound2).innerHTML.toString().split(/\,/g)[g2]+",";
 	    
 		 }
@@ -249,9 +277,10 @@ document.getElementById('output').innerHTML += rows.toString().replace(/\!/gm, "
 	    if(banked2.toString().search(/\d/g) >= 0){ //check bank2
 	     
 		 if(where === "X" || where === "Y"){
-		  document.getElementById('n'+where+''+gen).innerHTML = Number(Number(endpoint) + Number(banked2));
-			endpoint = document.getElementById('n'+where+''+gen).innerHTML;
+		  document.getElementById('n'+where+''+Number(Number(document.getElementById('history').innerHTML) - 1)).innerHTML = Number(Number(endpoint) + Number(banked2));
+			endpoint = document.getElementById('n'+where+''+Number(Number(document.getElementById('history').innerHTML) - 1)).innerHTML;
 	     document.getElementById(compound1).innerHTML += ""+banked2+","; //use banked2
+		 
 	     banked2 = ''; //resets banked JIC 
 		 }
 		 
@@ -259,8 +288,8 @@ document.getElementById('output').innerHTML += rows.toString().replace(/\!/gm, "
 		else{
    	      
 		 if(where === "X" || where === "Y"){
-		  document.getElementById('n'+where+''+gen).innerHTML = Number(Number(endpoint) + Number(1));
-			endpoint = document.getElementById('n'+where+''+gen).innerHTML;
+		  document.getElementById('n'+where+''+Number(Number(document.getElementById('history').innerHTML) - 1)).innerHTML = Number(Number(endpoint) + Number(1));
+			endpoint = document.getElementById('n'+where+''+Number(Number(document.getElementById('history').innerHTML) - 1)).innerHTML;
 	     document.getElementById(compound1).innerHTML += "1,"; 
 		 }
 		 
@@ -292,21 +321,21 @@ document.getElementById('output').innerHTML += rows.toString().replace(/\!/gm, "
 		  if(step1.toString().search(/\-/gm) >= 0 && step2.toString().search(/\-/gm) < 0 && step2.toString().search("0") >= 0){
 		   
 		   if(banking1.toString().search(/\d/g) >= 0 && Number(banking1) < Number(0)){
-		    document.getElementById('n'+where+''+Number(Number(gen) + 1)).innerHTML = Number(Number(endpoint) + Number(banking1));
-			endpoint = document.getElementById('n'+where+''+Number(Number(gen) + 1)).innerHTML;
+		    document.getElementById('n'+where+''+Number(Number(document.getElementById('history').innerHTML) - 1)).innerHTML = Number(Number(endpoint) + Number(banking1));
+			endpoint = document.getElementById('n'+where+''+Number(Number(document.getElementById('history').innerHTML) - 1)).innerHTML;
 		    document.getElementById(compound1).innerHTML += ""+Number(banking1)+",";
 			banking1 = banking2;
 			banking2 = '';
 		   }
 		   else{
 		   if(Number(Number(gen) + 1) === Number(Number(document.getElementById('history').innerHTML)-1)){
-		    document.getElementById('n'+where+''+Number(Number(gen) + 1)).innerHTML = Number(Number(endpoint) + Number(-1));
-			endpoint = document.getElementById('n'+where+''+Number(Number(gen) + 1)).innerHTML;
+		    document.getElementById('n'+where+''+Number(Number(document.getElementById('history').innerHTML) - 1)).innerHTML = Number(Number(endpoint) + Number(-1));
+			endpoint = document.getElementById('n'+where+''+Number(Number(document.getElementById('history').innerHTML) - 1)).innerHTML;
 		    document.getElementById(compound1).innerHTML += ""+Number(-1)+",";
 		   } 
 		   else{
 		    document.getElementById('n'+where+''+Number(Number(document.getElementById('history').innerHTML)-1)).innerHTML = Number(Number(endpoint) + Number(-1));
-			endpoint = document.getElementById('n'+where+''+Number(Number(gen) + 1)).innerHTML;
+			endpoint = document.getElementById('n'+where+''+Number(Number(document.getElementById('history').innerHTML) - 1)).innerHTML;
 		    document.getElementById(compound1).innerHTML += ""+Number(-1)+",";
 		   }
 		   }
@@ -315,29 +344,29 @@ document.getElementById('output').innerHTML += rows.toString().replace(/\!/gm, "
 		  }
 		  if(step1.toString().search(/\-/gm) >= 0 && step2.toString().search(/\-/gm) < 0 && step2.toString().search("0") < 0){
 		  
-		   document.getElementById('n'+where+''+Number(Number(gen) + 1)).innerHTML = Number(Number(endpoint) + Number(0));
-			endpoint = document.getElementById('n'+where+''+Number(Number(gen) + 1)).innerHTML;
+		   document.getElementById('n'+where+''+Number(Number(document.getElementById('history').innerHTML) - 1)).innerHTML = Number(Number(endpoint) + Number(0));
+			endpoint = document.getElementById('n'+where+''+Number(Number(document.getElementById('history').innerHTML) - 1)).innerHTML;
 		   document.getElementById(compound1).innerHTML += ""+Number(0)+",";
 		  
 		  }
 		  if(step1.toString().search(/\-/gm) < 0 && step2.toString().search(/\-/gm) >= 0 && step2.toString().search("0") >= 0){
 		   
 		   if(banking1.toString().search(/\d/g) >= 0 && Number(banking1) > Number(0)){
-		    document.getElementById('n'+where+''+Number(Number(gen) + 1)).innerHTML = Number(Number(endpoint) + Number(banking1));
-			endpoint = document.getElementById('n'+where+''+Number(Number(gen) + 1)).innerHTML;
+		    document.getElementById('n'+where+''+Number(Number(document.getElementById('history').innerHTML) - 1)).innerHTML = Number(Number(endpoint) + Number(banking1));
+			endpoint = document.getElementById('n'+where+''+Number(Number(document.getElementById('history').innerHTML) - 1)).innerHTML;
 		    document.getElementById(compound1).innerHTML += ""+Number(banking1)+",";
 			banking1 = banking2;
 			banking2 = '';
 		   }
 		   else{
 		   if(Number(Number(gen) + 1) === Number(Number(document.getElementById('history').innerHTML)-1)){
-		    document.getElementById('n'+where+''+Number(Number(gen) + 1)).innerHTML = Number(Number(endpoint) + Number(1));
-			endpoint = document.getElementById('n'+where+''+Number(Number(gen) + 1)).innerHTML;
+		    document.getElementById('n'+where+''+Number(Number(document.getElementById('history').innerHTML) - 1)).innerHTML = Number(Number(endpoint) + Number(1));
+			endpoint = document.getElementById('n'+where+''+Number(Number(document.getElementById('history').innerHTML) - 1)).innerHTML;
 		    document.getElementById(compound1).innerHTML += ""+Number(1)+",";
 		   } 
 		   else{
 		    document.getElementById('n'+where+''+Number(Number(document.getElementById('history').innerHTML)-1)).innerHTML = Number(Number(endpoint) + Number(1));
-			endpoint = document.getElementById('n'+where+''+Number(Number(gen) + 1)).innerHTML;
+			endpoint = document.getElementById('n'+where+''+Number(Number(document.getElementById('history').innerHTML) - 1)).innerHTML;
 		    document.getElementById(compound1).innerHTML += ""+Number(1)+",";
 		   }
 		   }
@@ -345,29 +374,29 @@ document.getElementById('output').innerHTML += rows.toString().replace(/\!/gm, "
 		  }
 		  if(step1.toString().search(/\-/gm) < 0 && step2.toString().search(/\-/gm) >= 0 && step2.toString().search("0") < 0){
 		  
-		   document.getElementById('n'+where+''+Number(Number(gen) + 1)).innerHTML = Number(Number(endpoint) + Number(0));
-			endpoint = document.getElementById('n'+where+''+Number(Number(gen) + 1)).innerHTML;
+		   document.getElementById('n'+where+''+Number(Number(document.getElementById('history').innerHTML) - 1)).innerHTML = Number(Number(endpoint) + Number(0));
+			endpoint = document.getElementById('n'+where+''+Number(Number(document.getElementById('history').innerHTML) - 1)).innerHTML;
 		   document.getElementById(compound1).innerHTML += ""+Number(0)+",";
 		   
 		  }
 		  if(step1.toString().search(/\-/gm) < 0 && step2.toString().search(/\-/gm) < 0 && step2.toString().search("0") >= 0){
 		  
 		   if(banking1.toString().search(/\d/g) >= 0 && Number(banking1) > Number(0)){
-		    document.getElementById('n'+where+''+Number(Number(gen) + 1)).innerHTML = Number(Number(endpoint) + Number(banking1));
-			endpoint = document.getElementById('n'+where+''+Number(Number(gen) + 1)).innerHTML;
+		    document.getElementById('n'+where+''+Number(Number(document.getElementById('history').innerHTML) - 1)).innerHTML = Number(Number(endpoint) + Number(banking1));
+			endpoint = document.getElementById('n'+where+''+Number(Number(document.getElementById('history').innerHTML) - 1)).innerHTML;
 		    document.getElementById(compound1).innerHTML += ""+Number(banking1)+",";
 			banking1 = banking2;
 			banking2 = '';
 		   }
 		   else{
 		    if(Number(Number(gen) + 1) === Number(Number(document.getElementById('history').innerHTML)-1)){
-		     document.getElementById('n'+where+''+Number(Number(gen) + 1)).innerHTML = Number(Number(endpoint) + Number(1));
-			endpoint = document.getElementById('n'+where+''+Number(Number(gen) + 1)).innerHTML;
+		     document.getElementById('n'+where+''+Number(Number(document.getElementById('history').innerHTML) - 1)).innerHTML = Number(Number(endpoint) + Number(1));
+			endpoint = document.getElementById('n'+where+''+Number(Number(document.getElementById('history').innerHTML) - 1)).innerHTML;
 		     document.getElementById(compound1).innerHTML += ""+Number(1)+",";
 		    }
 		    else{
 		     document.getElementById('n'+where+''+Number(Number(document.getElementById('history').innerHTML)-1)).innerHTML = Number(Number(endpoint) + Number(1));
-			endpoint = document.getElementById('n'+where+''+Number(Number(gen) + 1)).innerHTML;
+			endpoint = document.getElementById('n'+where+''+Number(Number(document.getElementById('history').innerHTML) - 1)).innerHTML; 
 		     document.getElementById(compound1).innerHTML += ""+Number(1)+",";
 		    }
 		   }
@@ -375,34 +404,34 @@ document.getElementById('output').innerHTML += rows.toString().replace(/\!/gm, "
 		  }
 		  if(step1.toString().search(/\-/gm) < 0 && step2.toString().search(/\-/gm) < 0 && step2.toString().search("0") < 0){
 		   if(Number(Number(gen) + 1) === Number(Number(document.getElementById('history').innerHTML)-1)){
- 		    document.getElementById('n'+where+''+Number(Number(gen) + 1)).innerHTML = Number(Number(endpoint) + Number(0));
-			endpoint = document.getElementById('n'+where+''+Number(Number(gen) + 1)).innerHTML;
+ 		    document.getElementById('n'+where+''+Number(Number(document.getElementById('history').innerHTML) - 1)).innerHTML = Number(Number(endpoint) + Number(0));
+			endpoint = document.getElementById('n'+where+''+Number(Number(document.getElementById('history').innerHTML) - 1)).innerHTML;
 		    document.getElementById(compound1).innerHTML += ""+Number(0)+",";
 		   } 
 		   else{
 		    document.getElementById('n'+where+''+Number(Number(document.getElementById('history').innerHTML)-1)).innerHTML = Number(Number(endpoint) + Number(0));
-			endpoint = document.getElementById('n'+where+''+Number(Number(gen) + 1)).innerHTML;
+			endpoint = document.getElementById('n'+where+''+Number(Number(document.getElementById('history').innerHTML) - 1)).innerHTML; 
 		    document.getElementById(compound1).innerHTML += ""+Number(0)+",";
 		   }
 		  }
 		  if(step1.toString().search(/\-/gm) >= 0 && step2.toString().search(/\-/gm) >= 0 && step2.toString().search("0") >= 0){
 		  
 		   if(banking1.toString().search(/\d/g) >= 0 && Number(banking1) < Number(0)){
-		    document.getElementById('n'+where+''+Number(Number(gen) + 1)).innerHTML = Number(Number(endpoint) + Number(banking1));
-			endpoint = document.getElementById('n'+where+''+Number(Number(gen) + 1)).innerHTML;
+		    document.getElementById('n'+where+''+Number(Number(document.getElementById('history').innerHTML) - 1)).innerHTML = Number(Number(endpoint) + Number(banking1));
+			endpoint = document.getElementById('n'+where+''+Number(Number(document.getElementById('history').innerHTML) - 1)).innerHTML;
 		    document.getElementById(compound1).innerHTML += ""+Number(banking1)+",";
 			banking1 = banking2;
 			banking2 = '';
 		   }
 		   else{
 		   if(Number(Number(gen) + 1) === Number(Number(document.getElementById('history').innerHTML)-1)){
-		    document.getElementById('n'+where+''+Number(Number(gen) + 1)).innerHTML = Number(Number(endpoint) + Number(-1));
-			endpoint = document.getElementById('n'+where+''+Number(Number(gen) + 1)).innerHTML;
+		    document.getElementById('n'+where+''+Number(Number(document.getElementById('history').innerHTML) - 1)).innerHTML = Number(Number(endpoint) + Number(-1));
+			endpoint = document.getElementById('n'+where+''+Number(Number(document.getElementById('history').innerHTML) - 1)).innerHTML;
 		    document.getElementById(compound1).innerHTML += ""+Number(-1)+",";
 		   } 
 		   else{
 		    document.getElementById('n'+where+''+Number(Number(document.getElementById('history').innerHTML)-1)).innerHTML = Number(Number(endpoint) + Number(-1));
-			endpoint = document.getElementById('n'+where+''+Number(Number(gen) + 1)).innerHTML;
+			endpoint = document.getElementById('n'+where+''+Number(Number(document.getElementById('history').innerHTML) - 1)).innerHTML;
 		    document.getElementById(compound1).innerHTML += ""+Number(-1)+",";
 		   }
 		   }
@@ -410,8 +439,8 @@ document.getElementById('output').innerHTML += rows.toString().replace(/\!/gm, "
 		  }
 		  if(step1.toString().search(/\-/gm) >= 0 && step2.toString().search(/\-/gm) >= 0 && step2.toString().search("0") < 0){
 		  
-		   document.getElementById('n'+where+''+Number(Number(gen) + 1)).innerHTML = Number(Number(endpoint) + Number(0));
-			endpoint = document.getElementById('n'+where+''+Number(Number(gen) + 1)).innerHTML;
+		   document.getElementById('n'+where+''+Number(Number(document.getElementById('history').innerHTML) - 1)).innerHTML = Number(Number(endpoint) + Number(0));
+			endpoint = document.getElementById('n'+where+''+Number(Number(document.getElementById('history').innerHTML) - 1)).innerHTML;
 		   document.getElementById(compound1).innerHTML += ""+Number(0)+",";
 		   
 		  }
@@ -424,20 +453,20 @@ document.getElementById('output').innerHTML += rows.toString().replace(/\!/gm, "
           if(step1.toString().search(/\-/gm) >= 0 && step2.toString().search(/\-/gm) >= 0 && step3.toString().search(/\-/gm) < 0 && step3.toString().search("0") >= 0){//-X -Y Z0
 		   
 		   if(banking1 === '' && isNaN(banking1) === true  && Number(step1) > Number(1)){
- 		    document.getElementById('n'+where+''+Number(gen)).innerHTML = Number(Number(endpoint) + Number(step1)); 
-			endpoint = document.getElementById('n'+where+''+gen).innerHTML;
+ 		    document.getElementById('n'+where+''+Number(Number(document.getElementById('history').innerHTML) - 1)).innerHTML = Number(Number(endpoint) + Number(step1)); 
+			endpoint = document.getElementById('n'+where+''+Number(Number(document.getElementById('history').innerHTML) - 1)).innerHTML;
 		    document.getElementById(compound1).innerHTML += ""+Number(step1)+",";
            }		   
 		   else if(banking1.toString().search(/\d/g) >= 0 && Number(banking1) > Number(0)){
-		    document.getElementById('n'+where+''+Number(gen)).innerHTML = Number(Number(endpoint) + Number(banking1));
-			endpoint = document.getElementById('n'+where+''+gen).innerHTML;
+		    document.getElementById('n'+where+''+Number(Number(document.getElementById('history').innerHTML) - 1)).innerHTML = Number(Number(endpoint) + Number(banking1));
+			endpoint = document.getElementById('n'+where+''+Number(Number(document.getElementById('history').innerHTML) - 1)).innerHTML;
 		    document.getElementById(compound1).innerHTML += ""+Number(banking1)+",";
 			banking1 = banking2;
 			banking2 = '';
 		  }
 		   else{
- 		    document.getElementById('n'+where+''+Number(gen)).innerHTML = Number(Number(endpoint) + Number(1)); 
-			endpoint = document.getElementById('n'+where+''+gen).innerHTML;
+ 		    document.getElementById('n'+where+''+Number(Number(document.getElementById('history').innerHTML) - 1)).innerHTML = Number(Number(endpoint) + Number(1)); 
+			endpoint = document.getElementById('n'+where+''+Number(Number(document.getElementById('history').innerHTML) - 1)).innerHTML;
 		    document.getElementById(compound1).innerHTML += ""+Number(1)+",";
 		   }
 		  
@@ -448,20 +477,20 @@ document.getElementById('output').innerHTML += rows.toString().replace(/\!/gm, "
 		 else if(step1.toString().search(/\-/gm) < 0 && step2.toString().search(/\-/gm) < 0 && step3.toString().search("0") >= 0){//+X -Y Z0 
 		  
 		   if(banking1 === '' && isNaN(banking1) === true  && Number(step1) < Number(-1)){
- 		    document.getElementById('n'+where+''+Number(gen)).innerHTML = Number(Number(endpoint) + Number(step1)); 
-			endpoint = document.getElementById('n'+where+''+gen).innerHTML;
+ 		    document.getElementById('n'+where+''+Number(Number(document.getElementById('history').innerHTML) - 1)).innerHTML = Number(Number(endpoint) + Number(step1)); 
+			endpoint = document.getElementById('n'+where+''+Number(Number(document.getElementById('history').innerHTML) - 1)).innerHTML;
 		    document.getElementById(compound1).innerHTML += ""+Number(step1)+",";
            }		   
 		   else if(banking1.toString().search(/\d/g) >= 0 && Number(banking1) < Number(0)){
-		    document.getElementById('n'+where+''+Number(gen)).innerHTML = Number(Number(endpoint) + Number(banking1));
-			endpoint = document.getElementById('n'+where+''+gen).innerHTML;
+		    document.getElementById('n'+where+''+Number(Number(document.getElementById('history').innerHTML) - 1)).innerHTML = Number(Number(endpoint) + Number(banking1));
+			endpoint = document.getElementById('n'+where+''+Number(Number(document.getElementById('history').innerHTML) - 1)).innerHTML;
 		    document.getElementById(compound1).innerHTML += ""+Number(banking1)+",";
 			banking1 = banking2;
 			banking2 = '';
 		   }
 		   else{
-		    document.getElementById('n'+where+''+Number(gen)).innerHTML = Number(Number(endpoint) + Number(-1));
-			endpoint = document.getElementById('n'+where+''+gen).innerHTML;
+		    document.getElementById('n'+where+''+Number(Number(document.getElementById('history').innerHTML) - 1)).innerHTML = Number(Number(endpoint) + Number(-1));
+			endpoint = document.getElementById('n'+where+''+Number(Number(document.getElementById('history').innerHTML) - 1)).innerHTML;
 		    document.getElementById(compound1).innerHTML += ""+Number(-1)+",";
 		   }
 		   
@@ -472,25 +501,25 @@ document.getElementById('output').innerHTML += rows.toString().replace(/\!/gm, "
 		 else if(step1.toString().search(/\-/gm) < 0 && step2.toString().search(/\-/gm) < 0 && step3.toString().search(/\-/gm) < 0 && step3.toString().search("0") >= 0){ //+X +Y 0
 		  
 		   if(banking1 === '' && isNaN(banking1) === true  && Number(step1) > Number(1)){
- 		    document.getElementById('n'+where+''+Number(gen)).innerHTML = Number(Number(endpoint) + Number(step1)); 
-			endpoint = document.getElementById('n'+where+''+gen).innerHTML;
+ 		    document.getElementById('n'+where+''+Number(Number(document.getElementById('history').innerHTML) - 1)).innerHTML = Number(Number(endpoint) + Number(step1)); 
+			endpoint = document.getElementById('n'+where+''+Number(Number(document.getElementById('history').innerHTML) - 1)).innerHTML;
 		    document.getElementById(compound1).innerHTML += ""+Number(step1)+",";
            }		   
 		   else if(banking1 === '' && isNaN(banking1) === true  && Number(step1) > Number(1)){
- 		    document.getElementById('n'+where+''+Number(gen)).innerHTML = Number(Number(endpoint) + Number(step1)); 
-			endpoint = document.getElementById('n'+where+''+gen).innerHTML;
+ 		    document.getElementById('n'+where+''+Number(Number(document.getElementById('history').innerHTML) - 1)).innerHTML = Number(Number(endpoint) + Number(step1)); 
+			endpoint = document.getElementById('n'+where+''+Number(Number(document.getElementById('history').innerHTML) - 1)).innerHTML;
 		    document.getElementById(compound1).innerHTML += ""+Number(step1)+",";
            }		   
 		   else if(banking1.toString().search(/\d/g) >= 0 && Number(banking1) > Number(0)){
-		    document.getElementById('n'+where+''+Number(Number(gen) + 1)).innerHTML = Number(Number(endpoint) + Number(banking1));
-			endpoint = document.getElementById('n'+where+''+gen).innerHTML;
+		    document.getElementById('n'+where+''+Number(Number(document.getElementById('history').innerHTML) - 1)).innerHTML = Number(Number(endpoint) + Number(banking1));
+			endpoint = document.getElementById('n'+where+''+Number(Number(document.getElementById('history').innerHTML) - 1)).innerHTML;
 		    document.getElementById(compound1).innerHTML += ""+Number(banking1)+",";
 			banking1 = banking2;
 			banking2 = '';
 		   }
 		   else{
-		    document.getElementById('n'+where+''+Number(gen)).innerHTML = Number(Number(endpoint) + Number(1));
-			endpoint = document.getElementById('n'+where+''+gen).innerHTML;
+		    document.getElementById('n'+where+''+Number(Number(document.getElementById('history').innerHTML) - 1)).innerHTML = Number(Number(endpoint) + Number(1));
+			endpoint = document.getElementById('n'+where+''+Number(Number(document.getElementById('history').innerHTML) - 1)).innerHTML;
 		    document.getElementById(compound1).innerHTML += ""+Number(1)+",";
 		   }
 		   
@@ -512,7 +541,8 @@ document.getElementById('output').innerHTML += rows.toString().replace(/\!/gm, "
 	
  //the rules for catching up an array is not correct or up to date //upagrade //fix up-to-speed rules for user simulation determination
 	//Im here I'm here im here i'm here 
-   
+	
+    drawgraph(where,gen,local,worldlen); <!--update the graph-->
   } //end of history in pair 
   
   
@@ -549,7 +579,6 @@ if(ofthis.querySelectorAll('div').length >= 2){
    
      selectorvalue2 = document.getElementById('cY'+Number(wlen+1)).innerHTML;
 var limitB = Math.abs(1 - Number(tempbuilder2.toString().split(/\,/gm).length));
-var teamdiff = Math.abs(Number(limitA) - Number(limitB));
 var found2 = tempbuilder2.toString().search(/\d/gm); 
  where2 = 'Y';
  wlen2 = Math.abs(wlen-1);
@@ -569,7 +598,6 @@ var found2 = tempbuilder2.toString().search(/\d/gm);
    
      selectorvalue2 = document.getElementById('cX'+Math.abs(wlen-1)).innerHTML;
 var limitB = Math.abs(1 - Number(tempbuilder2.toString().split(/\,/gm).length));
-var teamdiff = Math.abs(Number(limitA) - Number(limitB));
 var found2 = tempbuilder2.toString().search(/\d/gm); 
  where2 = 'X';
  wlen2 = Math.abs(wlen-1);
@@ -596,12 +624,11 @@ if(ofthis.querySelectorAll('div').length >= 3){
    
      selectorvalue3 = document.getElementById('cZ'+Number(wlen+2)).innerHTML;
 var limitC = Math.abs(1 - Number(tempbuilder3.toString().split(/\,/gm).length));
-var teamdiff2 = Math.abs(Number(limitA) - Number(limitC));
 var found3 = tempbuilder3.toString().search(/\d/gm); 
  where3 = 'Z';
  wlen3 = Math.abs(wlen2-1);
  
-    planesname3 = "n"+where3+""+Math.abs(gen-2)+"";
+    planesname3 = "n"+where3+""+Math.abs(gen+2)+"";
     planesum3 = document.getElementById(planesname3).innerHTML;
   }
   
@@ -617,7 +644,6 @@ var found3 = tempbuilder3.toString().search(/\d/gm);
    
      selectorvalue3 = document.getElementById('cZ'+Number(wlen-1)).innerHTML;
 var limitC = Math.abs(1 - Number(tempbuilder3.toString().split(/\,/gm).length));
-var teamdiff2 = Math.abs(Number(limitA) - Number(limitC));
 var found3 = tempbuilder3.toString().search(/\d/gm); 
  where3 = 'Z';
  wlen3 = Math.abs(wlen2+1);
@@ -629,20 +655,19 @@ var found3 = tempbuilder3.toString().search(/\d/gm);
  } //end of where === Y
 
  else if(where === "Z"){
-  if(document.getElementById('output').innerHTML.toString().search("Y"+Number(droppoint+1)) >= 0){
-   tempbuilder3 = document.getElementById("Y"+Number(droppoint+1)).innerHTML;
+  if(document.getElementById('output').innerHTML.toString().search("Y"+Number(droppoint-1)) >= 0){
+   tempbuilder3 = document.getElementById("Y"+Number(droppoint-1)).innerHTML;
    if(tempbuilder3.toString().search(/\,/g) < 0){
      tempbuilder3 = Number(-2); //this will tell us later that there is one but nothing in it
    }
    
-     selectorvalue3 = document.getElementById('cY'+Number(wlen+1)).innerHTML;
+     selectorvalue3 = document.getElementById('cY'+Number(wlen-1)).innerHTML;
 var limitC = Math.abs(1 - Number(tempbuilder3.toString().split(/\,/gm).length));
-var teamdiff2 = Math.abs(Number(limitA) - Number(limitC));
 var found3 = tempbuilder3.toString().search(/\d/gm); 
  where3 = 'Y';
  wlen3 = Math.abs(wlen2-1);
  
-    planesname3 = "n"+where3+""+Math.abs(gen+1)+"";
+    planesname3 = "n"+where3+""+Math.abs(gen-1)+"";
     planesum3 = document.getElementById(planesname3).innerHTML;
   }
  
@@ -662,7 +687,6 @@ if(ofthis.querySelectorAll('div').length >= 4){
    
      selectorvalue4 = document.getElementById('cD'+Number(wlen+3)).innerHTML;
 var limitD = Math.abs(1 - Number(tempbuilder4.toString().split(/\,/gm).length));
-var teamdiff2 = Math.abs(Number(limitA) - Number(limitD));
 var found4 = tempbuilder4.toString().search(/\d/gm); 
  where4 = 'D';
  wlen4 = Math.abs(wlen3-1);
@@ -679,7 +703,6 @@ var found4 = tempbuilder4.toString().search(/\d/gm);
    
      selectorvalue4 = document.getElementById('cZ'+Number(wlen+2)).innerHTML;
 var limitD = Math.abs(1 - Number(tempbuilder4.toString().split(/\,/gm).length));
-var teamdiff2 = Math.abs(Number(limitA) - Number(limitD));
 var found4 = tempbuilder4.toString().search(/\d/gm); 
  where4 = 'Z';
  wlen4 = Math.abs(wlen3-1);
@@ -696,7 +719,6 @@ var found4 = tempbuilder4.toString().search(/\d/gm);
    
      selectorvalue4 = document.getElementById('cY'+Number(wlen+1)).innerHTML;
 var limitD = Math.abs(1 - Number(tempbuilder4.toString().split(/\,/gm).length));
-var teamdiff2 = Math.abs(Number(limitA) - Number(limitD));
 var found4 = tempbuilder4.toString().search(/\d/gm); 
  where4 = 'Y';
  wlen4 = Math.abs(wlen3-1);
@@ -719,7 +741,6 @@ var found4 = tempbuilder4.toString().search(/\d/gm);
    
      selectorvalue4 = document.getElementById('cD'+Number(wlen+2)).innerHTML;
 var limitD = Math.abs(1 - Number(tempbuilder4.toString().split(/\,/gm).length));
-var teamdiff2 = Math.abs(Number(limitA) - Number(limitD));
 var found4 = tempbuilder4.toString().search(/\d/gm); 
  where4 = 'D';
  wlen4 = Math.abs(wlen3-1);
@@ -740,7 +761,6 @@ var found4 = tempbuilder4.toString().search(/\d/gm);
    
      selectorvalue4 = document.getElementById('cX'+Number(wlen-2)).innerHTML;
 var limitD = Math.abs(1 - Number(tempbuilder4.toString().split(/\,/gm).length));
-var teamdiff2 = Math.abs(Number(limitA) - Number(limitD));
 var found4 = tempbuilder4.toString().search(/\d/gm); 
  where4 = 'X';
  wlen4 = Math.abs(wlen3+1);
@@ -761,7 +781,6 @@ var found4 = tempbuilder4.toString().search(/\d/gm);
    
      selectorvalue4 = document.getElementById('cX'+Number(wlen-3)).innerHTML;
 var limitD = Math.abs(1 - Number(tempbuilder4.toString().split(/\,/gm).length));
-var teamdiff2 = Math.abs(Number(limitA) - Number(limitD));
 var found4 = tempbuilder4.toString().search(/\d/gm); 
  where4 = 'X';
  wlen4 = Math.abs(wlen3+1);
@@ -782,15 +801,12 @@ var found4 = tempbuilder4.toString().search(/\d/gm);
 else{ //None seen
    
 var limitB = Number(-2);
-var teamdiff = Number(limitA - 0);
 var found2 = Number(-2); 
  
 var limitC = Number(-2);
-var teamdiff2 = Number(limitA - 0);
 var found3 = Number(-2); 
  
 var limitD = Number(-2);
-var teamdiff3 = Number(limitA - 0);
 var found4 = Number(-2); 
  
 }  //for some reason this is only needed for this ONLY 1 instance: if _X is the only plane!
@@ -802,6 +818,7 @@ var found4 = Number(-2);
 
 
       selectorvalue = document.getElementById('c'+where+''+wlen).innerHTML;
+	  endingvalue =  document.getElementById('n'+where+''+wlen).innerHTML;
  var limitA = Math.abs(1 - Number(tempbuilder.toString().split(/\,/gm).length));
  var found = tempbuilder.toString().search(/\d/gm); 
  var sumof = 0, sumofsign = 0, sumofvalue = 0, sumofzero = 0;
@@ -901,7 +918,7 @@ if(Math.abs(0 - Number(sumof)) <= Math.abs(0 - Number(limitA))){
   notsburg = notsburg.toString().replace(/\-/, '');
  }
  
- <!-- X|Y planetest -->
+ 
  var planetest = Number(-2);  
  
  if(planesum2.toString().length >= 1){
@@ -909,7 +926,7 @@ if(Math.abs(0 - Number(sumof)) <= Math.abs(0 - Number(limitA))){
  }
  
  
- if(Math.sign(planetest) === Number(-1)){ //test failed
+ if(Math.sign(planetest) === Number(-1) || Math.sign(planetest) === Number(0)){ //test failed
   
   planetest = Math.abs(0 - planesum2) - Math.abs(0 - planesum);
   
@@ -917,12 +934,12 @@ if(Math.abs(0 - Number(sumof)) <= Math.abs(0 - Number(limitA))){
    psums = planetest;
   }
  }
- if(Math.sign(planetest) === Number(1)){//test passed
- psums = planetest; 
+ else {//test passed
+  psums = planetest; 
  }
  
  
- <!-- Y|Z planetest -->
+ 
  var planetest2 = Number(-2);
  
  if(planesum3.toString().length >= 1){
@@ -930,7 +947,7 @@ if(Math.abs(0 - Number(sumof)) <= Math.abs(0 - Number(limitA))){
  }
  
  
- if(Math.sign(planetest2) === Number(-1)){ //test failed
+ if(Math.sign(planetest2) === Number(-1) || Math.sign(planetest2) === Number(0)){ //test failed
   
   planetest2 = Math.abs(0 - planesum3) - Math.abs(0 - planesum2);
   
@@ -938,95 +955,96 @@ if(Math.abs(0 - Number(sumof)) <= Math.abs(0 - Number(limitA))){
    psums2 = planetest2;
   }
  }
- if(Math.sign(planetest2) === Number(1)){//test passed
- psums2 = planetest2; 
+ else{//test passed
+  psums2 = planetest2; 
  }
  
  
- <!-- Z|D planetest -->
+ 
  var planetest3 = Number(-2);
  
- if(planesum4.toString().length >= 1){
-  planetest3 = Math.abs(0 - planesum3) - Math.abs(0 - planesum4);
+ if(planesum3.toString().length >= 1){
+  planetest3 = Math.abs(0 - planesum) - Math.abs(0 - planesum3);
  }
  
  
- if(Math.sign(planetest3) === Number(-1)){//test failed
+ if(Math.sign(planetest3) === Number(-1) || Math.sign(planetest3) === Number(0)){//test failed
   
-  planetest3 = Math.abs(0 - planesum4) - Math.abs(0 - planesum3);
+  planetest3 = Math.abs(0 - planesum3) - Math.abs(0 - planesum);
   
   if(Math.sign(planetest3) === Number(1)){ //double check
    psums3 = planetest3;
   }
  }
- if(Math.sign(planetest3) === Number(1)){//test passed
- psums3 = planetest3; 
+ else {//test passed
+  psums3 = planetest3; 
  }
  
  
  
- <!-- X|Z planetest -->
+
  var planetest4 = Number(-2);  
  
- if(planesum3.toString().length >= 1){
-  planetest4 = Math.abs(0 - planesum) - Math.abs(0 - planesum3);
+ if(planesum4.toString().length >= 1){
+  planetest4 = Math.abs(0 - planesum3) - Math.abs(0 - planesum4);
  }
  
  
- if(Math.sign(planetest4) === Number(-1)){//test failed
+ if(Math.sign(planetest4) === Number(-1) || Math.sign(planetest4) === Number(0)){//test failed
   
-  planetest4 = Math.abs(0 - planesum3) - Math.abs(0 - planesum);
+  planetest4 = Math.abs(0 - planesum4) - Math.abs(0 - planesum3);
   
   if(Math.sign(planetest4) === Number(1)){ //double check
    psums4 = planetest4;
   }
  }
- if(Math.sign(planetest4) === Number(1)){//test passed
- psums4 = planetest4; 
+ else {//test passed
+  psums4 = planetest4; 
  }
  
  
  
- <!-- X|D planetest -->
+
  var planetest5 = Number(-2);  
  
  if(planesum4.toString().length >= 1){
-  planetest5 = Math.abs(0 - planesum) - Math.abs(0 - planesum4);
+  planetest5 = Math.abs(0 - planesum2) - Math.abs(0 - planesum4);
  }
  
  
- if(Math.sign(planetest5) === Number(-1)){//test failed
+ if(Math.sign(planetest5) === Number(-1) || Math.sign(planetest5) === Number(0)){//test failed
   
-  planetest5 = Math.abs(0 - planesum4) - Math.abs(0 - planesum);
+  planetest5 = Math.abs(0 - planesum4) - Math.abs(0 - planesum2);
   
   if(Math.sign(planetest5) === Number(1)){ //double check
    psums5 = planetest5;
   }
  }
- if(Math.sign(planetest5) === Number(1)){//test passed
- psums5 = planetest5; 
+ else {//test passed
+  psums5 = planetest5; 
  }
  
  
- <!-- Y|Z planetest -->
+
  var planetest6 = Number(-2);
  
  if(planesum4.toString().length >= 1){
-  planetest6 = Math.abs(0 - planesum2) - Math.abs(0 - planesum4);
+  planetest6 = Math.abs(0 - planesum) - Math.abs(0 - planesum4);
  }
  
  
- if(Math.sign(planetest6) === Number(-1)){//test failed
+ if(Math.sign(planetest6) === Number(-1) || Math.sign(planetest6) === Number(0)){//test failed
   
-  planetest6 = Math.abs(0 - planesum4) - Math.abs(0 - planesum2);
+  planetest6 = Math.abs(0 - planesum4) - Math.abs(0 - planesum);
   
   if(Math.sign(planetest6) === Number(1)){ //double check
    psums6 = planetest6;
   }
  }
- if(Math.sign(planetest6) === Number(1)){//test passed
- psums6 = planetest6; 
+ else {//test passed
+  psums6 = planetest6; 
  }
+ 
  
  //additional tests are for stairstep rule!
  
@@ -1036,27 +1054,31 @@ if(Math.abs(0 - Number(sumof)) <= Math.abs(0 - Number(limitA))){
   
   //below are selector rules
   
-  //still need to be able to abuse the stair step rule! I'm here i'm here Im here im here 
   
-  //still need to add the multi-paired rules to all
+  //going up still doesn't see when it's not at the ledge or near an edge
+  //going down still doesn't do a multi-level check except X->Y & Y->X when X->Z & X->D ++ Y->Z Y->D even if we aren't using D offhand
+  
   
   //still needs to be able to go up if are not extending past the base in the _Z (stair step abusable rule)
-  if(Number(dir) === 1 && Number(selectorvalue) <= preview && planesum !== 0 || Number(dir) === 1 && Number(selectorvalue) < Number(sumofsign) && Number(sumofsign) >= 1 && planesum !== 0 || Number(dir) === 1 && Number(newsum) <= 0 && Number(selectorvalue) <= preview && planesum !== 0){    //state 1 (dir is 1 && selector value isn't greater than expected) OR state 2 (dir is 1 && selectorvalue is lessthan or equal to sumofsign && sumofsing is 1 or greater in value) OR state 3 (state 1 is true && newsum is 0 or greater)
+  if(Number(dir) === 1 && Number(selectorvalue) <= preview && planesum !== 0 || Number(dir) === 1 && Number(selectorvalue) <= Number(sumofsign) && Number(sumofsign) >= 1 && planesum !== 0 || Number(dir) === 1 && Number(newsum) <= 0 && Number(selectorvalue) <= preview && planesum !== 0 || Number(dir) === 1 && psums2 > Number(-2) && Number(selectorvalue) <= Number(sumofsign) && Number(sumofsign) >= 1 ){    //state 1 (dir is 1 && selector value isn't greater than expected) OR state 2 (dir is 1 && selectorvalue is lessthan or equal to sumofsign && sumofsing is 1 or greater in value) OR state 3 (state 1 is true && newsum is 0 or greater)
   
  
     document.getElementById('c'+where+''+wlen).innerHTML = Number(Number(selectorvalue) + 1);  //go up
-                      //we need to force the line
+                    
   
   }
   
-  //multi-array checks  //something isn't working here 
-  else if(Number(dir) === 2 && psums > Number(-2) && Number(Number(planesum) + Number(selectorvalue - 1)) >= 1 || Number(dir) === 2 && tempbuilder2 >= Number(-1) && Number(selectorvalue - 1) >= 0 ||  Number(dir) === 2 && tempbuilder3 >= Number(-1) && Number(selectorvalue2 - 1) >= 0 ){  
-   //state 1 (dir is 2 && there is a pair available && the difference of the 2 endpoints has positive value && the next select-down won't be under 1) OR 
-    
  
+  else if(Number(dir) === 2 && psums > Number(-2) && Number(Number(planesum) + Number(selectorvalue - 1)) >= 1 || Number(dir) === 2 && tempbuilder2 >= Number(-1) && psums > Number(-2) && Number(selectorvalue - 1) >= 0 || Number(dir) === 2 && psums2 > Number(-2) && Number(Number(planesum3) + Number(selectorvalue - 1)) >= 1  || Number(dir) === 2 && tempbuilder3 >= Number(-1) && Number(selectorvalue - 1) >= 0 || Number(dir) === 2 && psums3 > Number(-2) && Number(Number(planesum4) + Number(selectorvalue - 1)) >= 1 || Number(dir) === 2 && tempbuilder4 >= Number(-1) && Number(selectorvalue - 1) >= 0 ){ //|| Number(dir) === 2 && psums > Number(-2) && Math.abs(Number(selectorvalue) - 1) <= Number(sumofvalue) && Number(sumofvalue) >= 1 && Number(Number(endingvalue) - Math.abs(Number(selectorvalue) - 1)) <= Number(1) ){
+  
+       //tempbuilder# is which pair set we have (2 has 2, 3 has 3, 4 has 4) <!-- used to prevent backtracking in single arrays -->
+           //selectorvalue is always the one clicked
+                                                           //the trailing sign rule isn't fully working 
+ 
+           //look for Negative in pair sets and for double negatives I'm here i'm here Im here im here
   
    document.getElementById('c'+where+''+wlen).innerHTML = Number(Number(selectorvalue) - 1); //go down
-                      //we need to force the line
+                     
 					  
   }
   else{
@@ -1071,7 +1093,7 @@ if(Math.abs(0 - Number(sumof)) <= Math.abs(0 - Number(limitA))){
 
 
 
-function carryon(where,wlen,gen){ //stair step abusable rule isn't present here (may need to be a selector rule) I'm here i'm here  im here Im here 
+function carryon(where,wlen,gen){ 
 
  var whatlen = Number(Number(document.getElementById(where+""+wlen).innerHTML.toString().split(/,/gm).length) - 1);
  var what = Number(document.getElementById(where+""+wlen).innerHTML.toString().split(/,/gm)[whatlen]);
@@ -1091,11 +1113,13 @@ function carryon(where,wlen,gen){ //stair step abusable rule isn't present here 
 	 }
 	 else if(Number(Number(document.getElementById("nY"+Number(Number(gen)+1)).innerHTML) +  Number(document.getElementById(pb1).innerHTML)) === 0){
 	  document.getElementById(ep1).innerHTML = Number(Number(document.getElementById(ep1).innerHTML) + Number(1));
+	  document.getElementById(pb1).innerHTML = Number(0);
 	  out1 = Number(1);
 	 }
 	 else if(Number(Number(document.getElementById("nY"+Number(Number(gen)+1)).innerHTML) +  Number(document.getElementById(pb1).innerHTML)) < 0){
 	  var que = Math.abs(Number(Number(document.getElementById("nY"+Number(Number(gen)+1)).innerHTML) +  Number(document.getElementById(pb1).innerHTML))); //force a positive number 
 	  document.getElementById(ep1).innerHTML = Number(Number(document.getElementById(ep1).innerHTML) + Number(que));
+	  document.getElementById(pb1).innerHTML = Number(0);
 	  out1 = Number(que);
 	 }
 	 else{
@@ -1113,11 +1137,13 @@ function carryon(where,wlen,gen){ //stair step abusable rule isn't present here 
 	 }
 	 else if(Number(Number(document.getElementById("nZ"+Number(Number(gen)+2)).innerHTML) +  Number(document.getElementById(pb2).innerHTML)) === 0){
 	  document.getElementById(ep2).innerHTML = Number(Number(document.getElementById(ep2).innerHTML) + Number(1));
+	  document.getElementById(pb2).innerHTML = Number(0);
 	  out2 = Number(1);
 	 }
 	 else if(Number(Number(document.getElementById("nZ"+Number(Number(gen)+2)).innerHTML) +  Number(document.getElementById(pb2).innerHTML)) < 0){
 	  var que = Math.abs(Number(Number(document.getElementById("nZ"+Number(Number(gen)+2)).innerHTML) +  Number(document.getElementById(pb2).innerHTML))); //force a positive number 
 	  document.getElementById(ep2).innerHTML = Number(Number(document.getElementById(ep2).innerHTML) + Number(que));
+	  document.getElementById(pb2).innerHTML = Number(0);
 	  out2 = Number(que);
 	 }
 	 else{
@@ -1135,11 +1161,13 @@ function carryon(where,wlen,gen){ //stair step abusable rule isn't present here 
 	 }
 	 else if(Number(Number(document.getElementById("nD"+Number(Number(gen)+3)).innerHTML) +  Number(document.getElementById(pb3).innerHTML)) === 0){
 	  document.getElementById(ep3).innerHTML = Number(Number(document.getElementById(ep3).innerHTML) + Number(1));
+	  document.getElementById(pb3).innerHTML = Number(0);
 	  out3 = Number(1);
 	 }
 	 else if(Number(Number(document.getElementById("nD"+Number(Number(gen)+3)).innerHTML) +  Number(document.getElementById(pb3).innerHTML)) < 0){
 	  var que = Math.abs(Number(Number(document.getElementById("nD"+Number(Number(gen)+3)).innerHTML) +  Number(document.getElementById(pb3).innerHTML))); //force a positive number 
 	  document.getElementById(ep3).innerHTML = Number(Number(document.getElementById(ep3).innerHTML) + Number(que));
+	  document.getElementById(pb3).innerHTML = Number(0);
 	  out3 = Number(que);
 	 }
 	 else{
@@ -1163,11 +1191,13 @@ function carryon(where,wlen,gen){ //stair step abusable rule isn't present here 
 	 }
 	 else if(Number(Number(document.getElementById("nZ"+Number(Number(gen)+1)).innerHTML) +  Number(document.getElementById(pb1).innerHTML)) === 0){
 	  document.getElementById(ep1).innerHTML = Number(Number(document.getElementById(ep1).innerHTML) + Number(1));
+	  document.getElementById(pb1).innerHTML = Number(0);
 	  out1 = Number(1);
 	 }
 	 else if(Number(Number(document.getElementById("nZ"+Number(Number(gen)+1)).innerHTML) +  Number(document.getElementById(pb1).innerHTML)) < 0){
 	  var que = Math.abs(Number(Number(document.getElementById("nZ"+Number(Number(gen)+1)).innerHTML) +  Number(document.getElementById(pb1).innerHTML))); //force a positive number 
 	  document.getElementById(ep1).innerHTML = Number(Number(document.getElementById(ep1).innerHTML) + Number(que));
+	  document.getElementById(pb1).innerHTML = Number(0);
 	  out1 = Number(que);
 	 }
 	 else{
@@ -1185,11 +1215,13 @@ function carryon(where,wlen,gen){ //stair step abusable rule isn't present here 
 	 }
 	 else if(Number(Number(document.getElementById("nD"+Number(Number(gen)+2)).innerHTML) +  Number(document.getElementById(pb2).innerHTML)) === 0){
 	  document.getElementById(ep2).innerHTML = Number(Number(document.getElementById(ep2).innerHTML) + Number(1));
+	  document.getElementById(pb2).innerHTML = Number(0);
 	  out2 = Number(1);
 	 }
 	 else if(Number(Number(document.getElementById("nD"+Number(Number(gen)+2)).innerHTML) +  Number(document.getElementById(pb2).innerHTML)) < 0){
 	  var que = Math.abs(Number(Number(document.getElementById("nD"+Number(Number(gen)+2)).innerHTML) +  Number(document.getElementById(pb2).innerHTML))); //force a positive number 
 	  document.getElementById(ep2).innerHTML = Number(Number(document.getElementById(ep2).innerHTML) + Number(que));
+	  document.getElementById(pb2).innerHTML = Number(0);
 	  out2 = Number(que);
 	 }
 	 else{
@@ -1207,11 +1239,13 @@ function carryon(where,wlen,gen){ //stair step abusable rule isn't present here 
 	 }
 	 else if(Number(Number(document.getElementById("nX"+Number(Number(gen)-1)).innerHTML) +  Number(document.getElementById(pb3).innerHTML)) === 0){
 	  document.getElementById(ep3).innerHTML = Number(Number(document.getElementById(ep3).innerHTML) + Number(1));
+	  document.getElementById(pb3).innerHTML = Number(0);
 	  out3 = Number(1);
 	 }
 	 else if(Number(Number(document.getElementById("nX"+Number(Number(gen)-1)).innerHTML) +  Number(document.getElementById(pb3).innerHTML)) < 0){
 	  var que = Math.abs(Number(Number(document.getElementById("nX"+Number(Number(gen)-1)).innerHTML) +  Number(document.getElementById(pb3).innerHTML))); //force a positive number 
 	  document.getElementById(ep3).innerHTML = Number(Number(document.getElementById(ep3).innerHTML) + Number(que));
+	  document.getElementById(pb3).innerHTML = Number(0);
 	  out3 = Number(que);
 	 }
 	 else{
@@ -1235,11 +1269,13 @@ function carryon(where,wlen,gen){ //stair step abusable rule isn't present here 
 	 }
 	 else if(Number(Number(document.getElementById("nD"+Number(Number(gen)+1)).innerHTML) +  Number(document.getElementById(pb1).innerHTML)) === 0){
 	  document.getElementById(ep1).innerHTML = Number(Number(document.getElementById(ep1).innerHTML) + Number(1));
+	  document.getElementById(pb1).innerHTML = Number(0);
 	  out1 = Number(1);
 	 }
 	 else if(Number(Number(document.getElementById("nD"+Number(Number(gen)+1)).innerHTML) +  Number(document.getElementById(pb1).innerHTML)) < 0){
 	  var que = Math.abs(Number(Number(document.getElementById("nD"+Number(Number(gen)+1)).innerHTML) +  Number(document.getElementById(pb1).innerHTML))); //force a positive number 
 	  document.getElementById(ep1).innerHTML = Number(Number(document.getElementById(ep1).innerHTML) + Number(que));
+	  document.getElementById(pb1).innerHTML = Number(0);
 	  out1 = Number(que);
 	 }
 	 else{
@@ -1257,11 +1293,13 @@ function carryon(where,wlen,gen){ //stair step abusable rule isn't present here 
 	 }
 	 else if(Number(Number(document.getElementById("nX"+Number(Number(gen)-2)).innerHTML) +  Number(document.getElementById(pb2).innerHTML)) === 0){
 	  document.getElementById(ep2).innerHTML = Number(Number(document.getElementById(ep2).innerHTML) + Number(1));
+	  document.getElementById(pb2).innerHTML = Number(0);
 	  out2 = Number(1);
 	 }
 	 else if(Number(Number(document.getElementById("nX"+Number(Number(gen)-2)).innerHTML) +  Number(document.getElementById(pb2).innerHTML)) < 0){
 	  var que = Math.abs(Number(Number(document.getElementById("nX"+Number(Number(gen)-2)).innerHTML) +  Number(document.getElementById(pb2).innerHTML))); //force a positive number 
 	  document.getElementById(ep2).innerHTML = Number(Number(document.getElementById(ep2).innerHTML) + Number(que));
+	  document.getElementById(pb2).innerHTML = Number(0);
 	  out2 = Number(que);
 	 }
 	 else{
@@ -1279,11 +1317,13 @@ function carryon(where,wlen,gen){ //stair step abusable rule isn't present here 
 	 }
 	 else if(Number(Number(document.getElementById("nY"+Number(Number(gen)-1)).innerHTML) +  Number(document.getElementById(pb3).innerHTML)) === 0){
 	  document.getElementById(ep3).innerHTML = Number(Number(document.getElementById(ep3).innerHTML) + Number(1));
+	  document.getElementById(pb3).innerHTML = Number(0);
 	  out3 = Number(1);
 	 }
 	 else if(Number(Number(document.getElementById("nY"+Number(Number(gen)-1)).innerHTML) +  Number(document.getElementById(pb3).innerHTML)) < 0){
 	  var que = Math.abs(Number(Number(document.getElementById("nY"+Number(Number(gen)-1)).innerHTML) +  Number(document.getElementById(pb3).innerHTML))); //force a positive number 
 	  document.getElementById(ep3).innerHTML = Number(Number(document.getElementById(ep3).innerHTML) + Number(que));
+	  document.getElementById(pb3).innerHTML = Number(0);
 	  out3 = Number(que);
 	 }
 	 else{
@@ -1307,11 +1347,13 @@ function carryon(where,wlen,gen){ //stair step abusable rule isn't present here 
 	 }
 	 else if(Number(Number(document.getElementById("nX"+Number(Number(gen)-3)).innerHTML) +  Number(document.getElementById(pb1).innerHTML)) === 0){
 	  document.getElementById(ep1).innerHTML = Number(Number(document.getElementById(ep1).innerHTML) + Number(1));
+	  document.getElementById(pb1).innerHTML = Number(0);
 	  out1 = Number(1);
 	 }
 	 else if(Number(Number(document.getElementById("nX"+Number(Number(gen)-3)).innerHTML) +  Number(document.getElementById(pb1).innerHTML)) < 0){
 	  var que = Math.abs(Number(Number(document.getElementById("nX"+Number(Number(gen)-3)).innerHTML) +  Number(document.getElementById(pb1).innerHTML))); //force a positive number 
 	  document.getElementById(ep1).innerHTML = Number(Number(document.getElementById(ep1).innerHTML) + Number(que));
+	  document.getElementById(pb1).innerHTML = Number(0);
 	  out1 = Number(que);
 	 }
 	 else{
@@ -1329,11 +1371,13 @@ function carryon(where,wlen,gen){ //stair step abusable rule isn't present here 
 	 }
 	 else if(Number(Number(document.getElementById("nY"+Number(Number(gen)-2)).innerHTML) +  Number(document.getElementById(pb2).innerHTML)) === 0){
 	  document.getElementById(ep2).innerHTML = Number(Number(document.getElementById(ep2).innerHTML) + Number(1));
+	  document.getElementById(pb2).innerHTML = Number(0);
 	  out2 = Number(1);
 	 }
 	 else if(Number(Number(document.getElementById("nY"+Number(Number(gen)-2)).innerHTML) +  Number(document.getElementById(pb2).innerHTML)) < 0){
 	  var que = Math.abs(Number(Number(document.getElementById("nY"+Number(Number(gen)-2)).innerHTML) +  Number(document.getElementById(pb2).innerHTML))); //force a positive number 
 	  document.getElementById(ep2).innerHTML = Number(Number(document.getElementById(ep2).innerHTML) + Number(que));
+	  document.getElementById(pb2).innerHTML = Number(0);
 	  out2 = Number(que);
 	 }
 	 else{
@@ -1351,11 +1395,13 @@ function carryon(where,wlen,gen){ //stair step abusable rule isn't present here 
 	 }
 	 else if(Number(Number(document.getElementById("nZ"+Number(Number(gen)-1)).innerHTML) +  Number(document.getElementById(pb3).innerHTML)) === 0){
 	  document.getElementById(ep3).innerHTML = Number(Number(document.getElementById(ep3).innerHTML) + Number(1));
+	  document.getElementById(pb3).innerHTML = Number(0);
 	  out3 = Number(1);
 	 }
 	 else if(Number(Number(document.getElementById("nZ"+Number(Number(gen)-1)).innerHTML) +  Number(document.getElementById(pb3).innerHTML)) < 0){
 	  var que = Math.abs(Number(Number(document.getElementById("nZ"+Number(Number(gen)-1)).innerHTML) +  Number(document.getElementById(pb3).innerHTML))); //force a positive number 
 	  document.getElementById(ep3).innerHTML = Number(Number(document.getElementById(ep3).innerHTML) + Number(que));
+	  document.getElementById(pb3).innerHTML = Number(0);
 	  out3 = Number(que);
 	 }
 	 else{
@@ -1385,33 +1431,151 @@ function carryon(where,wlen,gen){ //stair step abusable rule isn't present here 
 
 
  //get grid mapping to show the shape as it's being made
-function drawgraph(where,gen,droppoint,wlen){ 
-
+function drawgraph(where,gen,droppoint,wlen){
+var tc = 1;
 var wmup = document.getElementById('display').innerHTML;
 
- if(wmup.toString().length >= 1){          //looks to see if anything in display
+ if(wmup.toString().length >= 52){          //looks to see if anything in display  //the HR is 51 characters + spaces long
   var iswmup = wmup.match(/id\=\Dwm\D/gm); //looks for "id= wm " where " " are anything other than digits
 
  if(iswmup.length >= 1){                   //if welcome message is seen 
   document.getElementById('wm').remove(); //remove welcome message 
+  document.getElementById('display').innerHTML = "<hr class='pagehr' style='width:31%;opacity:0.33;'>"; //this HR is L51
  }
  
  //other options to do if something is in display here....
 }
 
 
+ <!-- build graph -->
+ var smooth = Number(gen);
+ <!--next section looks for all the planes per genertion per change clicked-->
+ 
+//catch og point data in this section I'm here i'm here Im here im here 
+ if(where === "X"){
+   if(document.getElementById('output').innerHTML.toString().search('Ydiv'+Number(Number(gen)+1)) >= 0){
+    tc = Number(tc) + 1;
+   }
+   if(document.getElementById('output').innerHTML.toString().search('Zdiv'+Number(Number(gen)+2)) >= 0){
+    tc = Number(tc) + 1;
+   }
+   if(document.getElementById('output').innerHTML.toString().search('Ddiv'+Number(Number(gen)+3)) >= 0){
+    tc = Number(tc) + 1;
+   }
+ }
+ if(where === "Y"){
+ tc = 2;
+  smooth = Number(Number(gen) - 1);
+   if(document.getElementById('output').innerHTML.toString().search('Zdiv'+Number(Number(gen)+1)) >= 0){
+    tc = Number(tc) + 1;
+   }
+   if(document.getElementById('output').innerHTML.toString().search('Ddiv'+Number(Number(gen)+2)) >= 0){
+    tc = Number(tc) + 1;
+   }
+ }
+ if(where === "Z"){
+ tc = 3;
+  smooth = Number(Number(gen) - 2);
+   if(document.getElementById('output').innerHTML.toString().search('Ddiv'+Number(Number(gen)+1)) >= 0){
+    tc = Number(tc) + 1;
+   }
+ }
+ if(where === "D"){
+ tc = 4;
+  smooth = Number(Number(gen) - 3);
+ }
+ <!-- next builds the graphing disgrams -->
+  var findx = "nX"+Number(smooth);
+  var lc = Number(document.getElementById(findx).innerHTML);
+  var uff = '', uffda = '';
+  var row = [];
+   
+  if(tc >= 1){
+   for(var i = 1; i <= Number(lc); i++){//2Dimension
+    for(var e = 1; e <= Number(lc); e++){//1Dimension
+ 	  uff = uffda;
+	  uffda = uff + "" + "<span id='x"+i+"y"+e+"' style='color:black;' title=' X("+i+":"+e+")Y '>&#9633;</span>, ";
+	}
+	
+	row.push(uffda + "!");
+	uff = '';
+	uffda = '';
+	
+  }
+  
+   row.push("<sup>Top View (X|Y)</sup>!!");
+   
+   for(var i = 1; i <= Number(lc); i++){//2Dimension
+    for(var e = 1; e <= Number(lc); e++){//1Dimension
+ 	  uff = uffda;
+	  uffda = uff + "" + "<span id='x"+i+"x"+e+"' style='color:black;' title=' X1("+i+":"+e+")X2 '>&#9633;</span>, ";
+	}
+	
+	row.push(uffda + "!");
+	uff = '';
+	uffda = '';
+	
+  }
+  
+   row.push("<sup>_X</sup>!!");
+ }
+  
+  if(tc >= 2){
+   for(var i = 1; i <= Number(lc); i++){//2Dimension
+    for(var e = 1; e <= Number(lc); e++){//1Dimension
+ 	  uff = uffda;
+	  uffda = uff + "" + "<span id='y"+i+"y"+e+"' style='color:black;' title=' "+i+":"+e+" '>&#9633;</span>, ";
+	}
+	
+	row.push(uffda + "!");
+	uff = '';
+	uffda = '';
+	
+  }
+  
+   row.push("<sup>_Y</sup>!!");
+ }
+   
+  if(tc >= 3){
+   for(var i = 1; i <= Number(lc); i++){//2Dimension
+    for(var e = 1; e <= Number(lc); e++){//1Dimension
+ 	  uff = uffda;
+	  uffda = uff + "" + "<span id='z"+i+"z"+e+"' style='color:black;' title=' "+i+":"+e+" '>&#9633;</span>, ";
+	}
+	
+	row.push(uffda + "!");
+	uff = '';
+	uffda = '';
+	
+   }
+  
+    row.push("<sup>_Z</sup>!!");
+  }
+   
+   
+  if(tc >= 4){
+   for(var i = 1; i <= Number(lc); i++){//2Dimension
+    for(var e = 1; e <= Number(lc); e++){//1Dimension
+ 	  uff = uffda;
+	  uffda = uff + "" + "<span id='d"+i+"d"+e+"' style='color:black;' title=' "+i+":"+e+" '>&#9633;</span>, ";
+	}
+	
+	row.push(uffda + "!");
+	uff = '';
+	uffda = '';
+	
+   }
+  
+    row.push("<sup>_d</sup>!!");
+  }
+ 
+document.getElementById('graph').innerHTML = "<div id='graphed'>"+row.toString().replace(/,/gm, " ").replace(/!/gm, "</br>")+"</div>";
+
+
+//need to plot points! I'm here i'm here Im here im here
 
 
 
 
-
-//the graph is going to be X|Y & Z|D   but on screen will be <x#y#><z#d#>.... in the order of -x +y +z -d 
-
-//example  x-5y5 z5d-5 x-4y5 z5d-4 x3y5 z5d-3 x-2y5 z5d-2 x-1y5 z5d-1 x1y5 z5d1 x2y5 z5d2 x3y5 z5d3 x4y5 z5d4 x5y5 z5d5 !! 
-//example2 x-5yd5z-5  x-4y5d5z-4s
-
-//use example 2 of x|y d|z but keep em seperated and offset so d&z sit inside x&y
-
-
-}
+}//end of draw graph equation
 </script>
