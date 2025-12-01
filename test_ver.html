@@ -349,6 +349,8 @@ if(cr === "0" && crs === "silver"){
 
 
 opensides = Number(tempcount);
+document.getElementById('sc').innerHTML = Number(document.getElementById('sc').innerHTML || 0) + 1; //added new
+
 countme = Number(toggle) + Number(opensides);
 document.getElementById('pointer').innerHTML = countme;
 
@@ -470,65 +472,8 @@ else{ //this should always be the last resort which is first pick (gen0)
  
  if(gen === 0){  //we only want to consider new placements by user as this, all others should keep within it's counted limit
   document.getElementById('counting').innerHTML = Number(that);
-  document.getElementById('bank').innerHTML += id + ",";  // Number(that); //old cut
-     // ——— BUG 2 FIX: Global Alt-Moves Scan (whole shape) ———
-    var banked = document.getElementById('bank').innerHTML.split(',');
-    var altcount = 0;
-    var seen = "";  // Tracks unique spots to avoid double-counts
-
-    for(var b = 0; b < banked.length; b++){
-      if(banked[b].length < 4) continue;  // Skip empties/non-IDs
-      var bx = parseInt(banked[b].split('o')[1]);
-      var by = parseInt(banked[b].split('o')[2]);
-
-      // Your exact 4 directions
-      var bup = Number(bx) - 1;
-      var bdown = Number(bx) + 1;
-      var bleft = Number(by) + 1;
-      var bright = Number(by) - 1;
-
-      // Your exact toroidal wrap do-while (copied for each)
-      do{ if(bup <= 0){ bup = Math.abs(Number(bup) + Number(graphlen)); }
-          if(bup >= onemore){ bup = Math.abs(Number(bup) - Number(graphlen)); }
-      }while(bup > Number(graphlen) || bup < 1);
-
-      do{ if(bdown <= 0){ bdown = Math.abs(Number(bdown) + Number(graphlen)); }
-          if(bdown >= onemore){ bdown = Math.abs(Number(bdown) - Number(graphlen)); }
-      }while(bdown > Number(graphlen) || bdown < 1);
-
-      do{ if(bleft <= 0){ bleft = Math.abs(Number(bleft) + Number(graphlen)); }
-          if(bleft >= onemore){ bleft = Math.abs(Number(bleft) - Number(graphlen)); }
-      }while(bleft > Number(graphlen) || bleft < 1);
-
-      do{ if(bright <= 0){ bright = Math.abs(Number(bright) + Number(graphlen)); }
-          if(bright >= onemore){ bright = Math.abs(Number(bright) - Number(graphlen)); }
-      }while(bright > Number(graphlen) || bright < 1);
-
-      // Check 4 neighbors — if empty silver, count as alt-move
-      var checks = [
-        ["o"+bup+"o"+by, bup, by],
-        ["o"+bdown+"o"+by, bdown, by],
-        ["o"+bx+"o"+bleft, bx, bleft],
-        ["o"+bx+"o"+bright, bx, bright]
-      ];
-
-      for(var ck = 0; ck < 4; ck++){
-        var checkid = checks[ck][0];
-        var cell = document.getElementById(checkid);
-        if(cell && cell.innerHTML === "0" && cell.style.color === "silver"){
-          if(seen.indexOf(checkid) === -1){
-            seen += checkid + ",";
-            altcount++;
-            cell.style.color = "yellow";  // Visual: highlight missed moves (optional)
-          }
-        }
-      }
-    }
-
-    // Accumulate total alts
-    var oldalt = Number(document.getElementById('altsare').innerHTML || 0);
-    document.getElementById('altsare').innerHTML = oldalt + altcount;
-    // ——— End Fix ———
+  document.getElementById('bank').innerHTML = Number(that); 
+ 
 if(cu === "0" && gen === 0){  //keep double gen check
  document.getElementById("o"+cup+"o"+row).style = "color:blue";
  document.getElementById("o"+cup+"o"+row).innerHTML = tempcount + Number(toggle - 1);
@@ -555,10 +500,6 @@ if(cr === "0" && gen === 0){ //keep double gen check
 opensides = Number(tempcount);
 countme = Number(toggle) + Number(opensides);
 document.getElementById('pointer').innerHTML = countme;
-
-var banked = document.getElementById('bank').innerHTML.split(',');  // Existing list
-var altcount = 0;  // Temp counter for unique alts
-var altlist = "";  // Simple string to track uniques (avoids doubles)
 
 var pree = document.getElementById('nulle').innerHTML;
 var prei = document.getElementById('nulli').innerHTML;
@@ -895,7 +836,7 @@ if(document.getElementById('duff').innerHTML.split(/\W\Wnbsp\W/gm).length > 5){ 
  
  
  // something about sc and gen isn't setup or working correctly... which gen < sc was the setup for filtering but didn't work
-if(document.getElementById('am').innerHTML.search(/\!\d/g) >= 0 && Number(gen) <= Number(document.getElementById('sc').innerHTML)){
+if(document.getElementById('am').innerHTML.search(/\!\d/g) >= 0 && Number(gen) < Number(document.getElementById('bank').innerHTML)){ //if(document.getElementById('am').innerHTML.search(/\!\d/g) >= 0 && Number(gen) <= Number(document.getElementById('sc').innerHTML)){
  
  
  if(document.getElementById('am').innerHTML.toString().search(/\!/gm) >= 0){
@@ -925,7 +866,8 @@ if(document.getElementById('am').innerHTML.search(/\!\d/g) >= 0 && Number(gen) <
  }
    
    
-
+var nextmove = document.getElementById('am').innerHTML.split('!')[0] + '!' + document.getElementById('am').innerHTML.split('!')[1] + '!0';  // Extract first queued move, reset gen for sim
+colorme(nextmove, Number(gen) + 1);  // Recurse to process next alt-move
  }  //if am not empty end
  
  
