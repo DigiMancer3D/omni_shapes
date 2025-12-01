@@ -61,8 +61,6 @@ var huh = 0;
 var cc = document.getElementById('counting').innerHTML;
 document.getElementById('history').innerHTML = 9; <!-- graph initator -->
 
-  //different orange output color:rgb(255,127,0,1)
-
 if(document.getElementById('notes').innerHTML.toString().search(/start/gm) < 0){
 
   beginbrosiv();
@@ -81,13 +79,9 @@ if(document.getElementById('history').innerHTML.search(/\d/g) < 0 || document.ge
 
 var rows = ["Pick a number <span id='numof'>AT</span> [ <span id='bank' style='color:limegreen' title='Your Current Pick Number Limitor'>0</span> ]!!"];
 
-// if(countme === 0){
 
  document.getElementById('output').innerHTML = '';
-// document.getElementById('history').innerHTML = 9;
  document.getElementById('counting').innerHTML = 0;
-
-
 
  cc = document.getElementById('counting').innerHTML;
 
@@ -212,8 +206,6 @@ var rows = ["Pick a number <span id='numof'>AT</span> [ <span id='bank' style='c
    rows.push("<span id='nulli7' style='display:none'></span>!<span id='nulle7' style='display:none'></span>!<span style='align:left;text-align:left;'>XY-Swap (X>Y>X)</span>!Rol: <span id='newi7'></span><span id='isep7'></span><span id='endi7'></span>!Col: <span id='newe7'></span><span id='esep7'></span><span id='ende7'></span>!");
 
   rows.push("!< <span id='pointer' style='color:rgba(120,120,255,1.0);' title='Full Open-Face Counter'>"+countme+"</span> >&nbsp;&nbsp;( <span id='lengthis' style='color:rgba(227,187,167,1.0)' title='Current Length'>0</span> ) { <span id='altsare' style='color:rgba(255,127,30,1.0)' title='Current Atl-Moves Found'>0</span> }!");
-// }
-
 
 
 document.getElementById('output').innerHTML = "<div id='graphs'>"+rows.toString().replace(/,/gm, " ").replace(/!/gm, "</br>")+"</div>";
@@ -288,33 +280,187 @@ if(cup > 0 && cup < onemore){
    cu = document.getElementById("o"+cup+"o"+row).innerHTML;
   cus = document.getElementById("o"+cup+"o"+row).style.color;
 
+  //<!--extends purple (takes)-->
+if (Number(gen) >= 2 && cus === "orange") {
+  var purpleTouch = false;
+  var greenTouch = false;
+  var pcup = document.getElementById("o"+cup+"o"+row); // Self orange
+  if (pcup && pcup.style.color !== "green") { // Safe self
+    // Neighbor up from orange
+    var nup = Number(cup) - 1;
+    do { if (nup <= 0) { nup = Math.abs(Number(nup) + Number(graphlen)); } if (nup >= onemore) { nup = Math.abs(Number(nup) - Number(graphlen)); } } while (nup > Number(graphlen) || nup < 1);
+    var nel = document.getElementById("o"+nup+"o"+row);
+    if (nel && nel.style.color === "purple") { purpleTouch = true; }
+    if (nel && nel.style.color === "green") { greenTouch = true; }
+    // Neighbor down from orange
+    var ndown = Number(cup) + 1;
+    do { if (ndown <= 0) { ndown = Math.abs(Number(ndown) + Number(graphlen)); } if (ndown >= onemore) { ndown = Math.abs(Number(ndown) - Number(graphlen)); } } while (ndown > Number(graphlen) || ndown < 1);
+    nel = document.getElementById("o"+ndown+"o"+row);
+    if (nel && nel.style.color === "purple") { purpleTouch = true; }
+    if (nel && nel.style.color === "green") { greenTouch = true; }
+    // Neighbor left from orange
+    var nleft = Number(row) + 1;
+    do { if (nleft <= 0) { nleft = Math.abs(Number(nleft) + Number(graphlen)); } if (nleft >= onemore) { nleft = Math.abs(Number(nleft) - Number(graphlen)); } } while (nleft > Number(graphlen) || nleft < 1);
+    nel = document.getElementById("o"+cup+"o"+nleft);
+    if (nel && nel.style.color === "purple") { purpleTouch = true; }
+    if (nel && nel.style.color === "green") { greenTouch = true; }
+    // Neighbor right from orange
+    var nright = Number(row) - 1;
+    do { if (nright <= 0) { nright = Math.abs(Number(nright) + Number(graphlen)); } if (nright >= onemore) { nright = Math.abs(Number(nright) - Number(graphlen)); } } while (nright > Number(graphlen) || nright < 1);
+    nel = document.getElementById("o"+cup+"o"+nright);
+    if (nel && nel.style.color === "purple") { purpleTouch = true; }
+    if (nel && nel.style.color === "green") { greenTouch = true; }
+    if (purpleTouch && !greenTouch) {
+      cu = "0";
+      cus = "silver"; // Leap for purple
+    }
+  }
+}
+
 }
 else {
- cu === 2;
+ cu === '2';
 }
 
 if(cdown > 0 && cdown < onemore){
    cd = document.getElementById("o"+cdown+"o"+row).innerHTML;
   cds = document.getElementById("o"+cdown+"o"+row).style.color;
+
+  //<!--extendeds purple (takes)-->
+if (Number(gen) >= 2 && cds === "orange") {
+  var purpleTouch = false;
+  var greenTouch = false;
+  var pcup = document.getElementById("o"+cdown+"o"+row); // Self orange
+  if (pcup && pcup.style.color !== "green") { // Safe self
+    // Neighbor up from orange
+    var nup = Number(cd) - 1;
+    do { if (nup <= 0) { nup = Math.abs(Number(nup) + Number(graphlen)); } if (nup >= onemore) { nup = Math.abs(Number(nup) - Number(graphlen)); } } while (nup > Number(graphlen) || nup < 1);
+    var nel = document.getElementById("o"+nup+"o"+row);
+    if (nel && nel.style.color === "purple") { purpleTouch = true; }
+    if (nel && nel.style.color === "green") { greenTouch = true; }
+    // Neighbor down from orange
+    var ndown = Number(cup) + 1;
+    do { if (ndown <= 0) { ndown = Math.abs(Number(ndown) + Number(graphlen)); } if (ndown >= onemore) { ndown = Math.abs(Number(ndown) - Number(graphlen)); } } while (ndown > Number(graphlen) || ndown < 1);
+    nel = document.getElementById("o"+ndown+"o"+row);
+    if (nel && nel.style.color === "purple") { purpleTouch = true; }
+    if (nel && nel.style.color === "green") { greenTouch = true; }
+    // Neighbor left from orange
+    var nleft = Number(row) + 1;
+    do { if (nleft <= 0) { nleft = Math.abs(Number(nleft) + Number(graphlen)); } if (nleft >= onemore) { nleft = Math.abs(Number(nleft) - Number(graphlen)); } } while (nleft > Number(graphlen) || nleft < 1);
+    nel = document.getElementById("o"+cup+"o"+nleft);
+    if (nel && nel.style.color === "purple") { purpleTouch = true; }
+    if (nel && nel.style.color === "green") { greenTouch = true; }
+    // Neighbor right from orange
+    var nright = Number(row) - 1;
+    do { if (nright <= 0) { nright = Math.abs(Number(nright) + Number(graphlen)); } if (nright >= onemore) { nright = Math.abs(Number(nright) - Number(graphlen)); } } while (nright > Number(graphlen) || nright < 1);
+    nel = document.getElementById("o"+cup+"o"+nright);
+    if (nel && nel.style.color === "purple") { purpleTouch = true; }
+    if (nel && nel.style.color === "green") { greenTouch = true; }
+    if (purpleTouch && !greenTouch) {
+      cu = "0";
+      cus = "silver"; // Leap for purple
+    }
+  }
+}
+
 }
 else {
- cd === 2;
+ cd === '2';
 }
 
 if(cleft > 0 && cleft < onemore){
    cl = document.getElementById("o"+col+"o"+cleft).innerHTML;
   cls = document.getElementById("o"+col+"o"+cleft).style.color;
+
+  //<!--extendeds purple (takes)-->
+if (Number(gen) >= 2 && cls === "orange") {
+  var purpleTouch = false;
+  var greenTouch = false;
+  var pcup = document.getElementById("o"+cleft+"o"+row); // Self orange
+  if (pcup && pcup.style.color !== "green") { // Safe self
+    // Neighbor up from orange
+    var nup = Number(cup) - 1;
+    do { if (nup <= 0) { nup = Math.abs(Number(nup) + Number(graphlen)); } if (nup >= onemore) { nup = Math.abs(Number(nup) - Number(graphlen)); } } while (nup > Number(graphlen) || nup < 1);
+    var nel = document.getElementById("o"+nup+"o"+row);
+    if (nel && nel.style.color === "purple") { purpleTouch = true; }
+    if (nel && nel.style.color === "green") { greenTouch = true; }
+    // Neighbor down from orange
+    var ndown = Number(cup) + 1;
+    do { if (ndown <= 0) { ndown = Math.abs(Number(ndown) + Number(graphlen)); } if (ndown >= onemore) { ndown = Math.abs(Number(ndown) - Number(graphlen)); } } while (ndown > Number(graphlen) || ndown < 1);
+    nel = document.getElementById("o"+ndown+"o"+row);
+    if (nel && nel.style.color === "purple") { purpleTouch = true; }
+    if (nel && nel.style.color === "green") { greenTouch = true; }
+    // Neighbor left from orange
+    var nleft = Number(row) + 1;
+    do { if (nleft <= 0) { nleft = Math.abs(Number(nleft) + Number(graphlen)); } if (nleft >= onemore) { nleft = Math.abs(Number(nleft) - Number(graphlen)); } } while (nleft > Number(graphlen) || nleft < 1);
+    nel = document.getElementById("o"+cup+"o"+nleft);
+    if (nel && nel.style.color === "purple") { purpleTouch = true; }
+    if (nel && nel.style.color === "green") { greenTouch = true; }
+    // Neighbor right from orange
+    var nright = Number(row) - 1;
+    do { if (nright <= 0) { nright = Math.abs(Number(nright) + Number(graphlen)); } if (nright >= onemore) { nright = Math.abs(Number(nright) - Number(graphlen)); } } while (nright > Number(graphlen) || nright < 1);
+    nel = document.getElementById("o"+cup+"o"+nright);
+    if (nel && nel.style.color === "purple") { purpleTouch = true; }
+    if (nel && nel.style.color === "green") { greenTouch = true; }
+    if (purpleTouch && !greenTouch) {
+      cu = "0";
+      cus = "silver"; // Leap for purple
+    }
+  }
+}
+
+
 }
 else {
- cl === 2;
+ cl === '2';
 }
 
 if(cright > 0 && cright < onemore){
    cr = document.getElementById("o"+col+"o"+cright).innerHTML;
   crs = document.getElementById("o"+col+"o"+cright).style.color;
+
+  //<!--extendeds purple (takes)-->
+if (Number(gen) >= 2 && crs === "orange") {
+  var purpleTouch = false;
+  var greenTouch = false;
+  var pcup = document.getElementById("o"+cright+"o"+row); // Self orange
+  if (pcup && pcup.style.color !== "green") { // Safe self
+    // Neighbor up from orange
+    var nup = Number(cup) - 1;
+    do { if (nup <= 0) { nup = Math.abs(Number(nup) + Number(graphlen)); } if (nup >= onemore) { nup = Math.abs(Number(nup) - Number(graphlen)); } } while (nup > Number(graphlen) || nup < 1);
+    var nel = document.getElementById("o"+nup+"o"+row);
+    if (nel && nel.style.color === "purple") { purpleTouch = true; }
+    if (nel && nel.style.color === "green") { greenTouch = true; }
+    // Neighbor down from orange
+    var ndown = Number(cup) + 1;
+    do { if (ndown <= 0) { ndown = Math.abs(Number(ndown) + Number(graphlen)); } if (ndown >= onemore) { ndown = Math.abs(Number(ndown) - Number(graphlen)); } } while (ndown > Number(graphlen) || ndown < 1);
+    nel = document.getElementById("o"+ndown+"o"+row);
+    if (nel && nel.style.color === "purple") { purpleTouch = true; }
+    if (nel && nel.style.color === "green") { greenTouch = true; }
+    // Neighbor left from orange
+    var nleft = Number(row) + 1;
+    do { if (nleft <= 0) { nleft = Math.abs(Number(nleft) + Number(graphlen)); } if (nleft >= onemore) { nleft = Math.abs(Number(nleft) - Number(graphlen)); } } while (nleft > Number(graphlen) || nleft < 1);
+    nel = document.getElementById("o"+cup+"o"+nleft);
+    if (nel && nel.style.color === "purple") { purpleTouch = true; }
+    if (nel && nel.style.color === "green") { greenTouch = true; }
+    // Neighbor right from orange
+    var nright = Number(row) - 1;
+    do { if (nright <= 0) { nright = Math.abs(Number(nright) + Number(graphlen)); } if (nright >= onemore) { nright = Math.abs(Number(nright) - Number(graphlen)); } } while (nright > Number(graphlen) || nright < 1);
+    nel = document.getElementById("o"+cup+"o"+nright);
+    if (nel && nel.style.color === "purple") { purpleTouch = true; }
+    if (nel && nel.style.color === "green") { greenTouch = true; }
+    if (purpleTouch && !greenTouch) {
+      cu = "0";
+      cus = "silver"; // Leap for purple
+    }
+  }
+}
+
+
+
 }
 else {
- cr === 2;
+ cr === '2';
 }
 
 if(countme === 0){ <!-- inital click -->
@@ -398,7 +544,7 @@ document.getElementById('newi5').innerHTML = id.split(/o/gm)[1] + "[";
 document.getElementById('newe6').innerHTML = id.split(/o/gm)[2] + "["; //adj row nom col
 document.getElementById('newi6').innerHTML = Number(Number(Number(graphlen)-Number(id.split(/o/gm)[1]))+1) + "[";
 
-document.getElementById('newe7').innerHTML = id.split(/o/gm)[1] + "["; //flipped from og setup
+document.getElementById('newe7').innerHTML = id.split(/o/gm)[1] + "[";
 document.getElementById('newi7').innerHTML = id.split(/o/gm)[2] + "[";
 
 
@@ -435,7 +581,7 @@ document.getElementById('ende5').innerHTML = Number(Number(Number(graphlen)-Numb
 document.getElementById('endi6').innerHTML = Number(Number(Number(graphlen)-Number(id.split(/o/gm)[1]))+1); //adj row nom col
 document.getElementById('ende6').innerHTML = Number(id.split(/o/gm)[2]);
 
-document.getElementById('endi7').innerHTML = Number(id.split(/o/gm)[2]); //row/col flipped form og setup
+document.getElementById('endi7').innerHTML = Number(id.split(/o/gm)[2]);
 document.getElementById('ende7').innerHTML = Number(id.split(/o/gm)[1]);
 
 document.getElementById('lengthis').innerHTML = 1;
@@ -494,9 +640,8 @@ if(cr === "0" && gen === 0){ //keep double gen check
 }
 
 
-//if(gen === 0){ //add this in if above get's used for higher generations JustInCase JIC
 opensides = Number(tempcount);
-   document.getElementById('sc').innerHTML = Number(document.getElementById('lengthis').innerHTML);  // Set sc to current length for sim depth //added new
+   document.getElementById('sc').innerHTML = Number(document.getElementById('lengthis').innerHTML);  // Set sc to current length for sim depth
 countme = Number(toggle) + Number(opensides);
 document.getElementById('pointer').innerHTML = countme;
 
@@ -562,7 +707,7 @@ document.getElementById('nulli5').innerHTML += id.split(/o/gm)[1] + ",";
 document.getElementById('nulle6').innerHTML += id.split(/o/gm)[2] + ","; //adj row nom col
 document.getElementById('nulli6').innerHTML += Number(Number(Number(graphlen)-Number(id.split(/o/gm)[1]))+1) + ",";
 
-document.getElementById('nulle7').innerHTML += id.split(/o/gm)[1] + ","; + ","; //row/col flipped from og setup
+document.getElementById('nulle7').innerHTML += id.split(/o/gm)[1] + ","; + ",";
 document.getElementById('nulli7').innerHTML += id.split(/o/gm)[2] + ",";
 
 
@@ -587,7 +732,7 @@ document.getElementById('newe5').innerHTML += Number(Number(Number(Number(graphl
 document.getElementById('newi6').innerHTML += Number(Number(Number(Number(graphlen)-Number(id.split(/o/gm)[1]))+1) - Number(prei6.split(/\,/gm)[huh])) + ",";    //adjust row norm col
 document.getElementById('newe6').innerHTML += Number(Number(id.split(/o/gm)[2]) - Number(pree6.split(/\,/gm)[huh])) + ",";
 
-document.getElementById('newi7').innerHTML += Number(Number(id.split(/o/gm)[2]) - Number(prei7.split(/\,/gm)[huh])) + ",";                    //flipped og setup
+document.getElementById('newi7').innerHTML += Number(Number(id.split(/o/gm)[2]) - Number(prei7.split(/\,/gm)[huh])) + ",";
 document.getElementById('newe7').innerHTML += Number(Number(id.split(/o/gm)[1]) - Number(pree7.split(/\,/gm)[huh])) + ",";
 
 
@@ -613,7 +758,7 @@ document.getElementById('endi5').innerHTML = Number(preendi5) + Number(Number(id
 document.getElementById('ende6').innerHTML = Number(Number(preende6) + Number(id.split(/o/gm)[2]) - Number(pree6.split(/\,/gm)[huh]));                         //adjusted row norm col
 document.getElementById('endi6').innerHTML = Number(Number(preendi6) + Number(Number(Number(graphlen)-Number(id.split(/o/gm)[1]))+1) - Number(prei6.split(/\,/gm)[huh]));
 
-document.getElementById('ende7').innerHTML = Number(Number(preende7) + Number(id.split(/o/gm)[1]) - Number(pree7.split(/\,/gm)[huh]));                         //flipped from og setup
+document.getElementById('ende7').innerHTML = Number(Number(preende7) + Number(id.split(/o/gm)[1]) - Number(pree7.split(/\,/gm)[huh]));
 document.getElementById('endi7').innerHTML = Number(Number(preendi7) + Number(id.split(/o/gm)[2]) - Number(prei7.split(/\,/gm)[huh]));
 
  huh = Number(huh)+1;
@@ -794,7 +939,7 @@ if(document.getElementById('reflections').innerHTML.toString().search(temped) < 
 griff = 0; //griff reset
 
 
-//having problems with absolute opposites getting into the wasbe section when it only needs to be placed in the reflections list bug issue upgrade i'm here I'm here Im here im here
+//BUG FOUND ABSOLUTE OPPOSITES ARE PLACED WHEN THEY SHOULD ONLY BE REFLECTIONS SOMETIMES DOES NOT HAPPEN
 
 if(document.getElementById('duff').innerHTML.search('L'+len) === Number(-1)){ //must not be present already
  document.getElementById('duff').innerHTML += "&nbsp;<span onclick='checker("+len+")'><span id='l"+len+"' title='Click to View Found Length-"+len+" OMNI' >L"+len+"</span><span id='hl"+len+"' style='display:none' >"+groupings+"</span>&nbsp;(<span id='l"+len+"v' title='Number of L"+len+" OMNI Found' style='color:white'>"+groupings.length+"</span>)</span>&nbsp;";
@@ -828,16 +973,11 @@ if(document.getElementById('duff').innerHTML.split(/\W\Wnbsp\W/gm).length > 3){ 
 if(document.getElementById('duff').innerHTML.split(/\W\Wnbsp\W/gm).length > 5){  //looks for L3+ threshold
 
 
- <!-- below are the pushes -->
- var temprep = ""+id0+"!"+id1+"";  <!-- basic push first var setup (blank_A!B_blank) -->
- push(temprep,gen); <!-- pushes -->
+// <!-- below are the pushes -->
+ var temprep = ""+id0+"!"+id1+"";  //<!-- basic push first var setup (blank_A!B_blank) -->
+ push(temprep,gen); //<!-- pushes -->
 
 
-
-//pushes may cause am to fill, so below should run through am until empty even if new arise...but it's clearing out the list without doing them all
-
-
- // something about sc and gen isn't setup or working correctly... which gen < sc was the setup for filtering but didn't work
 if(document.getElementById('am').innerHTML.search(/\!\d/g) >= 0 && Number(gen) <= Number(document.getElementById('sc').innerHTML)){
 
 
@@ -850,15 +990,11 @@ if(document.getElementById('am').innerHTML.search(/\!\d/g) >= 0 && Number(gen) <
    var tprep = "o"+jimpuff.split(/\!{2}/g)[1].split(/\+/)[0]+"o"+jimpuff.split(/\!{2}/g)[1].split(/\+/)[1].split(/\!/)[0]+"";
    document.getElementById('rh').innerHTML += "!!" + ""+jimpuff.split(/\!{2}/g)[1].split(/\+/)[0]+"+"+jimpuff.split(/\!{2}/g)[1].split(/\+/)[1].split(/\!/)[0]+"" + "";
 
-   ngen = Number(gen) + Number(document.getElementById('sc').innerHTML);  //Number(jimpuff.split(/\!{2}/g)[1].split(/\+/)[2]) <!-- og -->
+   ngen = Number(gen) + Number(document.getElementById('sc').innerHTML);
    document.getElementById('sc').innerHTML = ngen;
 
 
    colorme(tprep,ngen);   <!-- algo-move pushes -->
-   //we need to figure out how to get the system to branch out after it starts to move when it marked down spots it could also move...
-
-   //i'm here im here Im here IM HERE   //the system isn't doing all new things it sees in am error issue bug upgrade here
-
 
     document.getElementById('am').innerHTML = jimpuff.replace("!!"+jimpuff.split(/\!{2}/g)[1], ""); //remove what we just "did"
 
@@ -871,7 +1007,14 @@ if(document.getElementById('am').innerHTML.search(/\!\d/g) >= 0 && Number(gen) <
 
  }  //if am not empty end
 if (document.getElementById('am').innerHTML.search(/\!\d/g) >= 0 && Number(gen) < Number(document.getElementById('sc').innerHTML)) {
-    finder(id, Number(gen) + 1);  // NEW: Deeper level
+    finder(id, Number(gen) + 1);  // reaching for Deeper levels
+
+  //we are not going deeper to old spots we've seen, this should happen
+
+  //BUG FOUND SYSTEM TAKES DOESN'T EXPAND ON ALL OLD PURPLE POISITIONS WHEN POSSIBLE TO IN THE FUTURE BUT DOES CONTINUE TO LOOK FOR NEW POSSIBLE MISSED MOVES
+
+  //deeper pushes are only seen in the reflections sections to help readability on the user's end
+
   }
 
  //document.getElementById('notes').innerHTML = ""+jimpuff.split(/\!{2}/g)[jp].split(/\+/)[0]+""+jimpuff.split(/\!{2}/g)[jp].split(/\+/)[1]+"";   //debugger
@@ -879,10 +1022,10 @@ if (document.getElementById('am').innerHTML.search(/\!\d/g) >= 0 && Number(gen) 
 
 
 
- <!--below this is looking for all of a Length-->
+ //<!--below this is looking for all of a Length-->
 
 
- if(document.getElementById('hl3').innerHTML.split(/\!/gm).length >= 3){ <!-- specifically finds if all triominoes were found -->
+ if(document.getElementById('hl3').innerHTML.split(/\!/gm).length >= 3){ //<!-- specifically finds if all triominoes were found -->
   document.getElementById('l3v').style.color = 'gold';
   document.getElementById('l3v').title = 'All L3 OMNI Found';
  }
@@ -892,8 +1035,7 @@ if (document.getElementById('am').innerHTML.search(/\!\d/g) >= 0 && Number(gen) 
  //add in lext Length check for all there should be a mathematical way to determine if full
  //might use wiki for the first 12 (cause they have total sums listed but we only want when new shapes not reflections)
 
- //upgrade here UPGRADE HERE
- //not done //i'm here I'm here Im here im here I"M HERE Im HERE IM HERE
+ //BUG FOUND NOT ALL CAPS ARE MATHEMATICALLY DETERMINED WHEN THEY SHOULD BE, FIND A WAY MATHS TO DETERMINE POSSIBLE CAP OF L# LENGTH AND ADD IN A WAY TO SHOW WE'VE SURPASSED POSSIBLE CAP (SHOWING POSSIBLY NEW SHAPES)
 
 
 
@@ -905,16 +1047,16 @@ if (document.getElementById('am').innerHTML.search(/\!\d/g) >= 0 && Number(gen) 
 } //end of finder funciton
 
 
-function checker(len){ <!-- views stored OMNIs -->
+function checker(len){// <!-- views stored OMNIs -->
 var lener = document.getElementById('lengthis').innerHTML;
 
-<!-- automated push below -->
+//<!-- automated push below -->
 document.getElementById('display').innerHTML = "<h3><hr style='width:25vw'>L"+len+" OMNI:</h3></br>"+document.getElementById('hl'+len).innerHTML.toString().replace(/\[/gm, '[<span id='+len+' title=MOVE_MADE >').replace(/\,/gm, '</span>,<span id='+len+'  title=MOVE_MADE >').replace(/\]/gm, '</span>]').replace(/\!/gm, "</br>")+"<hr style='width:25vw'><button onclick='document.getElementById(&#034;display&#034;).innerHTML=&#034;Your Length so far is: "+lener+" &#034;;'>close</button></br>";
 
-<!-- user push below -->
+//<!-- user push below -->
 //document.getElementById('display').innerHTML = "<h3><hr style='width:25vw'>L"+len+" OMNI:</h3></br>"+document.getElementById('hl'+len).innerHTML.toString().replace(/\[/gm, '[<span id='+len+' onclick=push(this.innerHTML) title=CLICK_2_PUSH >').replace(/\,/gm, '</span>,<span id='+len+' onclick=push(this.innerHTML)  title=CLICK_2_PUSH >').replace(/\]/gm, '</span>]').replace(/\!/gm, "</br>")+"<hr style='width:25vw'><button onclick='document.getElementById(&#034;display&#034;).innerHTML=&#034;Your Length so far is: "+lener+" &#034;;'>close</button></br>";
 
-
+//BUG FOUND USER PUSH NEVER WORKED PROPERLY WAS COMMENTED OUT FOR NOW
 
 
 }
@@ -1391,6 +1533,7 @@ if(tick >= 1){
   document.getElementById('display').innerHTML = "Checking for alternative moves...";
  }
 
+ //BUG FOUND NOT FINDING ALL NEW POTENTIAL MOVES BUT ONLY NEW MOVES NEVER CONSIDERED NOT NEW NEVER CONSIDERED EXPANDED ONTO NOR SEEN POSSIBLE EXPANDED PAST OTHERS
 
 
 
@@ -1477,6 +1620,8 @@ if(tick >= 1){
  tick = 0;
   document.getElementById('display').innerHTML = "Checking for alternative moves...";
 }
+
+ //BUG FOUND NOT FINDING ALL NEW POTENTIAL MOVES BUT ONLY NEW MOVES NEVER CONSIDERED NOT NEW NEVER CONSIDERED EXPANDED ONTO NOR SEEN POSSIBLE EXPANDED PAST OTHERS
 
 
 
@@ -1565,6 +1710,8 @@ if(tick >= 1){
   document.getElementById('display').innerHTML = "Checking for alternative moves...";
 }
 
+ //BUG FOUND NOT FINDING ALL NEW POTENTIAL MOVES BUT ONLY NEW MOVES NEVER CONSIDERED NOT NEW NEVER CONSIDERED EXPANDED ONTO NOR SEEN POSSIBLE EXPANDED PAST OTHERS
+
 
 
 
@@ -1651,6 +1798,8 @@ if(tick >= 1){
   document.getElementById('display').innerHTML = "Checking for alternative moves...";
 }
 
+ //BUG FOUND NOT FINDING ALL NEW POTENTIAL MOVES BUT ONLY NEW MOVES NEVER CONSIDERED NOT NEW NEVER CONSIDERED EXPANDED ONTO NOR SEEN POSSIBLE EXPANDED PAST OTHERS
+
 document.getElementById('rc').innerHTML = 0;
 
 
@@ -1660,7 +1809,7 @@ document.getElementById('rc').innerHTML = 0;
 
 
 
-<!--the following function just draws the reflections below the IPB based on the alt-moves placed on the IPB-->
+//<!--the following function just draws the reflections below the IPB based on the alt-moves placed on the IPB-->
 function reflections(xer,yer,gen){
 var graphlen = document.getElementById('history').innerHTML;
 
