@@ -35,6 +35,18 @@ button{
   </br></br>
  <span id='notes'></span>
   </br></br>
+  <div id='rulebox' style='display:none'>
+   <h3 style='display:block' id='words1' onclick='document.getElementById("rulecont").innerHTML=document.getElementById(&#039;rules&#039;).innerHTML;this.style.display="none";document.getElementById("words2").style.display="block";' title='I show rules when clicked'>See Rules</h3>
+   
+   <h3 id='words2' style='display:none' onclick='document.getElementById("rulecont").innerHTML="";this.style.display="none";document.getElementById("words1").style.display="block";'  title='I hide rules when clicked'>Hide Rules</h3>
+  
+   <span id='rulecont' title='I display rules'></span>
+   
+  <span id='rules' style='display:none' title='You should not be able to see me'>I'm Rules
+  
+  </br></br>
+   <h3 id='close' onclick='document.getElementById("rulecont").innerHTML="";document.getElementById("words2").style.display="none";document.getElementById("words1").style.display="block";'  title='I hide rules when clicked'><sup>[close]</sup></h3></br></span>
+  </div>
 <span id='history' style='display:none' title='I define the grid size'>0</span>
 <span id='rc'  style='display:none' title='I show where in the round-count we are at'>0</span>
 <span id='sc'  style='display:none' title='I show where in a sub-count we are at'>1</span>
@@ -215,7 +227,6 @@ document.getElementById('pointer').innerHTML = countme;
 function colorme(id,gen){ 
 var graphlen = document.getElementById('history').innerHTML;
 var onemore = Number(document.getElementById('history').innerHTML) + 1;
-var rl = Number(document.getElementById('output').innerHTML.toString().split(/\<br\>/gm).length - 70); 
 var cc = Number(document.getElementById('counting').innerHTML);
 var toggle = Number(document.getElementById('pointer').innerHTML);
 var that = document.getElementById(id).innerHTML;
@@ -273,7 +284,7 @@ var preendi = 0, preende = 0, preendi1 = 0, preende1 = 0, preendi2 = 0, preende2
   
 
 
-if(cup > 0 && cup < rl){
+if(cup > 0 && cup < onemore){
    cu = document.getElementById("o"+cup+"o"+row).innerHTML;
   cus = document.getElementById("o"+cup+"o"+row).style.color;
   
@@ -282,7 +293,7 @@ else {
  cu === 2;
 }
 
-if(cdown > 0 && cdown < rl){
+if(cdown > 0 && cdown < onemore){
    cd = document.getElementById("o"+cdown+"o"+row).innerHTML;
   cds = document.getElementById("o"+cdown+"o"+row).style.color;
 }
@@ -290,7 +301,7 @@ else {
  cd === 2;
 }
 
-if(cleft > 0 && cleft < rl){
+if(cleft > 0 && cleft < onemore){
    cl = document.getElementById("o"+col+"o"+cleft).innerHTML;
   cls = document.getElementById("o"+col+"o"+cleft).style.color;
 }
@@ -298,7 +309,7 @@ else {
  cl === 2;
 }
 
-if(cright > 0 && cright < rl){
+if(cright > 0 && cright < onemore){
    cr = document.getElementById("o"+col+"o"+cright).innerHTML;
   crs = document.getElementById("o"+col+"o"+cright).style.color;
 }
@@ -779,7 +790,7 @@ if(document.getElementById('reflections').innerHTML.toString().search(temped) < 
 griff = 0; //griff reset
 
 
-//having problems with absolute opposites getting into the wasbe section when it only needs to be placed in the reflections list bug issue upgrade 
+//having problems with absolute opposites getting into the wasbe section when it only needs to be placed in the reflections list bug issue upgrade i'm here I'm here Im here im here
 
 if(document.getElementById('duff').innerHTML.search('L'+len) === Number(-1)){ //must not be present already
  document.getElementById('duff').innerHTML += "&nbsp;<span onclick='checker("+len+")'><span id='l"+len+"' title='Click to View Found Length-"+len+" OMNI' >L"+len+"</span><span id='hl"+len+"' style='display:none' >"+groupings+"</span>&nbsp;(<span id='l"+len+"v' title='Number of L"+len+" OMNI Found' style='color:white'>"+groupings.length+"</span>)</span>&nbsp;";
