@@ -34,6 +34,9 @@ button{
  <span id='duff'></span>
   </br></br>
  <span id='notes'></span>
+ </br></br>
+  <button id="saveState" disabled onclick="saveState()">Save State</button>
+  <button id="loadState" onclick="loadState()">Load State</button>
   </br></br>
   <div id='rulebox' style='display:none'>
    <h3 style='display:block' id='words1' onclick='document.getElementById("rulecont").innerHTML=document.getElementById(&#039;rules&#039;).innerHTML;this.style.display="none";document.getElementById("words2").style.display="block";' title='I show rules when clicked'>See Rules</h3>
@@ -59,6 +62,7 @@ button{
 var countme = 0;
 var huh = 0;
 var cc = document.getElementById('counting').innerHTML;
+var seenLengths = {}; // Track seen lengths: {L#: comma-separated bank data}
 document.getElementById('history').innerHTML = 9; <!-- graph initator -->
 
   //different orange output color:rgb(255,127,0,1)
@@ -66,6 +70,80 @@ document.getElementById('history').innerHTML = 9; <!-- graph initator -->
 if(document.getElementById('notes').innerHTML.toString().search(/start/gm) < 0){
 
   beginbrosiv();
+}
+
+// HAPI v1 Functions
+function encodeHAPI(lengths) {
+  var highestL = Object.keys(lengths).sort((a,b) => Number(b)-Number(a))[0] || '0';
+  var header = "omni_shapes.html,..[L" + highestL + "::arr" + highestL + "]";
+  var dataPart = "";
+  for (var l in lengths) {
+    dataPart += "L" + l + ",.." + lengths[l] + "..,";
+  }
+  dataPart += ",.." + "..,,..|";
+  return "|" + header + dataPart;
+}
+
+function decodeHAPI(hapiStr) {
+  if (!hapiStr.startsWith('|') || !hapiStr.endsWith('|')) return {};
+  var content = hapiStr.slice(1, -1); // Remove |s
+  var parts = content.split(',..');
+  var newLengths = {};
+  for (var i = 3; i < parts.length - 1; i += 2) { // Skip header, start from L# data
+    var lStr = parts[i].trim();
+    if (lStr.startsWith('L') && lStr.length > 1) {
+      var lNum = lStr.slice(1);
+      var data = parts[i+1].trim();
+      if (!seenLengths['L' + lNum]) { // No duplicate
+        newLengths['L' + lNum] = data;
+      }
+    }
+  }
+  return newLengths;
+}
+
+function saveState() {
+  var currentLength = document.getElementById('lengthis').innerHTML;
+  if (Number(currentLength) === 0) return;
+  if (!seenLengths['L' + currentLength]) {
+    seenLengths['L' + currentLength] = document.getElementById('bank').innerHTML;
+  }
+  var hapi = encodeHAPI(seenLengths);
+  var filename = "L" + Object.keys(seenLengths).sort((a,b) => Number(b)-Number(a))[0] + ".omni";
+  var blob = new Blob([hapi], {type: 'text/plain'});
+  var url = URL.createObjectURL(blob);
+  var a = document.createElement('a');
+  a.href = url;
+  a.download = filename;
+  a.click();
+  URL.revokeObjectURL(url);
+  document.getElementById('display').innerHTML += "<br>Saved " + filename + " with " + Object.keys(seenLengths).length + " lengths.";
+}
+
+function loadState() {
+  var input = document.createElement('input');
+  input.type = 'file';
+  input.accept = '.omni';
+  input.onchange = function(e) {
+    var file = e.target.files[0];
+    if (!file) return;
+    var reader = new FileReader();
+    reader.onload = function(ev) {
+      var hapi = ev.target.result;
+      var newLengths = decodeHAPI(hapi);
+      var added = 0;
+      for (var l in newLengths) {
+        if (!seenLengths[l]) {
+          seenLengths[l] = newLengths[l];
+          added++;
+        }
+      }
+      document.getElementById('altsare').innerHTML = Number(document.getElementById('altsare').innerHTML) + added; // Merge to alts
+      document.getElementById('display').innerHTML += "<br>Loaded " + added + " new lengths from file.";
+    };
+    reader.readAsText(file);
+  };
+  input.click();
 }
 
 function beginbrosiv(){
@@ -219,6 +297,23 @@ var rows = ["Pick a number <span id='numof'>AT</span> [ <span id='bank' style='c
 document.getElementById('output').innerHTML = "<div id='graphs'>"+rows.toString().replace(/,/gm, " ").replace(/!/gm, "</br>")+"</div>";
 document.getElementById('pointer').innerHTML = countme;
 
+// Add Save/Load buttons before #tryagain in #notes
+ var notes = document.getElementById('notes');
+ var tryagain = document.getElementById('tryagain') || document.createElement('span');
+ var saveBtn = document.createElement('button');
+ saveBtn.id = 'saveState';
+ saveBtn.innerHTML = 'Save State';
+ saveBtn.style.borderColor = 'darkgrey';
+ saveBtn.disabled = true;
+ saveBtn.onclick = saveState;
+ var loadBtn = document.createElement('button');
+ loadBtn.id = 'loadState';
+ loadBtn.innerHTML = 'Load State';
+ loadBtn.style.borderColor = 'blue';
+ loadBtn.onclick = loadState;
+ notes.insertBefore(saveBtn, tryagain);
+ notes.insertBefore(loadBtn, tryagain);
+ notes.insertBefore(document.createTextNode(' '), tryagain); // Spacer
 
 } //end of beginbrosiv() function
 
@@ -287,113 +382,188 @@ var preendi = 0, preende = 0, preendi1 = 0, preende1 = 0, preendi2 = 0, preende2
 if(cup > 0 && cup < onemore){
    cu = document.getElementById("o"+cup+"o"+row).innerHTML;
   cus = document.getElementById("o"+cup+"o"+row).style.color;
-  
+
   //<!--new attempt to get extended purple (takes)-->
 if (Number(gen) >= 2 && cus === "orange") {
   var purpleTouch = false;
   var greenTouch = false;
-  // Quick check if this orange touches purple (gen>=2 sim) but not green
-  var pcup = document.getElementById("o"+cup+"o"+row);  // Self is orange
-  // Check its neighbors for purple/orange (reuse cup logic for neighbors)
-  var nup = Number(cup) - 1;  // Example neighbor up from orange
-  // Wrap nup etc. (copy your do-while here if needed, 4 lines)
-  do { if (nup <= 0) { nup = Math.abs(Number(nup) + Number(graphlen)); } if (nup >= onemore) { nup = Math.abs(Number(nup) - Number(graphlen)); } } while (nup > Number(graphlen) || nup < 1);
-  var nel = document.getElementById("o"+nup+"o"+row);
-  if (nel && nel.style.color === "purple") { purpleTouch = true; }
-  if (nel && nel.style.color === "green") { greenTouch = true; }
-  // Repeat for 3 more neighbors (ndown, nleft, nright — copy block)
-  if (purpleTouch && !greenTouch) {
-    cu = "0";  // Treat as empty for sim placement
-    cus = "silver";  // Override for purple extension
+  var pcup = document.getElementById("o"+cup+"o"+row); // Self orange
+  if (pcup && pcup.style.color !== "green") { // Safe self
+    // Neighbor up from orange
+    var nup = Number(cup) - 1;
+    do { if (nup <= 0) { nup = Math.abs(Number(nup) + Number(graphlen)); } if (nup >= onemore) { nup = Math.abs(Number(nup) - Number(graphlen)); } } while (nup > Number(graphlen) || nup < 1);
+    var nel = document.getElementById("o"+nup+"o"+row);
+    if (nel && nel.style.color === "purple") { purpleTouch = true; }
+    if (nel && nel.style.color === "green") { greenTouch = true; }
+    // Neighbor down from orange
+    var ndown = Number(cup) + 1;
+    do { if (ndown <= 0) { ndown = Math.abs(Number(ndown) + Number(graphlen)); } if (ndown >= onemore) { ndown = Math.abs(Number(ndown) - Number(graphlen)); } } while (ndown > Number(graphlen) || ndown < 1);
+    nel = document.getElementById("o"+ndown+"o"+row);
+    if (nel && nel.style.color === "purple") { purpleTouch = true; }
+    if (nel && nel.style.color === "green") { greenTouch = true; }
+    // Neighbor left from orange
+    var nleft = Number(row) + 1;
+    do { if (nleft <= 0) { nleft = Math.abs(Number(nleft) + Number(graphlen)); } if (nleft >= onemore) { nleft = Math.abs(Number(nleft) - Number(graphlen)); } } while (nleft > Number(graphlen) || nleft < 1);
+    nel = document.getElementById("o"+cup+"o"+nleft);
+    if (nel && nel.style.color === "purple") { purpleTouch = true; }
+    if (nel && nel.style.color === "green") { greenTouch = true; }
+    // Neighbor right from orange
+    var nright = Number(row) - 1;
+    do { if (nright <= 0) { nright = Math.abs(Number(nright) + Number(graphlen)); } if (nright >= onemore) { nright = Math.abs(Number(nright) - Number(graphlen)); } } while (nright > Number(graphlen) || nright < 1);
+    nel = document.getElementById("o"+cup+"o"+nright);
+    if (nel && nel.style.color === "purple") { purpleTouch = true; }
+    if (nel && nel.style.color === "green") { greenTouch = true; }
+    if (purpleTouch && !greenTouch) {
+      cu = "0";
+      cus = "silver"; // Leap for purple
+    }
   }
 }
+
 }
 else {
- cu === 2;
+ cu === '2';
 }
 
 if(cdown > 0 && cdown < onemore){
    cd = document.getElementById("o"+cdown+"o"+row).innerHTML;
   cds = document.getElementById("o"+cdown+"o"+row).style.color;
-  
+
   //<!--new attempt to get extended purple (takes)-->
-if (Number(gen) >= 2 && cus === "orange") {
+if (Number(gen) >= 2 && cds === "orange") {
   var purpleTouch = false;
   var greenTouch = false;
-  // Quick check if this orange touches purple (gen>=2 sim) but not green
-  var pcup = document.getElementById("o"+cdown+"o"+row);  // Self is orange
-  // Check its neighbors for purple/orange (reuse cup logic for neighbors)
-  var nup = Number(cdown) - 1;  // Example neighbor down from orange
-  // Wrap nup etc. (copy your do-while here if needed, 4 lines)
-  do { if (nup <= 0) { nup = Math.abs(Number(nup) + Number(graphlen)); } if (nup >= onemore) { nup = Math.abs(Number(nup) - Number(graphlen)); } } while (nup > Number(graphlen) || nup < 1);
-  var nel = document.getElementById("o"+nup+"o"+row);
-  if (nel && nel.style.color === "purple") { purpleTouch = true; }
-  if (nel && nel.style.color === "green") { greenTouch = true; }
-  // Repeat for 3 more neighbors (ndown, nleft, nright — copy block)
-  if (purpleTouch && !greenTouch) {
-    cu = "0";  // Treat as empty for sim placement
-    cus = "silver";  // Override for purple extension
+  var pcup = document.getElementById("o"+cdown+"o"+row); // Self orange
+  if (pcup && pcup.style.color !== "green") { // Safe self
+    // Neighbor up from orange
+    var nup = Number(cd) - 1;
+    do { if (nup <= 0) { nup = Math.abs(Number(nup) + Number(graphlen)); } if (nup >= onemore) { nup = Math.abs(Number(nup) - Number(graphlen)); } } while (nup > Number(graphlen) || nup < 1);
+    var nel = document.getElementById("o"+nup+"o"+row);
+    if (nel && nel.style.color === "purple") { purpleTouch = true; }
+    if (nel && nel.style.color === "green") { greenTouch = true; }
+    // Neighbor down from orange
+    var ndown = Number(cup) + 1;
+    do { if (ndown <= 0) { ndown = Math.abs(Number(ndown) + Number(graphlen)); } if (ndown >= onemore) { ndown = Math.abs(Number(ndown) - Number(graphlen)); } } while (ndown > Number(graphlen) || ndown < 1);
+    nel = document.getElementById("o"+ndown+"o"+row);
+    if (nel && nel.style.color === "purple") { purpleTouch = true; }
+    if (nel && nel.style.color === "green") { greenTouch = true; }
+    // Neighbor left from orange
+    var nleft = Number(row) + 1;
+    do { if (nleft <= 0) { nleft = Math.abs(Number(nleft) + Number(graphlen)); } if (nleft >= onemore) { nleft = Math.abs(Number(nleft) - Number(graphlen)); } } while (nleft > Number(graphlen) || nleft < 1);
+    nel = document.getElementById("o"+cup+"o"+nleft);
+    if (nel && nel.style.color === "purple") { purpleTouch = true; }
+    if (nel && nel.style.color === "green") { greenTouch = true; }
+    // Neighbor right from orange
+    var nright = Number(row) - 1;
+    do { if (nright <= 0) { nright = Math.abs(Number(nright) + Number(graphlen)); } if (nright >= onemore) { nright = Math.abs(Number(nright) - Number(graphlen)); } } while (nright > Number(graphlen) || nright < 1);
+    nel = document.getElementById("o"+cup+"o"+nright);
+    if (nel && nel.style.color === "purple") { purpleTouch = true; }
+    if (nel && nel.style.color === "green") { greenTouch = true; }
+    if (purpleTouch && !greenTouch) {
+      cu = "0";
+      cus = "silver"; // Leap for purple
+    }
   }
 }
+
 }
 else {
- cd === 2;
+ cd === '2';
 }
 
 if(cleft > 0 && cleft < onemore){
    cl = document.getElementById("o"+col+"o"+cleft).innerHTML;
   cls = document.getElementById("o"+col+"o"+cleft).style.color;
-  
+
   //<!--new attempt to get extended purple (takes)-->
-if (Number(gen) >= 2 && cus === "orange") {
+if (Number(gen) >= 2 && cls === "orange") {
   var purpleTouch = false;
   var greenTouch = false;
-  // Quick check if this orange touches purple (gen>=2 sim) but not green
-  var pcup = document.getElementById("o"+cleft+"o"+row);  // Self is orange
-  // Check its neighbors for purple/orange (reuse cleft logic for neighbors)
-  var nup = Number(cleft) - 1;  // Example neighbor left from orange
-  // Wrap nup etc. (copy your do-while here if needed, 4 lines)
-  do { if (nup <= 0) { nup = Math.abs(Number(nup) + Number(graphlen)); } if (nup >= onemore) { nup = Math.abs(Number(nup) - Number(graphlen)); } } while (nup > Number(graphlen) || nup < 1);
-  var nel = document.getElementById("o"+nup+"o"+row);
-  if (nel && nel.style.color === "purple") { purpleTouch = true; }
-  if (nel && nel.style.color === "green") { greenTouch = true; }
-  // Repeat for 3 more neighbors (ndown, nleft, nright — copy block)
-  if (purpleTouch && !greenTouch) {
-    cu = "0";  // Treat as empty for sim placement
-    cus = "silver";  // Override for purple extension
+  var pcup = document.getElementById("o"+cleft+"o"+row); // Self orange
+  if (pcup && pcup.style.color !== "green") { // Safe self
+    // Neighbor up from orange
+    var nup = Number(cup) - 1;
+    do { if (nup <= 0) { nup = Math.abs(Number(nup) + Number(graphlen)); } if (nup >= onemore) { nup = Math.abs(Number(nup) - Number(graphlen)); } } while (nup > Number(graphlen) || nup < 1);
+    var nel = document.getElementById("o"+nup+"o"+row);
+    if (nel && nel.style.color === "purple") { purpleTouch = true; }
+    if (nel && nel.style.color === "green") { greenTouch = true; }
+    // Neighbor down from orange
+    var ndown = Number(cup) + 1;
+    do { if (ndown <= 0) { ndown = Math.abs(Number(ndown) + Number(graphlen)); } if (ndown >= onemore) { ndown = Math.abs(Number(ndown) - Number(graphlen)); } } while (ndown > Number(graphlen) || ndown < 1);
+    nel = document.getElementById("o"+ndown+"o"+row);
+    if (nel && nel.style.color === "purple") { purpleTouch = true; }
+    if (nel && nel.style.color === "green") { greenTouch = true; }
+    // Neighbor left from orange
+    var nleft = Number(row) + 1;
+    do { if (nleft <= 0) { nleft = Math.abs(Number(nleft) + Number(graphlen)); } if (nleft >= onemore) { nleft = Math.abs(Number(nleft) - Number(graphlen)); } } while (nleft > Number(graphlen) || nleft < 1);
+    nel = document.getElementById("o"+cup+"o"+nleft);
+    if (nel && nel.style.color === "purple") { purpleTouch = true; }
+    if (nel && nel.style.color === "green") { greenTouch = true; }
+    // Neighbor right from orange
+    var nright = Number(row) - 1;
+    do { if (nright <= 0) { nright = Math.abs(Number(nright) + Number(graphlen)); } if (nright >= onemore) { nright = Math.abs(Number(nright) - Number(graphlen)); } } while (nright > Number(graphlen) || nright < 1);
+    nel = document.getElementById("o"+cup+"o"+nright);
+    if (nel && nel.style.color === "purple") { purpleTouch = true; }
+    if (nel && nel.style.color === "green") { greenTouch = true; }
+    if (purpleTouch && !greenTouch) {
+      cu = "0";
+      cus = "silver"; // Leap for purple
+    }
   }
 }
+
+
 }
 else {
- cl === 2;
+ cl === '2';
 }
 
 if(cright > 0 && cright < onemore){
    cr = document.getElementById("o"+col+"o"+cright).innerHTML;
   crs = document.getElementById("o"+col+"o"+cright).style.color;
-  
+
   //<!--new attempt to get extended purple (takes)-->
-if (Number(gen) >= 2 && cus === "orange") {
+if (Number(gen) >= 2 && crs === "orange") {
   var purpleTouch = false;
   var greenTouch = false;
-  // Quick check if this orange touches purple (gen>=2 sim) but not green
-  var pcup = document.getElementById("o"+cright+"o"+row);  // Self is orange
-  // Check its neighbors for purple/orange (reuse cright logic for neighbors)
-  var nup = Number(cright) - 1;  // Example neighbor right from orange
-  // Wrap nup etc. (copy your do-while here if needed, 4 lines)
-  do { if (nup <= 0) { nup = Math.abs(Number(nup) + Number(graphlen)); } if (nup >= onemore) { nup = Math.abs(Number(nup) - Number(graphlen)); } } while (nup > Number(graphlen) || nup < 1);
-  var nel = document.getElementById("o"+nup+"o"+row);
-  if (nel && nel.style.color === "purple") { purpleTouch = true; }
-  if (nel && nel.style.color === "green") { greenTouch = true; }
-  // Repeat for 3 more neighbors (ndown, nleft, nright — copy block)
-  if (purpleTouch && !greenTouch) {
-    cu = "0";  // Treat as empty for sim placement
-    cus = "silver";  // Override for purple extension
+  var pcup = document.getElementById("o"+cright+"o"+row); // Self orange
+  if (pcup && pcup.style.color !== "green") { // Safe self
+    // Neighbor up from orange
+    var nup = Number(cup) - 1;
+    do { if (nup <= 0) { nup = Math.abs(Number(nup) + Number(graphlen)); } if (nup >= onemore) { nup = Math.abs(Number(nup) - Number(graphlen)); } } while (nup > Number(graphlen) || nup < 1);
+    var nel = document.getElementById("o"+nup+"o"+row);
+    if (nel && nel.style.color === "purple") { purpleTouch = true; }
+    if (nel && nel.style.color === "green") { greenTouch = true; }
+    // Neighbor down from orange
+    var ndown = Number(cup) + 1;
+    do { if (ndown <= 0) { ndown = Math.abs(Number(ndown) + Number(graphlen)); } if (ndown >= onemore) { ndown = Math.abs(Number(ndown) - Number(graphlen)); } } while (ndown > Number(graphlen) || ndown < 1);
+    nel = document.getElementById("o"+ndown+"o"+row);
+    if (nel && nel.style.color === "purple") { purpleTouch = true; }
+    if (nel && nel.style.color === "green") { greenTouch = true; }
+    // Neighbor left from orange
+    var nleft = Number(row) + 1;
+    do { if (nleft <= 0) { nleft = Math.abs(Number(nleft) + Number(graphlen)); } if (nleft >= onemore) { nleft = Math.abs(Number(nleft) - Number(graphlen)); } } while (nleft > Number(graphlen) || nleft < 1);
+    nel = document.getElementById("o"+cup+"o"+nleft);
+    if (nel && nel.style.color === "purple") { purpleTouch = true; }
+    if (nel && nel.style.color === "green") { greenTouch = true; }
+    // Neighbor right from orange
+    var nright = Number(row) - 1;
+    do { if (nright <= 0) { nright = Math.abs(Number(nright) + Number(graphlen)); } if (nright >= onemore) { nright = Math.abs(Number(nright) - Number(graphlen)); } } while (nright > Number(graphlen) || nright < 1);
+    nel = document.getElementById("o"+cup+"o"+nright);
+    if (nel && nel.style.color === "purple") { purpleTouch = true; }
+    if (nel && nel.style.color === "green") { greenTouch = true; }
+    if (purpleTouch && !greenTouch) {
+      cu = "0";
+      cus = "silver"; // Leap for purple
+    }
   }
 }
+
+
+
 }
 else {
- cr === 2;
+ cr === '2';
 }
 
 if(countme === 0){ <!-- inital click -->
@@ -429,7 +599,22 @@ if(cr === "0" && crs === "silver"){
 
 opensides = Number(tempcount);
 countme = Number(toggle) + Number(opensides);
+
+
 document.getElementById('pointer').innerHTML = countme;
+var currentL = document.getElementById('lengthis').innerHTML;
+  if (!seenShapes['L' + currentL]) seenShapes['L' + currentL] = [];
+  var currentBank = document.getElementById('bank').innerHTML;
+  if (currentBank && seenShapes['L' + currentL].indexOf(currentBank) === -1) {
+    seenShapes['L' + currentL].push(currentBank);
+  }
+  // Update Save button state
+  var saveBtn = document.getElementById('saveState');
+  if (saveBtn) {
+    saveBtn.disabled = Number(currentL) <= 1;
+    saveBtn.style.borderColor = Number(currentL) > 1 ? 'green' : 'darkgrey';
+  }
+
 
 document.getElementById('nulle').innerHTML = id.split(/o/gm)[2] + ",";
 document.getElementById('nulli').innerHTML = id.split(/o/gm)[1] + ",";
