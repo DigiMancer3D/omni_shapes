@@ -285,8 +285,17 @@ var preendi = 0, preende = 0, preendi1 = 0, preende1 = 0, preendi2 = 0, preende2
 
 
 if(cup > 0 && cup < onemore){
-   cu = document.getElementById("o"+cup+"o"+row).innerHTML;
-  cus = document.getElementById("o"+cup+"o"+row).style.color;
+ //  cu = document.getElementById("o"+cup+"o"+row).innerHTML;
+ // cus = document.getElementById("o"+cup+"o"+row).style.color;
+ //<!--below added-- above old -->
+ var el = document.getElementById("o"+cup+"o"+row);
+if (el) {
+  var cu = el.innerHTML;
+  var cus = el.style.color;
+} else {
+  var cu = '2';
+  var cus = 'silver';
+}
   
 }
 else {
@@ -852,8 +861,14 @@ if(document.getElementById('am').innerHTML.search(/\!\d/g) >= 0 && Number(gen) <
    document.getElementById('sc').innerHTML = ngen;
    
 
-   colorme(tprep,ngen);   <!-- algo-move pushes -->
-   //we need to figure out how to get the system to branch out after it starts to move when it marked down spots it could also move...
+//   colorme(tprep,ngen);   <!-- algo-move pushes -->
+ //<!--below new above old-->
+ var targetEl = document.getElementById("o"+fup+"o"+frow);
+if (targetEl && targetEl.innerHTML === "0" && targetEl.style.color === "silver") {
+  colorme("o"+fup+"o"+frow, 1);  // Only call if valid
+}
+
+  //we need to figure out how to get the system to branch out after it starts to move when it marked down spots it could also move...
    
    //i'm here im here Im here IM HERE   //the system isn't doing all new things it sees in am error issue bug upgrade here
    
@@ -867,7 +882,13 @@ if(document.getElementById('am').innerHTML.search(/\!\d/g) >= 0 && Number(gen) <
    
    
 var nextmove = document.getElementById('am').innerHTML.split('!')[0] + '!' + document.getElementById('am').innerHTML.split('!')[1] + '!0';  // Extract first queued move, reset gen for sim
-colorme(nextmove, Number(gen) + 1);  // Recurse to process next alt-move
+//colorme(nextmove, Number(gen) + 1);  // Recurse to process next alt-move
+ //<!--below new above old-->
+ var targetEl = document.getElementById("o"+fup+"o"+frow);
+if (targetEl && targetEl.innerHTML === "0" && targetEl.style.color === "silver") {
+  colorme("o"+fup+"o"+frow, 1);  // Only call if valid
+}
+
  }  //if am not empty end
  
  
