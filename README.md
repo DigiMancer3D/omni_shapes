@@ -8,6 +8,7 @@
 
 > **Play the Demo Now!** 🎮  
 > Dive right in and start building shapes interactively: **[Try Omni Shapes Live](https://3dd.in/Omni)**  
+> *<sup><sub>&nbsp;&nbsp;&nbsp;&nbsp;Live Demo May Not Reflect Most Recent Build Version</sub></sup>*     </br>
 > (Pro Tip: Enable GitHub Pages on this repo for a direct link like https://digimancer3d.github.io/omni_shapes/omni_shapes.html)
 
 Welcome to **Omni Shapes**, your gateway to exploring "Omni Shapes" — a revolutionary coordinate-based system for polyominoes and multi-dimensional puzzles! Forget rigid matrices; we use relative coordinates for effortless rotations, mirrors, and jumps to 3D/4D. Perfect for puzzle lovers, coders, and math wizards.  
