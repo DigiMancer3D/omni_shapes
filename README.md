@@ -98,8 +98,9 @@ Key funcs: `buildGrid()`, `handleCellClick()`, `findAltMoves()`, `generateMirror
 
 Transparency first! Fix these and earn contributor cred:
 
-<s>1. **Grid Size Glitch**: Non-9 sizes mess up proof fills (hardcoded offsets?).</s></br>
-2. **Shallow Alt-Moves**: Only 1-click deep; misses multi-step.
+1. <s>**Grid Size Glitch**: Non-9 sizes mess up proof fills (hardcoded offsets?).</s></br>
+2. <s>**Alt-Possibles Not Taken**: Not-seeing alt possibles around purple (taken) spots.</s></br>
+3. **Shallow Alt-Moves**: Only 1-click deep; misses multi-step. Doesn't always take if orange (possible move).
 
 Potentials: High-dim overflows, large-grid perf, input validation.
 
