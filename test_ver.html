@@ -287,7 +287,26 @@ var preendi = 0, preende = 0, preendi1 = 0, preende1 = 0, preendi2 = 0, preende2
 if(cup > 0 && cup < onemore){
    cu = document.getElementById("o"+cup+"o"+row).innerHTML;
   cus = document.getElementById("o"+cup+"o"+row).style.color;
-
+  
+  //<!--new attempt to get extended purple (takes)-->
+if (Number(gen) >= 2 && cus === "orange") {
+  var purpleTouch = false;
+  var greenTouch = false;
+  // Quick check if this orange touches purple (gen>=2 sim) but not green
+  var pcup = document.getElementById("o"+cup+"o"+row);  // Self is orange
+  // Check its neighbors for purple/orange (reuse cup logic for neighbors)
+  var nup = Number(cup) - 1;  // Example neighbor up from orange
+  // Wrap nup etc. (copy your do-while here if needed, 4 lines)
+  do { if (nup <= 0) { nup = Math.abs(Number(nup) + Number(graphlen)); } if (nup >= onemore) { nup = Math.abs(Number(nup) - Number(graphlen)); } } while (nup > Number(graphlen) || nup < 1);
+  var nel = document.getElementById("o"+nup+"o"+row);
+  if (nel && nel.style.color === "purple") { purpleTouch = true; }
+  if (nel && nel.style.color === "green") { greenTouch = true; }
+  // Repeat for 3 more neighbors (ndown, nleft, nright — copy block)
+  if (purpleTouch && !greenTouch) {
+    cu = "0";  // Treat as empty for sim placement
+    cus = "silver";  // Override for purple extension
+  }
+}
 }
 else {
  cu === 2;
@@ -296,6 +315,26 @@ else {
 if(cdown > 0 && cdown < onemore){
    cd = document.getElementById("o"+cdown+"o"+row).innerHTML;
   cds = document.getElementById("o"+cdown+"o"+row).style.color;
+  
+  //<!--new attempt to get extended purple (takes)-->
+if (Number(gen) >= 2 && cus === "orange") {
+  var purpleTouch = false;
+  var greenTouch = false;
+  // Quick check if this orange touches purple (gen>=2 sim) but not green
+  var pcup = document.getElementById("o"+cdown+"o"+row);  // Self is orange
+  // Check its neighbors for purple/orange (reuse cup logic for neighbors)
+  var nup = Number(cdown) - 1;  // Example neighbor down from orange
+  // Wrap nup etc. (copy your do-while here if needed, 4 lines)
+  do { if (nup <= 0) { nup = Math.abs(Number(nup) + Number(graphlen)); } if (nup >= onemore) { nup = Math.abs(Number(nup) - Number(graphlen)); } } while (nup > Number(graphlen) || nup < 1);
+  var nel = document.getElementById("o"+nup+"o"+row);
+  if (nel && nel.style.color === "purple") { purpleTouch = true; }
+  if (nel && nel.style.color === "green") { greenTouch = true; }
+  // Repeat for 3 more neighbors (ndown, nleft, nright — copy block)
+  if (purpleTouch && !greenTouch) {
+    cu = "0";  // Treat as empty for sim placement
+    cus = "silver";  // Override for purple extension
+  }
+}
 }
 else {
  cd === 2;
@@ -304,6 +343,26 @@ else {
 if(cleft > 0 && cleft < onemore){
    cl = document.getElementById("o"+col+"o"+cleft).innerHTML;
   cls = document.getElementById("o"+col+"o"+cleft).style.color;
+  
+  //<!--new attempt to get extended purple (takes)-->
+if (Number(gen) >= 2 && cus === "orange") {
+  var purpleTouch = false;
+  var greenTouch = false;
+  // Quick check if this orange touches purple (gen>=2 sim) but not green
+  var pcup = document.getElementById("o"+cleft+"o"+row);  // Self is orange
+  // Check its neighbors for purple/orange (reuse cleft logic for neighbors)
+  var nup = Number(cleft) - 1;  // Example neighbor left from orange
+  // Wrap nup etc. (copy your do-while here if needed, 4 lines)
+  do { if (nup <= 0) { nup = Math.abs(Number(nup) + Number(graphlen)); } if (nup >= onemore) { nup = Math.abs(Number(nup) - Number(graphlen)); } } while (nup > Number(graphlen) || nup < 1);
+  var nel = document.getElementById("o"+nup+"o"+row);
+  if (nel && nel.style.color === "purple") { purpleTouch = true; }
+  if (nel && nel.style.color === "green") { greenTouch = true; }
+  // Repeat for 3 more neighbors (ndown, nleft, nright — copy block)
+  if (purpleTouch && !greenTouch) {
+    cu = "0";  // Treat as empty for sim placement
+    cus = "silver";  // Override for purple extension
+  }
+}
 }
 else {
  cl === 2;
@@ -312,6 +371,26 @@ else {
 if(cright > 0 && cright < onemore){
    cr = document.getElementById("o"+col+"o"+cright).innerHTML;
   crs = document.getElementById("o"+col+"o"+cright).style.color;
+  
+  //<!--new attempt to get extended purple (takes)-->
+if (Number(gen) >= 2 && cus === "orange") {
+  var purpleTouch = false;
+  var greenTouch = false;
+  // Quick check if this orange touches purple (gen>=2 sim) but not green
+  var pcup = document.getElementById("o"+cright+"o"+row);  // Self is orange
+  // Check its neighbors for purple/orange (reuse cright logic for neighbors)
+  var nup = Number(cright) - 1;  // Example neighbor right from orange
+  // Wrap nup etc. (copy your do-while here if needed, 4 lines)
+  do { if (nup <= 0) { nup = Math.abs(Number(nup) + Number(graphlen)); } if (nup >= onemore) { nup = Math.abs(Number(nup) - Number(graphlen)); } } while (nup > Number(graphlen) || nup < 1);
+  var nel = document.getElementById("o"+nup+"o"+row);
+  if (nel && nel.style.color === "purple") { purpleTouch = true; }
+  if (nel && nel.style.color === "green") { greenTouch = true; }
+  // Repeat for 3 more neighbors (ndown, nleft, nright — copy block)
+  if (purpleTouch && !greenTouch) {
+    cu = "0";  // Treat as empty for sim placement
+    cus = "silver";  // Override for purple extension
+  }
+}
 }
 else {
  cr === 2;
